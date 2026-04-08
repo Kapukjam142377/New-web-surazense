@@ -2,6 +2,14 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
+import About from './pages/About';
+import Products from './pages/Products';
+import Services from './pages/Services';
+import Technology from './pages/Technology';
+import Collaboration from './pages/Collaboration';
+import News from './pages/News';
+import Contacts from './pages/Contacts';
+import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 
 function App() {
@@ -10,18 +18,15 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={
-            <div className="glass-panel" style={{ maxWidth: '800px', margin: '4rem auto', textAlign: 'center' }}>
-              <h2>About Surazense</h2>
-              <p style={{ color: 'var(--text-muted)' }}>Pioneering the future of real-time biomolecular interactions.</p>
-            </div>
-          } />
-          <Route path="/services" element={
-            <div className="glass-panel" style={{ maxWidth: '800px', margin: '4rem auto', textAlign: 'center' }}>
-              <h2>Our Services</h2>
-              <p style={{ color: 'var(--text-muted)' }}>Target detection modules for EGFR and custom biomarkers.</p>
-            </div>
-          } />
+          <Route path="/about" element={<About />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/technology" element={<Technology />} />
+          <Route path="/collaboration" element={<Collaboration />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/contacts" element={<Contacts />} />
+          <Route path="/login" element={<Login />} />
+          
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Layout>
