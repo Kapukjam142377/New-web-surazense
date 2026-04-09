@@ -11,8 +11,18 @@ export default function Home() {
           Surazense Innovation
         </div>
         
-        <h1 className="text-5xl lg:text-7xl font-extrabold text-slate-900 mb-6 leading-[1.05] tracking-tight">
-          Sensor Technology for <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-sky-400">Diagnostic</span>
+        <h1 
+          className="font-extrabold mb-5 leading-[1.05] tracking-tight uppercase flex flex-col items-center lg:items-start z-20"
+          style={{ fontSize: 'clamp(2.25rem, 3vw, 52px)', filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.4))' }}
+        >
+          <span className="whitespace-nowrap">
+            <span className="text-slate-900">Sensor</span>{' '}
+            <span className="text-slate-700">Technology</span>
+          </span>
+          <span className="whitespace-nowrap mt-1 lg:mt-3">
+            <span className="text-slate-400">for</span>{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-sky-400">Diagnostic</span>
+          </span>
         </h1>
         
         <p className="text-lg lg:text-xl text-slate-500 mb-12 leading-relaxed max-w-[540px]">
