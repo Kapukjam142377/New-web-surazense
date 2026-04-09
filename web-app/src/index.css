@@ -1,4 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  
+  --animate-sway: sway 15s ease-in-out infinite alternate;
+  
+  @keyframes sway {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.05) translate(-1.5%, 1%); }
+  }
+}
 
 :root {
   --bg-main: #f0f9ff;
@@ -16,12 +34,10 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg-main);
+  background-color: #f8fafc;
   color: var(--text-main);
-  background-image: radial-gradient(at 0% 0%, rgba(186, 230, 253, 0.4) 0, transparent 50%), 
-                    radial-gradient(at 100% 100%, rgba(125, 211, 252, 0.2) 0, transparent 50%);
-  background-attachment: fixed;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Global Layout Base */
@@ -276,52 +292,7 @@ h1 {
   color: var(--accent);
 }
 
-/* Landing Page Styles */
-.hero-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 8rem 2rem;
-}
-
-.badge {
-  background: rgba(2, 132, 199, 0.1);
-  color: var(--accent);
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-}
-
-.hero-title {
-  font-size: 4rem;
-  font-weight: 800;
-  color: var(--text-main);
-  margin-bottom: 1.5rem;
-  max-width: 800px;
-  line-height: 1.1;
-  letter-spacing: -1px;
-}
-
-.hero-title span {
-  color: var(--accent);
-}
-
-.hero-subtitle {
-  font-size: 1.25rem;
-  color: var(--text-muted);
-  max-width: 600px;
-  margin-bottom: 3rem;
-  line-height: 1.6;
-}
-
-.hero-cta {
-  display: flex;
-  gap: 1rem;
-}
+/* Landing Page Custom CSS classes have been migrated to Tailwind Utility Classes in Home.jsx */
 
 .btn-large {
   padding: 1rem 2.5rem;
@@ -331,6 +302,9 @@ h1 {
   font-weight: 600;
   transition: all 0.2s ease;
   box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-outline {
