@@ -55,7 +55,7 @@ export default function Home() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           variants={{
             visible: { transition: { staggerChildren: 0.15 } }
           }}
@@ -65,7 +65,7 @@ export default function Home() {
 
 
           <motion.h1
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } } }}
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: "easeOut" } } }}
             className="font-extrabold mb-5 leading-[1.05] tracking-tight uppercase flex flex-col items-center lg:items-start z-20"
             style={{ fontSize: 'clamp(2.25rem, 3vw, 52px)', filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.4))' }}
           >
@@ -80,14 +80,14 @@ export default function Home() {
           </motion.h1>
 
           <motion.p
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } } }}
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: "easeOut" } } }}
             className="text-lg lg:text-xl text-slate-500 mb-12 leading-relaxed max-w-[540px]"
           >
             We're all about boosting health systems with our biosensor tech and are working to make better biosensors for detecting cancer.
           </motion.p>
 
           <motion.div
-            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } } }}
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: "easeOut" } } }}
             className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto"
           >
             <Link to="/products" className="bg-accent text-white px-8 py-4 rounded-full font-semibold text-[15px] transition-all hover:bg-accent-hover hover:-translate-y-1 hover:shadow-[0_8px_25px_rgba(2,132,199,0.35)] min-w-[200px] flex justify-center items-center">
@@ -115,7 +115,7 @@ export default function Home() {
 
       </section>
 
-      <section className="w-full bg-slate-50/40 border-t border-slate-50 py-24 px-6 lg:px-12 relative overflow-hidden">
+      <section className="w-full bg-slate-50/40 border-t border-slate-50 py-32 px-6 lg:px-12 relative overflow-hidden">
         {/* Living background blob floating animation */}
         <motion.div
           animate={{
@@ -143,11 +143,11 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 1.2 }}
             className="text-center mb-12"
           >
             <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-5">Featured Products</h2>
-            <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed">
               Discover the state-of-the-art biosensor technology designed to deliver unprecedented accuracy and seamless clinical workflows.
             </p>
           </motion.div>
@@ -155,8 +155,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
+            viewport={{ once: false, amount: 0.15 }}
+            transition={{ duration: 1.4, delay: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 bg-white/60 backdrop-blur-xl rounded-[40px] p-8 lg:p-14 shadow-[0_10px_40px_rgba(0,0,0,0.03)] border border-slate-200/60 transition-all duration-500 hover:shadow-[0_40px_80px_rgba(2,132,199,0.12)] hover:-translate-y-2"
           >
 
@@ -234,20 +234,20 @@ export default function Home() {
       </section>
 
       {/* Applications Section */}
-      <section className="w-full bg-white py-24 px-6 lg:px-12">
+      <section className="w-full bg-white py-32 px-6 lg:px-12">
         <div className="max-w-[1200px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 1.2 }}
             className="text-center mb-20"
           >
 
             <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-5">
               Wide range of applications
             </h2>
-            <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed">
               Our sensory technology is engineered to meet the demanding requirements of diverse research fields.
             </p>
           </motion.div>
@@ -269,7 +269,7 @@ export default function Home() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: false, amount: 0.1 }}
             variants={{
               visible: { transition: { staggerChildren: 0.1 } }
             }}
@@ -311,21 +311,21 @@ export default function Home() {
       </section>
 
       {/* Dynamic 4-Step Solution Section */}
-      <section className="w-full bg-white py-20 px-6 md:px-8 border-t border-slate-100 overflow-hidden">
+      <section className="w-full bg-white py-32 px-6 md:px-8 border-t border-slate-100 overflow-hidden">
         <div className="max-w-[1100px] mx-auto flex flex-col items-center">
           
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
             className="text-center mb-16"
           >
             <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-5 tracking-tight">
               Solution
             </h2>
-            <p className="text-[15px] text-slate-500 max-w-xl mx-auto leading-relaxed">
+            <p className="text-[16px] text-slate-500 font-medium max-w-xl mx-auto leading-relaxed">
               <strong>4 Steps to Rapid Diagnosis.</strong> A streamlined, fast, and highly accurate cancer screening process powered by advanced biosensor technology.
             </p>
           </motion.div>
@@ -338,19 +338,19 @@ export default function Home() {
       </section>
 
       {/* Partnerships / Distributors Section */}
-      <section className="w-full bg-white py-24 overflow-hidden border-b border-slate-100">
+      <section className="w-full bg-white py-28 overflow-hidden border-b border-slate-100">
         <div className="text-center mb-20 px-6 max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.4 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 1.2 }}
           >
 
             <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-5">
               Strategic Partners & Distributors
             </h2>
-            <p className="text-lg text-slate-500 leading-relaxed">
+            <p className="text-lg text-slate-500 font-medium leading-relaxed">
               We collaborate with globally recognized technology institutions and exclusive distributors to deliver state-of-the-art sensor solutions.
             </p>
           </motion.div>
@@ -361,7 +361,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 1.4, delay: 0.3 }}
           className="relative flex w-full max-w-[100vw] overflow-hidden py-4 group"
         >
           {/* Gradient Fades for Marquee Edges */}
@@ -427,7 +427,7 @@ export default function Home() {
       </section>
 
       {/* Awards & Events Section */}
-      <section className="w-full bg-slate-50/60 py-24 px-6 lg:px-12 border-t border-slate-100">
+      <section className="w-full bg-slate-50/60 py-32 px-6 lg:px-12 border-t border-slate-100">
         <div className="max-w-[1200px] mx-auto space-y-20">
           
           {/* Awards Sub-section */}
@@ -435,7 +435,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.8 }}
+              viewport={{ once: false, amount: 0.8 }}
               className="mb-8"
             >
               <h3 className="text-2xl font-bold text-slate-900 mb-3">Awards</h3>
@@ -445,7 +445,7 @@ export default function Home() {
             <motion.div 
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={{ once: false, amount: 0.1 }}
               variants={{
                 visible: { transition: { staggerChildren: 0.1 } }
               }}
@@ -466,7 +466,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.8 }}
+              viewport={{ once: false, amount: 0.8 }}
               className="mb-8"
             >
               <h3 className="text-2xl font-bold text-slate-900 mb-3">Events</h3>
@@ -476,7 +476,7 @@ export default function Home() {
             <motion.div 
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
+              viewport={{ once: false, amount: 0.1 }}
               variants={{
                 visible: { transition: { staggerChildren: 0.1 } }
               }}

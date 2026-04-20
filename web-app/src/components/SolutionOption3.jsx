@@ -13,8 +13,8 @@ const SolutionOption3 = ({ steps }) => {
          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: false }}
+            transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
             className="w-[280px] h-[280px] md:w-[320px] md:h-[320px] bg-gradient-to-br from-[#0C447C] to-blue-900 rounded-full flex flex-col items-center justify-center p-8 text-center text-white relative z-20 shadow-[0_0_80px_rgba(12,68,124,0.3)] border-8 border-white group"
          >
             {/* Glow */}
@@ -45,8 +45,8 @@ const SolutionOption3 = ({ steps }) => {
             <motion.div
                initial={{ opacity: 0, x: -50, y: -50 }}
                whileInView={{ opacity: 1, x: 0, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ delay: 0.2 }}
+               viewport={{ once: false }}
+               transition={{ delay: 0.6, duration: 1.2, type: "spring", bounce: 0.3 }}
                className="absolute top-[10%] left-[15%] w-[240px] bg-white p-5 rounded-2xl shadow-lg border border-slate-100 pointer-events-auto"
             >
                <div className="flex items-center gap-4 mb-3 border-b border-slate-50 pb-3">
@@ -65,8 +65,8 @@ const SolutionOption3 = ({ steps }) => {
             <motion.div
                initial={{ opacity: 0, x: 50, y: -50 }}
                whileInView={{ opacity: 1, x: 0, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ delay: 0.4 }}
+               viewport={{ once: false }}
+               transition={{ delay: 1.0, duration: 1.2, type: "spring", bounce: 0.3 }}
                className="absolute top-[10%] right-[15%] w-[240px] bg-white p-5 rounded-2xl shadow-lg border border-slate-100 pointer-events-auto"
             >
                <div className="flex items-center gap-4 mb-3 border-b border-slate-50 pb-3">
@@ -85,8 +85,8 @@ const SolutionOption3 = ({ steps }) => {
             <motion.div
                initial={{ opacity: 0, x: 50, y: 50 }}
                whileInView={{ opacity: 1, x: 0, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ delay: 0.6 }}
+               viewport={{ once: false }}
+               transition={{ delay: 1.4, duration: 1.2, type: "spring", bounce: 0.3 }}
                className="absolute bottom-[10%] right-[15%] w-[240px] bg-white p-5 rounded-2xl shadow-lg border border-slate-100 pointer-events-auto"
             >
                <div className="flex items-center gap-4 mb-3 border-b border-slate-50 pb-3">
@@ -105,8 +105,8 @@ const SolutionOption3 = ({ steps }) => {
             <motion.div
                initial={{ opacity: 0, x: -50, y: 50 }}
                whileInView={{ opacity: 1, x: 0, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ delay: 0.8 }}
+               viewport={{ once: false }}
+               transition={{ delay: 1.8, duration: 1.2, type: "spring", bounce: 0.3 }}
                className="absolute bottom-[10%] left-[15%] w-[240px] bg-white p-5 rounded-2xl shadow-lg border border-slate-100 pointer-events-auto"
             >
                <div className="flex items-center gap-4 mb-3 border-b border-slate-50 pb-3">
