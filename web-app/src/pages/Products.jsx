@@ -108,7 +108,7 @@ export default function Products() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-32 pb-24 relative">
+    <div className="bg-slate-50 min-h-screen pb-24 relative">
       
       {/* Flying Item Animation */}
       {flyingItem && (
@@ -140,20 +140,29 @@ export default function Products() {
         </motion.div>
       )}
 
-      {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-6 mb-12">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center max-w-3xl mx-auto"
-        >
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
-            Surazense <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-500">Store</span>
-          </h1>
-          <p className="text-lg text-slate-600 leading-relaxed">
-            Explore our premium range of QCM sensors, advanced analytical modules, and accessories designed for high-precision research.
-          </p>
-        </motion.div>
+      {/* Bright & Compact Epic Header */}
+      <div className="relative bg-white pt-12 pb-10 mb-10 overflow-hidden border-b border-slate-200 shadow-sm">
+        {/* Bright Tech Background Elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/60 rounded-full blur-[80px] pointer-events-none -translate-y-1/4 translate-x-1/4"></div>
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-sky-100/50 rounded-full blur-[80px] pointer-events-none translate-y-1/4 -translate-x-1/4"></div>
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none"></div>
+        
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-center max-w-4xl mx-auto"
+          >
+            <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tight drop-shadow-sm">
+              Surazense <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-500">Store</span>
+            </h1>
+            
+            <p className="text-base md:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
+              Explore our premium range of <strong className="text-slate-800 font-bold">QCM sensors</strong>, advanced analytical modules, and accessories designed for high-precision research.
+            </p>
+          </motion.div>
+        </div>
       </div>
 
       {/* Controls Section (Filters & Search) */}
