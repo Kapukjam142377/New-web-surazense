@@ -1,65 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Search, Filter, Image as ImageIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-
-const MOCK_PRODUCTS = [
-  {
-    id: 1,
-    name: "x-ZENSE-101",
-    category: "Biosensors",
-    price: 150.00,
-    description: "x-ZENSE-101, a portable cancer screening device leveraging a piezoelectric biosensor.",
-    image: "/product-drawing-2.jpg",
-    status: "In Stock"
-  },
-  {
-    id: 2,
-    name: "5MHz QCM Sensor Chip",
-    category: "Biosensors",
-    price: 135.00,
-    description: "Standard 5MHz quartz crystal for broader mass detection range applications.",
-    image: "/qcmgroupe.jpg",
-    status: "Low Stock"
-  },
-  {
-    id: 3,
-    name: "Standard Flow Cell",
-    category: "Modules",
-    price: 450.00,
-    description: "Acrylic flow cell optimized for uniform liquid flow over the sensor surface.",
-    image: null,
-    status: "In Stock"
-  },
-  {
-    id: 4,
-    name: "Advanced Data Acquisition Hub",
-    category: "Modules",
-    price: 1200.00,
-    description: "Real-time frequency and dissipation monitoring unit with USB interface.",
-    image: null,
-    status: "In Stock"
-  },
-  {
-    id: 5,
-    name: "Teflon Tubing Set",
-    category: "Accessories",
-    price: 45.00,
-    description: "Chemical-resistant teflon tubing with standardized connectors (2 meters).",
-    image: null,
-    status: "In Stock"
-  },
-  {
-    id: 6,
-    name: "O-Ring Replacement Pack",
-    category: "Accessories",
-    price: 25.00,
-    description: "Pack of 10 viton O-rings for sealing the flow cell module.",
-    image: null,
-    status: "In Stock"
-  }
-];
-
+import { MOCK_PRODUCTS } from '../data/mockProducts';
 const CATEGORIES = ["All", "Biosensors", "Modules", "Accessories"];
 
 export default function Products() {
@@ -232,37 +176,41 @@ export default function Products() {
                   className="bg-white rounded-[2rem] border border-slate-100 overflow-hidden group hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
                 >
                   
-                  {/* Image Placeholder (User will replace src later) */}
-                  <div className="aspect-[4/3] bg-slate-50 relative overflow-hidden flex items-center justify-center border-b border-slate-100">
-                    {product.image ? (
-                      <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : (
-                      <div className="flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
-                        <ImageIcon className="w-12 h-12 mb-3 opacity-50 stroke-[1.5px]" />
-                        <span className="text-[10px] font-bold uppercase tracking-widest bg-slate-200/50 px-3 py-1 rounded-full">Add Image Later</span>
+                  {/* Clickable Area for Detail Page */}
+                  <Link to={`/products/${product.id}`} className="block overflow-hidden relative">
+                    <div className="aspect-[4/3] bg-slate-50 relative overflow-hidden flex items-center justify-center border-b border-slate-100">
+                      {product.image ? (
+                        <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center text-slate-400 group-hover:scale-105 transition-transform duration-500">
+                          <ImageIcon className="w-12 h-12 mb-3 opacity-50 stroke-[1.5px]" />
+                          <span className="text-[10px] font-bold uppercase tracking-widest bg-slate-200/50 px-3 py-1 rounded-full">Add Image Later</span>
+                        </div>
+                      )}
+                      
+                      {/* Status Badge */}
+                      <div className="absolute top-4 left-4 z-10">
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md ${
+                          product.status === 'In Stock' 
+                            ? 'bg-green-100/80 text-green-700 border border-green-200/50' 
+                            : 'bg-orange-100/80 text-orange-700 border border-orange-200/50'
+                        }`}>
+                          {product.status}
+                        </span>
                       </div>
-                    )}
-                    
-                    {/* Status Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold backdrop-blur-md ${
-                        product.status === 'In Stock' 
-                          ? 'bg-green-100/80 text-green-700 border border-green-200/50' 
-                          : 'bg-orange-100/80 text-orange-700 border border-orange-200/50'
-                      }`}>
-                        {product.status}
-                      </span>
                     </div>
-                  </div>
+                  </Link>
 
                   {/* Content */}
                   <div className="p-8 flex flex-col flex-1">
                     <div className="mb-3">
                       <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">{product.category}</span>
                     </div>
-                    <h3 className="text-xl font-extrabold text-slate-900 mb-3 leading-tight">
-                      {product.name}
-                    </h3>
+                    <Link to={`/products/${product.id}`} className="no-underline group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-xl font-extrabold text-slate-900 mb-3 leading-tight group-hover:text-blue-600 transition-colors">
+                        {product.name}
+                      </h3>
+                    </Link>
                     <p className="text-sm text-slate-500 mb-8 line-clamp-2 flex-1 leading-relaxed">
                       {product.description}
                     </p>
