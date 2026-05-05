@@ -11,26 +11,29 @@ import News from './pages/News';
 import Contacts from './pages/Contacts';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import { CartProvider } from './context/CartContext';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/technology" element={<Technology />} />
-          <Route path="/collaboration" element={<Collaboration />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/contacts" element={<Contacts />} />
-          <Route path="/login" element={<Login />} />
-          
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <CartProvider>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/technology" element={<Technology />} />
+            <Route path="/collaboration" element={<Collaboration />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/login" element={<Login />} />
+            
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 

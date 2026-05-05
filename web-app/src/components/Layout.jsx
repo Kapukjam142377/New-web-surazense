@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { ShoppingCart, X, Image as ImageIcon } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 
 export default function Layout({ children }) {
   const location = useLocation();
+  const { cartItems, removeFromCart, itemCount, cartTotal } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const cartRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (cartRef.current && !cartRef.current.contains(event.target)) {
+        setIsCartOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const isActive = (path) => {
     return location.pathname === path 
@@ -23,7 +40,27 @@ export default function Layout({ children }) {
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
           <Link to="/" className={`${linkBaseClass} ${isActive('/')}`}>Home</Link>
           <Link to="/about" className={`${linkBaseClass} ${isActive('/about')}`}>About us</Link>
-          <Link to="/products" className={`${linkBaseClass} ${isActive('/products')}`}>Products</Link>
+          {/* Products Dropdown */}
+          <div className="relative group flex items-center">
+            <Link to="/products" className={`${linkBaseClass} ${isActive('/products')} py-2`}>
+              Products
+            </Link>
+            
+            {/* Dropdown Menu */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[190px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
+              <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
+                <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
+                  Exploring Products
+                </Link>
+                <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
+                  Research solution
+                </Link>
+                <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
+                  Others
+                </Link>
+              </div>
+            </div>
+          </div>
           <Link to="/services" className={`${linkBaseClass} ${isActive('/services')}`}>Services</Link>
           <Link to="/technology" className={`${linkBaseClass} ${isActive('/technology')}`}>Technology</Link>
           <Link to="/collaboration" className={`${linkBaseClass} ${isActive('/collaboration')}`}>Collaboration</Link>
@@ -35,6 +72,69 @@ export default function Layout({ children }) {
           <button className={`${linkBaseClass} text-slate-700 hover:text-accent cursor-pointer active:scale-95 transition-transform bg-transparent border-none p-0`}>
             EN / TH
           </button>
+          
+          <div className="relative" ref={cartRef}>
+            <button 
+              id="global-cart-icon"
+              onClick={() => setIsCartOpen(!isCartOpen)}
+              className="relative text-slate-600 hover:text-accent transition-colors flex items-center justify-center p-1 cursor-pointer bg-transparent border-none outline-none" 
+              title="Shopping Cart"
+            >
+              <ShoppingCart className="w-[1.15rem] h-[1.15rem] stroke-[2.5px]" />
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 min-w-[1.25rem] h-5 px-1 bg-red-500 rounded-full border-[1.5px] border-white text-[10px] font-bold text-white flex items-center justify-center shadow-sm">
+                  {itemCount}
+                </span>
+              )}
+            </button>
+            
+            {/* Cart Dropdown */}
+            {isCartOpen && (
+              <div className="absolute top-full right-0 mt-4 w-80 bg-white rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 py-4 px-5 z-50">
+                <div className="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
+                  <h3 className="font-bold text-slate-800">Your Cart</h3>
+                  <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">{itemCount} items</span>
+                </div>
+                
+                <div className="space-y-4 mb-5 max-h-[60vh] overflow-y-auto">
+                  {cartItems.length === 0 ? (
+                    <p className="text-sm text-slate-500 text-center py-4">Your cart is empty.</p>
+                  ) : (
+                    cartItems.map((item) => (
+                      <div key={item.id} className="flex gap-3 items-center group">
+                        <div className="w-12 h-12 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-center shrink-0 overflow-hidden relative">
+                          {item.image ? (
+                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <ImageIcon className="w-5 h-5 text-slate-300 stroke-[1.5px]" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold text-slate-800 truncate" title={item.name}>{item.name}</p>
+                          <p className="text-xs text-slate-500">{item.quantity} x ${item.price.toFixed(2)}</p>
+                        </div>
+                        <button 
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-slate-300 hover:text-red-500 transition-colors p-1 bg-transparent border-none cursor-pointer outline-none"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
+                
+                <div className="pt-4 border-t border-slate-100 mb-5 flex justify-between items-center">
+                  <span className="text-sm font-medium text-slate-500">Subtotal</span>
+                  <span className="text-lg font-bold text-slate-900">${cartTotal.toFixed(2)}</span>
+                </div>
+                
+                <Link to="/checkout" onClick={() => setIsCartOpen(false)} className={`w-full block text-center py-2.5 rounded-xl font-bold text-sm transition-colors no-underline ${cartItems.length > 0 ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-slate-100 text-slate-400 pointer-events-none'}`}>
+                  Checkout
+                </Link>
+              </div>
+            )}
+          </div>
           
           <Link to="/login" className="bg-accent text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:-translate-y-[1px] hover:bg-accent-hover hover:shadow-[0_4px_12px_rgba(2,132,199,0.25)] active:translate-y-0 no-underline">
             Login

@@ -27,7 +27,7 @@ export default function Contacts() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    
     // Validation
     const newErrors = {};
     if (!formData.inquiryType) newErrors.inquiryType = 'Please select an inquiry type';
@@ -51,7 +51,7 @@ export default function Contacts() {
 
     console.log("Form submitted", formData);
     alert("Form submitted successfully!");
-
+    
     // Reset form on success
     setFormData({
       inquiryType: '', firstName: '', lastName: '', email: '', phone: '', jobPosition: '', company: '', title: '', message: ''
@@ -79,31 +79,31 @@ export default function Contacts() {
     <div className="bg-slate-50 min-h-screen pt-32 pb-24 relative overflow-hidden">
       {/* Decorative subtle background element */}
       <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-blue-100/50 rounded-full blur-[100px] -z-10 -translate-x-1/4 -translate-y-1/4"></div>
-
+      
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-
-        <motion.div
+        
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
         >
           <div className="inline-flex items-center gap-4 mb-4">
-            <div className="w-12 h-1 bg-blue-600 rounded-full"></div>
-            <h2 className="text-sm font-bold text-blue-600 uppercase tracking-widest">Contact Us</h2>
+             <div className="w-12 h-1 bg-blue-600 rounded-full"></div>
+             <h2 className="text-sm font-bold text-blue-600 uppercase tracking-widest">Contact Us</h2>
           </div>
           <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900">Please fill the form to contact us about our products</h1>
         </motion.div>
 
         <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-16">
-
+          
           {/* Left Column - Contact Info */}
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
             className="space-y-10 lg:pr-8"
           >
-
+            
             {/* Company Info */}
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
               <h2 className="text-xl font-bold text-slate-900">Surazense Co., Ltd.</h2>
@@ -127,7 +127,7 @@ export default function Contacts() {
             {/* Contact details */}
             <div className="flex items-start gap-5 group">
               <div className="w-14 h-14 shrink-0 bg-gradient-to-br from-blue-50 to-sky-100 rounded-2xl flex items-center justify-center shadow-sm border border-blue-100/50 group-hover:scale-105 group-hover:shadow-blue-200 transition-all duration-300">
-                <Phone className="w-7 h-7 text-blue-600" />
+                 <Phone className="w-7 h-7 text-blue-600" />
               </div>
               <div className="text-slate-600 space-y-2 pt-1 text-[16px]">
                 <p className="font-medium text-slate-800 mb-2">Direct Contact</p>
@@ -152,7 +152,7 @@ export default function Contacts() {
           </motion.div>
 
           {/* Right Column - Form */}
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -160,18 +160,18 @@ export default function Contacts() {
           >
             {/* Subtle card glow */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-50 -z-10"></div>
-
+            
             <form onSubmit={handleSubmit} className="space-y-8" noValidate>
-
+              
               {/* Radio Group - Pill style */}
               <div className="space-y-3">
                 <label className="block text-sm font-bold text-slate-900">Please Select *</label>
                 <div className="flex flex-wrap gap-3">
                   {inquiryTypes.map((type, idx) => (
                     <label key={idx} className="cursor-pointer">
-                      <input
-                        type="radio"
-                        name="inquiryType"
+                      <input 
+                        type="radio" 
+                        name="inquiryType" 
                         value={type}
                         checked={formData.inquiryType === type}
                         onChange={handleChange}
@@ -198,7 +198,7 @@ export default function Contacts() {
                   <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} className={getInputClass('lastName')} />
                   {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
                 </div>
-
+                
                 <div className="space-y-2">
                   <label className="block text-sm font-bold text-slate-900">E-mail Address *</label>
                   <input type="email" name="email" value={formData.email} onChange={handleChange} className={getInputClass('email')} />
