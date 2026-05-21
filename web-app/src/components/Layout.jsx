@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, X, Image as ImageIcon } from 'lucide-react';
+import { ShoppingCart, X, Image as ImageIcon, Menu, Home, Info, ShoppingBag, Briefcase, Cpu, Handshake, Newspaper, Phone } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export default function Layout({ children }) {
@@ -8,7 +8,13 @@ export default function Layout({ children }) {
   const { cartItems, removeFromCart, itemCount, cartTotal } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginSidebarOpen, setIsLoginSidebarOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cartRef = useRef(null);
+
+  // Close mobile drawer when changing page routes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -23,8 +29,8 @@ export default function Layout({ children }) {
   }, []);
 
   const isActive = (path) => {
-    return location.pathname === path 
-      ? 'text-accent font-semibold' 
+    return location.pathname === path
+      ? 'text-accent font-semibold'
       : 'text-slate-500 hover:text-accent font-medium';
   };
 
@@ -37,7 +43,7 @@ export default function Layout({ children }) {
           <img src="/logo.png" alt="Surazense Logo" className="h-[46px] object-contain" />
           <span>Surazense</span>
         </Link>
-        
+
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
           <Link to="/" className={`${linkBaseClass} ${isActive('/')}`}>Home</Link>
           <Link to="/about" className={`${linkBaseClass} ${isActive('/about')}`}>About us</Link>
@@ -46,7 +52,7 @@ export default function Layout({ children }) {
             <Link to="/products" className={`${linkBaseClass} ${isActive('/products')} py-2`}>
               Products
             </Link>
-            
+
             {/* Dropdown Menu */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[190px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
               <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
@@ -56,29 +62,71 @@ export default function Layout({ children }) {
                 <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
                   Research solution
                 </Link>
+                <Link to="/academic-training" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
+                  Academic training
+                </Link>
                 <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
                   Others
                 </Link>
               </div>
             </div>
           </div>
-          <Link to="/services" className={`${linkBaseClass} ${isActive('/services')}`}>Services</Link>
+          {/* Services Dropdown */}
+          <div className="relative group flex items-center">
+            <Link to="/services" className={`${linkBaseClass} ${isActive('/services')} py-2`}>
+              Services
+            </Link>
+
+            {/* Dropdown Menu */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[210px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
+              <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
+                <Link to="/services" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
+                  Instrument maintaining
+                </Link>
+                
+                {/* Nested Xzense-101 Menu */}
+                <div className="relative group/sub flex flex-col">
+                  <div className="flex items-center justify-between px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors cursor-pointer">
+                    <Link to="/services" className="flex-1 text-inherit no-underline">
+                      Xzense-101
+                    </Link>
+                    <svg className="w-3 h-3 text-slate-400 group-hover/sub:text-blue-600 transition-colors ml-2" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                  
+                  {/* Nested Sub-menu */}
+                  <div className="absolute left-full top-0 pl-1 w-[260px] invisible opacity-0 -translate-x-2 group-hover/sub:visible group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all duration-300 z-[60]">
+                    <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 py-2 flex flex-col">
+                      <Link to="/services" className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
+                        Cancer detection report
+                      </Link>
+                      <Link to="/dashboard" className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
+                        Xzense-101 results analysis online software
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
           <Link to="/technology" className={`${linkBaseClass} ${isActive('/technology')}`}>Technology</Link>
           <Link to="/collaboration" className={`${linkBaseClass} ${isActive('/collaboration')}`}>Collaboration</Link>
           <Link to="/news" className={`${linkBaseClass} ${isActive('/news')}`}>News</Link>
           <Link to="/contacts" className={`${linkBaseClass} ${isActive('/contacts')}`}>Contacts</Link>
-          
+
           <div className="w-[1px] h-5 bg-slate-200 mx-2"></div>
-          
+
           <button className={`${linkBaseClass} text-slate-700 hover:text-accent cursor-pointer active:scale-95 transition-transform bg-transparent border-none p-0`}>
             EN / TH
           </button>
-          
+
           <div className="relative" ref={cartRef}>
-            <button 
+            <button
               id="global-cart-icon"
               onClick={() => setIsCartOpen(!isCartOpen)}
-              className="relative text-slate-600 hover:text-accent transition-colors flex items-center justify-center p-1 cursor-pointer bg-transparent border-none outline-none" 
+              className="relative text-slate-600 hover:text-accent transition-colors flex items-center justify-center p-1 cursor-pointer bg-transparent border-none outline-none"
               title="Shopping Cart"
             >
               <ShoppingCart className="w-[1.15rem] h-[1.15rem] stroke-[2.5px]" />
@@ -88,7 +136,7 @@ export default function Layout({ children }) {
                 </span>
               )}
             </button>
-            
+
             {/* Cart Dropdown */}
             {isCartOpen && (
               <div className="absolute top-full right-0 mt-4 w-80 bg-white rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 py-4 px-5 z-50">
@@ -96,7 +144,7 @@ export default function Layout({ children }) {
                   <h3 className="font-bold text-slate-800">Your Cart</h3>
                   <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">{itemCount} items</span>
                 </div>
-                
+
                 <div className="space-y-4 mb-5 max-h-[60vh] overflow-y-auto">
                   {cartItems.length === 0 ? (
                     <p className="text-sm text-slate-500 text-center py-4">Your cart is empty.</p>
@@ -114,7 +162,7 @@ export default function Layout({ children }) {
                           <p className="text-sm font-bold text-slate-800 truncate" title={item.name}>{item.name}</p>
                           <p className="text-xs text-slate-500">{item.quantity} x ${item.price.toFixed(2)}</p>
                         </div>
-                        <button 
+                        <button
                           onClick={() => removeFromCart(item.id)}
                           className="text-slate-300 hover:text-red-500 transition-colors p-1 bg-transparent border-none cursor-pointer outline-none"
                         >
@@ -124,35 +172,264 @@ export default function Layout({ children }) {
                     ))
                   )}
                 </div>
-                
+
                 <div className="pt-4 border-t border-slate-100 mb-5 flex justify-between items-center">
                   <span className="text-sm font-medium text-slate-500">Subtotal</span>
                   <span className="text-lg font-bold text-slate-900">${cartTotal.toFixed(2)}</span>
                 </div>
-                
+
                 <Link to="/checkout" onClick={() => setIsCartOpen(false)} className={`w-full block text-center py-2.5 rounded-xl font-bold text-sm transition-colors no-underline ${cartItems.length > 0 ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-slate-100 text-slate-400 pointer-events-none'}`}>
                   Checkout
                 </Link>
               </div>
             )}
           </div>
-          
-          <button 
+
+          <button
             onClick={() => setIsLoginSidebarOpen(true)}
             className="bg-accent text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:-translate-y-[1px] hover:bg-accent-hover hover:shadow-[0_4px_12px_rgba(2,132,199,0.25)] active:translate-y-0 cursor-pointer border-none"
           >
             Login
           </button>
         </div>
+
+        {/* Mobile Controls (Cart & Hamburger Menu) */}
+        <div className="flex lg:hidden items-center gap-4">
+          {/* Mobile Cart Button */}
+          <div className="relative">
+            <button
+              onClick={() => setIsCartOpen(!isCartOpen)}
+              className="relative text-slate-600 hover:text-accent transition-colors flex items-center justify-center p-1 cursor-pointer bg-transparent border-none outline-none"
+              title="Shopping Cart"
+            >
+              <ShoppingCart className="w-[1.25rem] h-[1.25rem] stroke-[2.5px]" />
+              {itemCount > 0 && (
+                <span className="absolute -top-2 -right-2 min-w-[1.25rem] h-5 px-1 bg-red-500 rounded-full border-[1.5px] border-white text-[10px] font-bold text-white flex items-center justify-center shadow-sm">
+                  {itemCount}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Hamburger Menu Toggle */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-slate-600 hover:text-accent p-1 cursor-pointer bg-transparent border-none outline-none flex items-center justify-center"
+            aria-label="Toggle Menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6 stroke-[2.5px]" />
+            ) : (
+              <Menu className="w-6 h-6 stroke-[2.5px]" />
+            )}
+          </button>
+        </div>
       </nav>
-      
+
+      {/* Mobile Navigation Drawer Overlay */}
+      <div
+        className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[55] transition-opacity duration-300 lg:hidden ${
+          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+
+      {/* Mobile Navigation Drawer Sheet */}
+      <div
+        className={`fixed top-0 left-0 h-full w-[320px] max-w-[100vw] bg-white z-[60] shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden transform ${
+          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        } flex flex-col`}
+      >
+        {/* Drawer Header */}
+        <div className="flex justify-between items-center p-6 border-b border-slate-100 shrink-0">
+          <Link to="/" className="flex items-center gap-2.5 text-xl font-black text-accent no-underline tracking-tight">
+            <img src="/logo.png" alt="Surazense Logo" className="h-[36px] object-contain" />
+            <span>Surazense</span>
+          </Link>
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="p-2 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors bg-transparent border-none cursor-pointer outline-none"
+          >
+            <X className="w-5 h-5 stroke-[2.5px]" />
+          </button>
+        </div>
+
+        {/* Drawer Navigation Links */}
+        <div className="flex-1 overflow-y-auto py-6 px-4 space-y-1.5">
+          <Link
+            to="/"
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
+              location.pathname === '/' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+            }`}
+          >
+            <Home className="w-5 h-5 stroke-[2.2px]" />
+            <span className="uppercase tracking-wider">Home</span>
+          </Link>
+
+          <Link
+            to="/about"
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
+              location.pathname === '/about' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+            }`}
+          >
+            <Info className="w-5 h-5 stroke-[2.2px]" />
+            <span className="uppercase tracking-wider">About us</span>
+          </Link>
+
+          {/* Products Group */}
+          <div className="py-1">
+            <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
+              <ShoppingBag className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
+              <span>Products</span>
+            </div>
+            <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1">
+              <Link
+                to="/products"
+                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
+                  location.pathname === '/products' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                }`}
+              >
+                Exploring Products
+              </Link>
+              <Link
+                to="/products"
+                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
+                  location.pathname === '/products' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                }`}
+              >
+                Research solution
+              </Link>
+              <Link
+                to="/academic-training"
+                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
+                  location.pathname === '/academic-training' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                }`}
+              >
+                Academic training
+              </Link>
+              <Link
+                to="/products"
+                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
+                  location.pathname === '/products' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                }`}
+              >
+                Others
+              </Link>
+            </div>
+          </div>
+
+          {/* Services Group */}
+          <div className="py-1">
+            <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
+              <Briefcase className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
+              <span>Services</span>
+            </div>
+            <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1.5">
+              <Link
+                to="/services"
+                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
+                  location.pathname === '/services' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                }`}
+              >
+                Instrument maintaining
+              </Link>
+              
+              {/* Xzense-101 Section inside Services */}
+              <div className="px-4 pt-1.5 pb-0.5 text-[12px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                Xzense-101
+              </div>
+              
+              {/* Xzense-101 Sub-Items */}
+              <div className="pl-4 border-l border-slate-200 ml-4 space-y-1">
+                <Link
+                  to="/services"
+                  className={`flex items-center px-4 py-2 rounded-xl text-[13px] font-semibold no-underline transition-all ${
+                    location.pathname === '/services' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                  }`}
+                >
+                  Cancer detection report
+                </Link>
+                <Link
+                  to="/dashboard"
+                  className={`flex items-center px-4 py-2 rounded-xl text-[13px] font-semibold no-underline transition-all ${
+                    location.pathname === '/dashboard' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                  } leading-snug`}
+                >
+                  Xzense-101 results analysis online software
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <Link
+            to="/technology"
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
+              location.pathname === '/technology' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+            }`}
+          >
+            <Cpu className="w-5 h-5 stroke-[2.2px]" />
+            <span className="uppercase tracking-wider">Technology</span>
+          </Link>
+
+          <Link
+            to="/collaboration"
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
+              location.pathname === '/collaboration' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+            }`}
+          >
+            <Handshake className="w-5 h-5 stroke-[2.2px]" />
+            <span className="uppercase tracking-wider">Collaboration</span>
+          </Link>
+
+          <Link
+            to="/news"
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
+              location.pathname === '/news' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+            }`}
+          >
+            <Newspaper className="w-5 h-5 stroke-[2.2px]" />
+            <span className="uppercase tracking-wider">News</span>
+          </Link>
+
+          <Link
+            to="/contacts"
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
+              location.pathname === '/contacts' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+            }`}
+          >
+            <Phone className="w-5 h-5 stroke-[2.2px]" />
+            <span className="uppercase tracking-wider">Contacts</span>
+          </Link>
+        </div>
+
+        {/* Drawer Footer Actions */}
+        <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-4 shrink-0">
+          <div className="flex justify-between items-center">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Language</span>
+            <button className="text-xs font-bold text-slate-700 hover:text-accent transition-colors bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm cursor-pointer">
+              EN / TH
+            </button>
+          </div>
+          <button
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              setIsLoginSidebarOpen(true);
+            }}
+            className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-sky-200 cursor-pointer border-none text-[14px]"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+
       <main className="flex-1 flex flex-col w-full">
         {children}
       </main>
 
       <footer className="bg-[#4fb0da] text-white py-16 px-6 lg:px-12 mt-auto w-full">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-14">
-          
+
           {/* Column 1: Brand & Info */}
           <div className="flex flex-col">
             <div className="flex items-center gap-3 mb-6">
@@ -198,60 +475,58 @@ export default function Layout({ children }) {
           <div className="flex flex-col pr-4">
             <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">Maps Location</h3>
             <div className="w-full bg-white/10 overflow-hidden aspect-[1.4] flex items-center justify-center relative cursor-pointer group shadow-sm">
-               {/* Map Image Area - Will show fallback text if image is missing */}
-               <div className="absolute inset-0 flex items-center justify-center p-4 text-center z-0">
-                  <span className="text-sm text-white/80 font-medium">Please add 'footer-map.jpg' to public folder</span>
-               </div>
-               <img src="/footer-map.jpg" alt="Map Location" className="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.target.style.opacity='0' }} />
+              {/* Map Image Area - Will show fallback text if image is missing */}
+              <div className="absolute inset-0 flex items-center justify-center p-4 text-center z-0">
+                <span className="text-sm text-white/80 font-medium">Please add 'footer-map.jpg' to public folder</span>
+              </div>
+              <img src="/footer-map.jpg" alt="Map Location" className="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.target.style.opacity = '0' }} />
             </div>
           </div>
 
         </div>
-        
+
         {/* Copyright (Bonus: Not in image but good practice) */}
         <div className="max-w-[1200px] mx-auto mt-16 pt-6 border-t border-white/20 text-center text-white/50 text-xs">
-           <p>© {new Date().getFullYear()} Surazense Biosensors. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Surazense Biosensors. All rights reserved.</p>
         </div>
       </footer>
 
       {/* Login Sidebar Overlay */}
-      <div 
-        className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60] transition-opacity duration-300 ${
-          isLoginSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
+      <div
+        className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60] transition-opacity duration-300 ${isLoginSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          }`}
         onClick={() => setIsLoginSidebarOpen(false)}
       />
 
       {/* Login Sidebar */}
-      <div 
-        className={`fixed top-0 right-0 h-full w-[400px] max-w-[100vw] bg-white z-[70] shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] transform ${
-          isLoginSidebarOpen ? 'translate-x-0' : 'translate-x-full'
-        } flex flex-col`}
+      <div
+        className={`fixed top-0 right-0 h-full w-[400px] max-w-[100vw] bg-white z-[70] shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] transform ${isLoginSidebarOpen ? 'translate-x-0' : 'translate-x-full'
+          } flex flex-col`}
       >
         <div className="flex justify-between items-center p-6 border-b border-slate-100">
           <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Welcome Back</h2>
-          <button 
+          <button
             onClick={() => setIsLoginSidebarOpen(false)}
             className="p-2.5 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors bg-transparent border-none cursor-pointer outline-none"
           >
             <X className="w-5 h-5 stroke-[2.5px]" />
           </button>
         </div>
-        
+
         <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
           <form className="flex flex-col gap-5">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 placeholder="you@example.com"
                 className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400"
               />
             </div>
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 placeholder="••••••••"
                 className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400"
               />
@@ -263,23 +538,23 @@ export default function Layout({ children }) {
               </label>
               <a href="#" className="text-accent hover:text-accent-hover font-semibold no-underline transition-colors">Forgot password?</a>
             </div>
-            
+
             <button type="button" className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-sky-200 hover:shadow-xl hover:-translate-y-[1px] mt-4 cursor-pointer border-none text-[15px]">
               Sign In
             </button>
-            
+
             <div className="relative my-6 flex items-center py-2">
               <div className="flex-grow border-t border-slate-200"></div>
               <span className="flex-shrink-0 mx-4 text-slate-400 text-sm font-medium uppercase tracking-wider">Or continue with</span>
               <div className="flex-grow border-t border-slate-200"></div>
             </div>
-            
+
             <button type="button" className="w-full bg-white border-2 border-slate-100 hover:border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-3 cursor-pointer text-[15px]">
-              <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/><path d="M1 1h22v22H1z" fill="none"/></svg>
+              <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" /><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" /><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" /><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" /><path d="M1 1h22v22H1z" fill="none" /></svg>
               Google
             </button>
           </form>
-          
+
           <p className="text-center text-slate-500 text-[15px] mt-8">
             Don't have an account? <a href="#" className="text-accent hover:text-accent-hover font-bold no-underline transition-colors ml-1">Sign up</a>
           </p>

@@ -12,6 +12,7 @@ import News from './pages/News';
 import Contacts from './pages/Contacts';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import AcademicTraining from './pages/AcademicTraining';
 import { CartProvider } from './context/CartContext';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/news" element={<News />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/academic-training" element={<AcademicTraining />} />
             
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
