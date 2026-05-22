@@ -13,6 +13,7 @@ import Contacts from './pages/Contacts';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AcademicTraining from './pages/AcademicTraining';
+import CancerReport from './pages/CancerReport';
 import { CartProvider } from './context/CartContext';
 import { LanguageProvider } from './context/LanguageContext';
 
@@ -34,7 +35,7 @@ function App() {
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/login" element={<Login />} />
               <Route path="/academic-training" element={<AcademicTraining />} />
-              
+              <Route path="/cancer-report" element={<CancerReport />} />
               <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </Layout>

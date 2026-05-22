@@ -100,7 +100,7 @@ export default function Layout({ children }) {
                   {/* Nested Sub-menu */}
                   <div className="absolute left-full top-0 pl-1 w-[260px] invisible opacity-0 -translate-x-2 group-hover/sub:visible group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all duration-300 z-[60]">
                     <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 py-2 flex flex-col">
-                      <Link to="/services" className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
+                      <Link to="/cancer-report" className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
                         {t('nav.cancerReport')}
                       </Link>
                       <Link to="/dashboard" className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
@@ -350,9 +350,9 @@ export default function Layout({ children }) {
               {/* Xzense-101 Sub-Items */}
               <div className="pl-4 border-l border-slate-200 ml-4 space-y-1">
                 <Link
-                  to="/services"
+                  to="/cancer-report"
                   className={`flex items-center px-4 py-2 rounded-xl text-[13px] font-semibold no-underline transition-all ${
-                    location.pathname === '/services' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                    location.pathname === '/cancer-report' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
                   }`}
                 >
                   {t('nav.cancerReport')}
