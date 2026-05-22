@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, X, Image as ImageIcon, Menu, Home, Info, ShoppingBag, Briefcase, Cpu, Handshake, Newspaper, Phone } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Layout({ children }) {
   const location = useLocation();
   const { cartItems, removeFromCart, itemCount, cartTotal } = useCart();
+  const { language, toggleLanguage, t } = useLanguage();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginSidebarOpen, setIsLoginSidebarOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -45,28 +47,28 @@ export default function Layout({ children }) {
         </Link>
 
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-          <Link to="/" className={`${linkBaseClass} ${isActive('/')}`}>Home</Link>
-          <Link to="/about" className={`${linkBaseClass} ${isActive('/about')}`}>About us</Link>
+          <Link to="/" className={`${linkBaseClass} ${isActive('/')}`}>{t('nav.home')}</Link>
+          <Link to="/about" className={`${linkBaseClass} ${isActive('/about')}`}>{t('nav.about')}</Link>
           {/* Products Dropdown */}
           <div className="relative group flex items-center">
             <Link to="/products" className={`${linkBaseClass} ${isActive('/products')} py-2`}>
-              Products
+              {t('nav.products')}
             </Link>
 
             {/* Dropdown Menu */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[190px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
               <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
                 <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  Exploring Products
+                  {t('nav.exploringProducts')}
                 </Link>
                 <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  Research solution
+                  {t('nav.researchSolution')}
                 </Link>
                 <Link to="/academic-training" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  Academic training
+                  {t('nav.academicTraining')}
                 </Link>
                 <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  Others
+                  {t('nav.others')}
                 </Link>
               </div>
             </div>
@@ -74,21 +76,21 @@ export default function Layout({ children }) {
           {/* Services Dropdown */}
           <div className="relative group flex items-center">
             <Link to="/services" className={`${linkBaseClass} ${isActive('/services')} py-2`}>
-              Services
+              {t('nav.services')}
             </Link>
 
             {/* Dropdown Menu */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[210px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
               <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
                 <Link to="/services" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  Instrument maintaining
+                  {t('nav.instrumentMaintaining')}
                 </Link>
                 
                 {/* Nested Xzense-101 Menu */}
                 <div className="relative group/sub flex flex-col">
                   <div className="flex items-center justify-between px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors cursor-pointer">
                     <Link to="/services" className="flex-1 text-inherit no-underline">
-                      Xzense-101
+                      {t('nav.xzense101')}
                     </Link>
                     <svg className="w-3 h-3 text-slate-400 group-hover/sub:text-blue-600 transition-colors ml-2" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"></path>
@@ -99,10 +101,10 @@ export default function Layout({ children }) {
                   <div className="absolute left-full top-0 pl-1 w-[260px] invisible opacity-0 -translate-x-2 group-hover/sub:visible group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all duration-300 z-[60]">
                     <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 py-2 flex flex-col">
                       <Link to="/services" className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                        Cancer detection report
+                        {t('nav.cancerReport')}
                       </Link>
                       <Link to="/dashboard" className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                        Xzense-101 results analysis online software
+                        {t('nav.xzenseSoftware')}
                       </Link>
                     </div>
                   </div>
@@ -111,15 +113,20 @@ export default function Layout({ children }) {
               </div>
             </div>
           </div>
-          <Link to="/technology" className={`${linkBaseClass} ${isActive('/technology')}`}>Technology</Link>
-          <Link to="/collaboration" className={`${linkBaseClass} ${isActive('/collaboration')}`}>Collaboration</Link>
-          <Link to="/news" className={`${linkBaseClass} ${isActive('/news')}`}>News</Link>
-          <Link to="/contacts" className={`${linkBaseClass} ${isActive('/contacts')}`}>Contacts</Link>
+          <Link to="/technology" className={`${linkBaseClass} ${isActive('/technology')}`}>{t('nav.technology')}</Link>
+          <Link to="/collaboration" className={`${linkBaseClass} ${isActive('/collaboration')}`}>{t('nav.collaboration')}</Link>
+          <Link to="/news" className={`${linkBaseClass} ${isActive('/news')}`}>{t('nav.news')}</Link>
+          <Link to="/contacts" className={`${linkBaseClass} ${isActive('/contacts')}`}>{t('nav.contacts')}</Link>
 
           <div className="w-[1px] h-5 bg-slate-200 mx-2"></div>
 
-          <button className={`${linkBaseClass} text-slate-700 hover:text-accent cursor-pointer active:scale-95 transition-transform bg-transparent border-none p-0`}>
-            EN / TH
+          <button 
+            onClick={toggleLanguage} 
+            className={`${linkBaseClass} text-slate-700 hover:text-accent cursor-pointer active:scale-95 transition-transform bg-transparent border-none p-0 flex items-center gap-1`}
+          >
+            <span className={language === 'en' ? 'text-accent font-bold' : 'text-slate-400'}>EN</span>
+            <span className="text-slate-300">/</span>
+            <span className={language === 'th' ? 'text-accent font-bold' : 'text-slate-400'}>TH</span>
           </button>
 
           <div className="relative" ref={cartRef}>
@@ -141,13 +148,13 @@ export default function Layout({ children }) {
             {isCartOpen && (
               <div className="absolute top-full right-0 mt-4 w-80 bg-white rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 py-4 px-5 z-50">
                 <div className="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
-                  <h3 className="font-bold text-slate-800">Your Cart</h3>
+                  <h3 className="font-bold text-slate-800">{t('nav.yourCart')}</h3>
                   <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">{itemCount} items</span>
                 </div>
 
                 <div className="space-y-4 mb-5 max-h-[60vh] overflow-y-auto">
                   {cartItems.length === 0 ? (
-                    <p className="text-sm text-slate-500 text-center py-4">Your cart is empty.</p>
+                    <p className="text-sm text-slate-500 text-center py-4">{t('nav.cartEmpty')}</p>
                   ) : (
                     cartItems.map((item) => (
                       <div key={item.id} className="flex gap-3 items-center group">
@@ -174,12 +181,12 @@ export default function Layout({ children }) {
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 mb-5 flex justify-between items-center">
-                  <span className="text-sm font-medium text-slate-500">Subtotal</span>
+                  <span className="text-sm font-medium text-slate-500">{t('nav.subtotal')}</span>
                   <span className="text-lg font-bold text-slate-900">${cartTotal.toFixed(2)}</span>
                 </div>
 
                 <Link to="/checkout" onClick={() => setIsCartOpen(false)} className={`w-full block text-center py-2.5 rounded-xl font-bold text-sm transition-colors no-underline ${cartItems.length > 0 ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-slate-100 text-slate-400 pointer-events-none'}`}>
-                  Checkout
+                  {t('nav.checkout')}
                 </Link>
               </div>
             )}
@@ -189,7 +196,7 @@ export default function Layout({ children }) {
             onClick={() => setIsLoginSidebarOpen(true)}
             className="bg-accent text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:-translate-y-[1px] hover:bg-accent-hover hover:shadow-[0_4px_12px_rgba(2,132,199,0.25)] active:translate-y-0 cursor-pointer border-none"
           >
-            Login
+            {t('nav.login')}
           </button>
         </div>
 
@@ -263,7 +270,7 @@ export default function Layout({ children }) {
             }`}
           >
             <Home className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">Home</span>
+            <span className="uppercase tracking-wider">{t('nav.home')}</span>
           </Link>
 
           <Link
@@ -273,14 +280,14 @@ export default function Layout({ children }) {
             }`}
           >
             <Info className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">About us</span>
+            <span className="uppercase tracking-wider">{t('nav.about')}</span>
           </Link>
 
           {/* Products Group */}
           <div className="py-1">
             <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
               <ShoppingBag className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
-              <span>Products</span>
+              <span>{t('nav.products')}</span>
             </div>
             <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1">
               <Link
@@ -289,7 +296,7 @@ export default function Layout({ children }) {
                   location.pathname === '/products' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
                 }`}
               >
-                Exploring Products
+                {t('nav.exploringProducts')}
               </Link>
               <Link
                 to="/products"
@@ -297,7 +304,7 @@ export default function Layout({ children }) {
                   location.pathname === '/products' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
                 }`}
               >
-                Research solution
+                {t('nav.researchSolution')}
               </Link>
               <Link
                 to="/academic-training"
@@ -305,7 +312,7 @@ export default function Layout({ children }) {
                   location.pathname === '/academic-training' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
                 }`}
               >
-                Academic training
+                {t('nav.academicTraining')}
               </Link>
               <Link
                 to="/products"
@@ -313,7 +320,7 @@ export default function Layout({ children }) {
                   location.pathname === '/products' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
                 }`}
               >
-                Others
+                {t('nav.others')}
               </Link>
             </div>
           </div>
@@ -322,7 +329,7 @@ export default function Layout({ children }) {
           <div className="py-1">
             <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
               <Briefcase className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
-              <span>Services</span>
+              <span>{t('nav.services')}</span>
             </div>
             <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1.5">
               <Link
@@ -331,13 +338,13 @@ export default function Layout({ children }) {
                   location.pathname === '/services' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
                 }`}
               >
-                Instrument maintaining
+                {t('nav.instrumentMaintaining')}
               </Link>
               
               {/* Xzense-101 Section inside Services */}
               <div className="px-4 pt-1.5 pb-0.5 text-[12px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
-                Xzense-101
+                {t('nav.xzense101')}
               </div>
               
               {/* Xzense-101 Sub-Items */}
@@ -348,7 +355,7 @@ export default function Layout({ children }) {
                     location.pathname === '/services' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
                   }`}
                 >
-                  Cancer detection report
+                  {t('nav.cancerReport')}
                 </Link>
                 <Link
                   to="/dashboard"
@@ -356,7 +363,7 @@ export default function Layout({ children }) {
                     location.pathname === '/dashboard' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
                   } leading-snug`}
                 >
-                  Xzense-101 results analysis online software
+                  {t('nav.xzenseSoftware')}
                 </Link>
               </div>
             </div>
@@ -369,7 +376,7 @@ export default function Layout({ children }) {
             }`}
           >
             <Cpu className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">Technology</span>
+            <span className="uppercase tracking-wider">{t('nav.technology')}</span>
           </Link>
 
           <Link
@@ -379,7 +386,7 @@ export default function Layout({ children }) {
             }`}
           >
             <Handshake className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">Collaboration</span>
+            <span className="uppercase tracking-wider">{t('nav.collaboration')}</span>
           </Link>
 
           <Link
@@ -389,7 +396,7 @@ export default function Layout({ children }) {
             }`}
           >
             <Newspaper className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">News</span>
+            <span className="uppercase tracking-wider">{t('nav.news')}</span>
           </Link>
 
           <Link
@@ -399,16 +406,21 @@ export default function Layout({ children }) {
             }`}
           >
             <Phone className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">Contacts</span>
+            <span className="uppercase tracking-wider">{t('nav.contacts')}</span>
           </Link>
         </div>
 
         {/* Drawer Footer Actions */}
         <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-4 shrink-0">
           <div className="flex justify-between items-center">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Language</span>
-            <button className="text-xs font-bold text-slate-700 hover:text-accent transition-colors bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm cursor-pointer">
-              EN / TH
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('nav.language')}</span>
+            <button 
+              onClick={toggleLanguage} 
+              className="text-xs font-bold text-slate-700 hover:text-accent transition-colors bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm cursor-pointer flex items-center gap-1"
+            >
+              <span className={language === 'en' ? 'text-accent font-bold' : 'text-slate-400'}>EN</span>
+              <span className="text-slate-300">/</span>
+              <span className={language === 'th' ? 'text-accent font-bold' : 'text-slate-400'}>TH</span>
             </button>
           </div>
           <button
@@ -418,7 +430,7 @@ export default function Layout({ children }) {
             }}
             className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-sky-200 cursor-pointer border-none text-[14px]"
           >
-            Login
+            {t('nav.login')}
           </button>
         </div>
       </div>
@@ -439,7 +451,7 @@ export default function Layout({ children }) {
               <span className="text-2xl font-medium tracking-tight">Surazense</span>
             </div>
             <p className="text-white/90 text-[14px] leading-relaxed mb-8 max-w-[280px]">
-              We're all about boosting health system with our biosensor tech and are working to make better biosensors for detecting cancer
+              {t('footer.brandDesc')}
             </p>
             {/* Social Icons */}
             <div className="flex items-center gap-5">
@@ -452,32 +464,32 @@ export default function Layout({ children }) {
 
           {/* Column 2: Pages */}
           <div>
-            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">Pages</h3>
+            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">{t('footer.pagesTitle')}</h3>
             <ul className="space-y-4">
-              <li><Link to="/how-it-works" className="text-white/80 hover:text-white transition-colors text-[14px]">Home it work</Link></li>
-              <li><Link to="/pricing" className="text-white/80 hover:text-white transition-colors text-[14px]">Pricing</Link></li>
-              <li><Link to="/blog" className="text-white/80 hover:text-white transition-colors text-[14px]">Blog</Link></li>
-              <li><Link to="/demo" className="text-white/80 hover:text-white transition-colors text-[14px]">Demo</Link></li>
+              <li><Link to="/how-it-works" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.howItWorks')}</Link></li>
+              <li><Link to="/pricing" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.pricing')}</Link></li>
+              <li><Link to="/blog" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.blog')}</Link></li>
+              <li><Link to="/demo" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.demo')}</Link></li>
             </ul>
           </div>
 
           {/* Column 3: Service */}
           <div>
-            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">Service</h3>
+            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">{t('footer.servicesTitle')}</h3>
             <ul className="space-y-4">
-              <li><Link to="/service/shopify" className="text-white/80 hover:text-white transition-colors text-[14px]">Shopify</Link></li>
-              <li><Link to="/service/wordpress" className="text-white/80 hover:text-white transition-colors text-[14px]">WordPress</Link></li>
-              <li><Link to="/service/ui-ux" className="text-white/80 hover:text-white transition-colors text-[14px]">UI/UX Design</Link></li>
+              <li><Link to="/service/shopify" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.shopify')}</Link></li>
+              <li><Link to="/service/wordpress" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.wordpress')}</Link></li>
+              <li><Link to="/service/ui-ux" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.uiux')}</Link></li>
             </ul>
           </div>
 
           {/* Column 4: Map */}
           <div className="flex flex-col pr-4">
-            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">Maps Location</h3>
+            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">{t('footer.mapsTitle')}</h3>
             <div className="w-full bg-white/10 overflow-hidden aspect-[1.4] flex items-center justify-center relative cursor-pointer group shadow-sm">
               {/* Map Image Area - Will show fallback text if image is missing */}
               <div className="absolute inset-0 flex items-center justify-center p-4 text-center z-0">
-                <span className="text-sm text-white/80 font-medium">Please add 'footer-map.jpg' to public folder</span>
+                <span className="text-sm text-white/80 font-medium">{t('footer.pleaseAddMap')}</span>
               </div>
               <img src="/footer-map.jpg" alt="Map Location" className="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.target.style.opacity = '0' }} />
             </div>
@@ -487,7 +499,7 @@ export default function Layout({ children }) {
 
         {/* Copyright (Bonus: Not in image but good practice) */}
         <div className="max-w-[1200px] mx-auto mt-16 pt-6 border-t border-white/20 text-center text-white/50 text-xs">
-          <p>© {new Date().getFullYear()} Surazense Biosensors. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Surazense Biosensors. {t('footer.rightsReserved')}</p>
         </div>
       </footer>
 
@@ -504,7 +516,7 @@ export default function Layout({ children }) {
           } flex flex-col`}
       >
         <div className="flex justify-between items-center p-6 border-b border-slate-100">
-          <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Welcome Back</h2>
+          <h2 className="text-2xl font-bold text-slate-800 tracking-tight">{t('login.welcomeBack')}</h2>
           <button
             onClick={() => setIsLoginSidebarOpen(false)}
             className="p-2.5 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors bg-transparent border-none cursor-pointer outline-none"
@@ -516,7 +528,7 @@ export default function Layout({ children }) {
         <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
           <form className="flex flex-col gap-5">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">{t('login.email')}</label>
               <input
                 type="email"
                 placeholder="you@example.com"
@@ -524,7 +536,7 @@ export default function Layout({ children }) {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Password</label>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">{t('login.password')}</label>
               <input
                 type="password"
                 placeholder="••••••••"
@@ -534,18 +546,18 @@ export default function Layout({ children }) {
             <div className="flex justify-between items-center text-sm mt-1">
               <label className="flex items-center gap-2.5 cursor-pointer group">
                 <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-accent focus:ring-accent transition-colors" />
-                <span className="text-slate-600 group-hover:text-slate-800 transition-colors font-medium">Remember me</span>
+                <span className="text-slate-600 group-hover:text-slate-800 transition-colors font-medium">{t('login.rememberMe')}</span>
               </label>
-              <a href="#" className="text-accent hover:text-accent-hover font-semibold no-underline transition-colors">Forgot password?</a>
+              <a href="#" className="text-accent hover:text-accent-hover font-semibold no-underline transition-colors">{t('login.forgotPassword')}</a>
             </div>
 
             <button type="button" className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-sky-200 hover:shadow-xl hover:-translate-y-[1px] mt-4 cursor-pointer border-none text-[15px]">
-              Sign In
+              {t('login.signIn')}
             </button>
 
             <div className="relative my-6 flex items-center py-2">
               <div className="flex-grow border-t border-slate-200"></div>
-              <span className="flex-shrink-0 mx-4 text-slate-400 text-sm font-medium uppercase tracking-wider">Or continue with</span>
+              <span className="flex-shrink-0 mx-4 text-slate-400 text-sm font-medium uppercase tracking-wider">{t('login.orContinueWith')}</span>
               <div className="flex-grow border-t border-slate-200"></div>
             </div>
 
@@ -556,7 +568,7 @@ export default function Layout({ children }) {
           </form>
 
           <p className="text-center text-slate-500 text-[15px] mt-8">
-            Don't have an account? <a href="#" className="text-accent hover:text-accent-hover font-bold no-underline transition-colors ml-1">Sign up</a>
+            {t('login.dontHaveAccount')} <a href="#" className="text-accent hover:text-accent-hover font-bold no-underline transition-colors ml-1">{t('login.signUp')}</a>
           </p>
         </div>
       </div>

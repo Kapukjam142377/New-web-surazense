@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Target, Lightbulb, Shield, Activity, Users } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 30 },
@@ -18,14 +19,23 @@ const staggerContainer = {
 };
 
 export default function About() {
+  const { t } = useLanguage();
   const teamMembers = [
-    { name: "Dr.Thita", role: "Director\nPhD-Material Engineering\nB. Eng.(Hons) Ceramic Engineering", image: "/member12.png" },
-    { name: "Weerasak", role: "Operation manager", image: "/member.png", position: "object-[center_35%]" },
-    { name: "Adisak", role: "Engineering manager\nB. Eng. (Hons) & M Eng.\nElectronic engineering", image: "/member5.png", scaleClass: "scale-110", hoverScaleClass: "group-hover:scale-[1.15]" },
-    { name: "Pimpaya", role: "Marketing manager\nBMgt. (Hons) Concentration: Entrepreneurship", image: "/member1.png" },
-    { name: "Dr. Soodkhet", role: "Advisor\nPhD - MaterialScience & Engineering,\nM. Eng. Nuclear Technology,\nB. Eng. Industrial Engineering", image: "/member11.png" },
-    { name: "Dr. Sanong", role: "Advisor\nPhD - Pathobiology, Cert. Molecular Diagnosis\n(Automatic in situ and Immunostaining)", image: "/member6.png", scaleClass: "scale-110", hoverScaleClass: "group-hover:scale-[1.15]" },
+    { name: Dr.Thita || "Dr.Thita", role: "Dr.Thita", roleDisplay: "Director\nPhD-Material Engineering\nB. Eng.(Hons) Ceramic Engineering", image: "/member12.png" },
+    { name: "Dr.Thita", roleDisplay: "Director\nPhD-Material Engineering\nB. Eng.(Hons) Ceramic Engineering", image: "/member12.png" },
+    { name: "Weerasak", roleDisplay: "Operation manager", image: "/member.png", position: "object-[center_35%]" },
+    { name: "Adisak", roleDisplay: "Engineering manager\nB. Eng. (Hons) & M Eng.\nElectronic engineering", image: "/member5.png", scaleClass: "scale-110", hoverScaleClass: "group-hover:scale-[1.15]" },
+    { name: "Pimpaya", roleDisplay: "Marketing manager\nBMgt. (Hons) Concentration: Entrepreneurship", image: "/member1.png" },
+    { name: "Dr. Soodkhet", roleDisplay: "Advisor\nPhD - MaterialScience & Engineering,\nM. Eng. Nuclear Technology,\nB. Eng. Industrial Engineering", image: "/member11.png" },
+    { name: "Dr. Sanong", roleDisplay: "Advisor\nPhD - Pathobiology, Cert. Molecular Diagnosis\n(Automatic in situ and Immunostaining)", image: "/member6.png", scaleClass: "scale-110", hoverScaleClass: "group-hover:scale-[1.15]" },
   ];
+
+  // Clean layout to avoid duplicate item
+  const actualTeamMembers = teamMembers.slice(1);
+
+  const mainStatement = t('about.mainStatement');
+  const finalStage = t('about.finalStage');
+  const mainPart = mainStatement.replace(finalStage, '');
 
   return (
     <div className="bg-slate-50 min-h-screen">
@@ -52,17 +62,17 @@ export default function About() {
             <div className="mb-16 md:mb-24">
               <motion.div variants={fadeIn} className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-1 bg-blue-600 rounded-full"></div>
-                <h2 className="text-xl font-bold text-blue-600 uppercase tracking-widest">About Us</h2>
+                <h2 className="text-xl font-bold text-blue-600 uppercase tracking-widest">{t('about.aboutUs')}</h2>
               </motion.div>
               
               {/* Main Statement */}
               <motion.div variants={fadeIn} className="max-w-5xl">
                 <h3 className="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-8">
-                  We discovered that the majority of cancer patients died because the disease is recognized at the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-500">final stage.</span>
+                  {mainPart}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-500">{finalStage}</span>
                 </h3>
                 <div className="border-l-4 border-blue-500 pl-6 py-2">
                   <p className="text-xl md:text-2xl text-slate-600 leading-relaxed font-light">
-                    The primary factors are long diagnostic and distance transportation – difficulty in reaching the main hospital. We provide a specific cancer detection instrument with a rapid response time, accessibility for people in rural areas, and can able to interconnect with telemedicine.
+                    {t('about.subStatement')}
                   </p>
                 </div>
               </motion.div>
@@ -73,20 +83,20 @@ export default function About() {
               <motion.div variants={fadeIn} className="space-y-6">
                 <h4 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
                   <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm">1</span>
-                  Our Purpose
+                  {t('about.purposeTitle')}
                 </h4>
                 <p className="text-lg text-slate-600 leading-relaxed">
-                  We are SuraZense team, we would like to help underprivileged people and small remote hospitals to detect an earlier stage of cancer. This could lead to the reduction of death rate due to cancer if the patients can be treated earlier.
+                  {t('about.purposeDesc')}
                 </p>
               </motion.div>
 
               <motion.div variants={fadeIn} className="space-y-6">
                 <h4 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
                   <span className="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center text-sm">2</span>
-                  Our Background & Technology
+                  {t('about.backgroundTitle')}
                 </h4>
                 <p className="text-lg text-slate-600 leading-relaxed">
-                  SuraZense founded by university instructors and students. SuraZense in the start-up phase (3 years established), collaborated in public and private organizations as Udonthani cancer hospital, Suanaree university of technology hospital, Suratec Co., Ltd., etc. our core technology is to develop a cost-effective and portable immunoassay (specific or non-specific) detector based on an innovative piezoelectric sensor. In these cases, SuraZense provided its expertise in the development of the immunoassay process and new generations of mass sensors based on quartz crystal microbalance with higher sensitivity. The principle of the device, which is used to provide the change of electrical signal of the sensor for monitoring biomarker detection.
+                  {t('about.backgroundDesc')}
                 </p>
               </motion.div>
             </div>
@@ -109,9 +119,9 @@ export default function About() {
             <div className="inline-flex items-center justify-center p-3 bg-blue-50 rounded-full mb-4 text-blue-600">
               <Users className="w-6 h-6" />
             </div>
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">Meet Our Team</h2>
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">{t('about.meetTeam')}</h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              The experts and innovators driving the future of biomolecular sensing at Surazense.
+              {t('about.meetTeamDesc')}
             </p>
           </motion.div>
 
@@ -122,7 +132,7 @@ export default function About() {
             viewport={{ once: true, margin: "-50px" }}
             variants={staggerContainer}
           >
-            {teamMembers.map((member, index) => (
+            {actualTeamMembers.map((member, index) => (
               <motion.div 
                 key={index}
                 variants={fadeIn}
@@ -137,7 +147,7 @@ export default function About() {
                   />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{member.name}</h3>
-                <p className="text-sky-600 font-medium mt-1 whitespace-pre-line leading-snug">{member.role}</p>
+                <p className="text-sky-600 font-medium mt-1 whitespace-pre-line leading-snug">{member.roleDisplay}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -157,18 +167,18 @@ export default function About() {
             <motion.div variants={fadeIn} className="glass-panel relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border border-slate-200/60 bg-white/50">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
               <Target className="w-12 h-12 text-blue-600 mb-6 relative z-10" />
-              <h2 className="text-3xl font-bold text-slate-900 mb-4 relative z-10">Our Mission</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4 relative z-10">{t('about.missionTitle')}</h2>
               <p className="text-slate-600 text-lg leading-relaxed relative z-10">
-                To empower researchers, clinicians, and industries with unparalleled real-time insights into biomolecular interactions. We strive to make high-precision QCM sensor technology accessible, intuitive, and seamlessly integrated into modern workflows.
+                {t('about.missionDesc')}
               </p>
             </motion.div>
             
             <motion.div variants={fadeIn} className="glass-panel relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border border-slate-200/60 bg-white/50">
               <div className="absolute top-0 right-0 w-32 h-32 bg-sky-100 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
               <Activity className="w-12 h-12 text-sky-500 mb-6 relative z-10" />
-              <h2 className="text-3xl font-bold text-slate-900 mb-4 relative z-10">Our Vision</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4 relative z-10">{t('about.visionTitle')}</h2>
               <p className="text-slate-600 text-lg leading-relaxed relative z-10">
-                To become the global standard in real-time biochemical monitoring. By bridging the gap between advanced hardware and intelligent software, we envision a world where critical data is always instantaneous, accurate, and actionable.
+                {t('about.visionDesc')}
               </p>
             </motion.div>
           </motion.div>
@@ -185,7 +195,7 @@ export default function About() {
             viewport={{ once: true }}
             variants={fadeIn}
           >
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">Our Core Values</h2>
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">{t('about.coreValues')}</h2>
             <div className="w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
           </motion.div>
 
@@ -201,9 +211,9 @@ export default function About() {
               <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-blue-600">
                 <Target className="w-7 h-7" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Precision</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{t('about.precisionTitle')}</h3>
               <p className="text-slate-600">
-                Uncompromising accuracy in every data point. We build tools that professionals can trust for their most critical analyses.
+                {t('about.precisionDesc')}
               </p>
             </motion.div>
 
@@ -212,9 +222,9 @@ export default function About() {
               <div className="w-14 h-14 bg-sky-100 rounded-xl flex items-center justify-center mb-6 text-sky-500">
                 <Lightbulb className="w-7 h-7" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Innovation</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{t('about.innovationTitle')}</h3>
               <p className="text-slate-600">
-                Continuously pushing the boundaries of what's possible in sensor technology and data visualization.
+                {t('about.innovationDesc')}
               </p>
             </motion.div>
 
@@ -223,9 +233,9 @@ export default function About() {
               <div className="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-6 text-indigo-600">
                 <Shield className="w-7 h-7" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Reliability</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{t('about.reliabilityTitle')}</h3>
               <p className="text-slate-600">
-                Enterprise-grade stability. Our systems are designed to perform consistently under demanding environments.
+                {t('about.reliabilityDesc')}
               </p>
             </motion.div>
           </motion.div>

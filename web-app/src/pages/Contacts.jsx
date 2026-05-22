@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Contacts() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     inquiryType: '',
     firstName: '',
@@ -30,19 +32,19 @@ export default function Contacts() {
     
     // Validation
     const newErrors = {};
-    if (!formData.inquiryType) newErrors.inquiryType = 'Please select an inquiry type';
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+    if (!formData.inquiryType) newErrors.inquiryType = t('contacts.validationSelect');
+    if (!formData.firstName.trim()) newErrors.firstName = t('contacts.validationFirst');
+    if (!formData.lastName.trim()) newErrors.lastName = t('contacts.validationLast');
     if (!formData.email.trim()) {
-      newErrors.email = 'Email address is required';
+      newErrors.email = t('contacts.validationEmailRequired');
     } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = t('contacts.validationEmailInvalid');
     }
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    if (!formData.jobPosition.trim()) newErrors.jobPosition = 'Job position is required';
-    if (!formData.company.trim()) newErrors.company = 'Company is required';
-    if (!formData.title.trim()) newErrors.title = 'Title is required';
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    if (!formData.phone.trim()) newErrors.phone = t('contacts.validationPhone');
+    if (!formData.jobPosition.trim()) newErrors.jobPosition = t('contacts.validationJob');
+    if (!formData.company.trim()) newErrors.company = t('contacts.validationCompany');
+    if (!formData.title.trim()) newErrors.title = t('contacts.validationTitle');
+    if (!formData.message.trim()) newErrors.message = t('contacts.validationMessage');
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -50,7 +52,7 @@ export default function Contacts() {
     }
 
     console.log("Form submitted", formData);
-    alert("Form submitted successfully!");
+    alert(t('contacts.submitSuccess'));
     
     // Reset form on success
     setFormData({
@@ -60,11 +62,11 @@ export default function Contacts() {
   };
 
   const inquiryTypes = [
-    "Product inquiry",
-    "Request Quotation",
-    "Lab Visit / Demonstration",
-    "Join / Collaboration",
-    "General Question"
+    { key: 'product', value: 'Product inquiry' },
+    { key: 'quotation', value: 'Request Quotation' },
+    { key: 'demo', value: 'Lab Visit / Demonstration' },
+    { key: 'collab', value: 'Join / Collaboration' },
+    { key: 'general', value: 'General Question' }
   ];
 
   const getInputClass = (fieldName) => {
@@ -89,9 +91,9 @@ export default function Contacts() {
         >
           <div className="inline-flex items-center gap-4 mb-4">
              <div className="w-12 h-1 bg-blue-600 rounded-full"></div>
-             <h2 className="text-sm font-bold text-blue-600 uppercase tracking-widest">Contact Us</h2>
+             <h2 className="text-sm font-bold text-blue-600 uppercase tracking-widest">{t('contacts.contactUs')}</h2>
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900">Please fill the form to contact us about our products</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900">{t('contacts.formInstruction')}</h1>
         </motion.div>
 
         <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 lg:gap-16">
@@ -116,7 +118,7 @@ export default function Contacts() {
                 <MapPin className="w-7 h-7 text-blue-600" />
               </div>
               <div className="text-slate-600 space-y-1 text-[16px] pt-1">
-                <p className="font-medium text-slate-800 mb-2">Head Office</p>
+                <p className="font-medium text-slate-800 mb-2">{t('contacts.headOffice')}</p>
                 <p>394 Village No. 4,</p>
                 <p>Chaimongkon Subdistrict,</p>
                 <p>Mueang Nakhon Ratchasima District,</p>
@@ -130,9 +132,9 @@ export default function Contacts() {
                  <Phone className="w-7 h-7 text-blue-600" />
               </div>
               <div className="text-slate-600 space-y-2 pt-1 text-[16px]">
-                <p className="font-medium text-slate-800 mb-2">Direct Contact</p>
-                <p className="flex items-center gap-2"><span className="text-slate-400">Phone:</span> <span className="font-medium">+66 099-063-5925</span></p>
-                <p className="flex items-center gap-2"><span className="text-slate-400">Email:</span> <a href="mailto:info@surazense.com" className="font-medium text-blue-600 hover:text-blue-700 underline underline-offset-4">info@surazense.com</a></p>
+                <p className="font-medium text-slate-800 mb-2">{t('contacts.directContact')}</p>
+                <p className="flex items-center gap-2"><span className="text-slate-400">{t('contacts.phone')}:</span> <span className="font-medium">+66 099-063-5925</span></p>
+                <p className="flex items-center gap-2"><span className="text-slate-400">{t('contacts.email')}:</span> <a href="mailto:info@surazense.com" className="font-medium text-blue-600 hover:text-blue-700 underline underline-offset-4">info@surazense.com</a></p>
               </div>
             </div>
 
@@ -141,10 +143,10 @@ export default function Contacts() {
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-600 to-sky-400 rounded-full"></div>
               <div className="pl-6 space-y-4">
                 <p className="text-slate-600 leading-relaxed">
-                  We seek distributors for long-term relationships, valuing those ready to understand our product and undergo essential training.
+                  {t('contacts.pitchText1')}
                 </p>
                 <p className="text-lg font-bold text-slate-900">
-                  Join us in building a profitable and successful partnership.
+                  {t('contacts.pitchText2')}
                 </p>
               </div>
             </div>
@@ -165,20 +167,20 @@ export default function Contacts() {
               
               {/* Radio Group - Pill style */}
               <div className="space-y-3">
-                <label className="block text-sm font-bold text-slate-900">Please Select *</label>
+                <label className="block text-sm font-bold text-slate-900">{t('contacts.pleaseSelect')}</label>
                 <div className="flex flex-wrap gap-3">
                   {inquiryTypes.map((type, idx) => (
                     <label key={idx} className="cursor-pointer">
                       <input 
                         type="radio" 
                         name="inquiryType" 
-                        value={type}
-                        checked={formData.inquiryType === type}
+                        value={type.value}
+                        checked={formData.inquiryType === type.value}
                         onChange={handleChange}
                         className="peer sr-only"
                       />
                       <div className={`px-5 py-2.5 rounded-full border ${errors.inquiryType ? 'border-red-500 text-red-600' : 'border-slate-200 text-slate-600'} font-medium hover:border-blue-300 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600 peer-checked:shadow-md peer-checked:shadow-blue-500/20 transition-all select-none`}>
-                        {type}
+                        {t(`contacts.types.${type.key}`)}
                       </div>
                     </label>
                   ))}
@@ -189,34 +191,34 @@ export default function Contacts() {
               {/* 2-Col Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
                 <div className="space-y-2">
-                  <label className="block text-sm font-bold text-slate-900">First Name *</label>
+                  <label className="block text-sm font-bold text-slate-900">{t('contacts.firstName')}</label>
                   <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} className={getInputClass('firstName')} />
                   {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-sm font-bold text-slate-900">Last Name *</label>
+                  <label className="block text-sm font-bold text-slate-900">{t('contacts.lastName')}</label>
                   <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} className={getInputClass('lastName')} />
                   {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="block text-sm font-bold text-slate-900">E-mail Address *</label>
+                  <label className="block text-sm font-bold text-slate-900">{t('contacts.emailAddress')}</label>
                   <input type="email" name="email" value={formData.email} onChange={handleChange} className={getInputClass('email')} />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-sm font-bold text-slate-900">Phone Number *</label>
+                  <label className="block text-sm font-bold text-slate-900">{t('contacts.phoneNumber')}</label>
                   <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className={getInputClass('phone')} />
                   {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-bold text-slate-900">Job Position *</label>
+                  <label className="block text-sm font-bold text-slate-900">{t('contacts.jobPosition')}</label>
                   <input type="text" name="jobPosition" value={formData.jobPosition} onChange={handleChange} className={getInputClass('jobPosition')} />
                   {errors.jobPosition && <p className="text-red-500 text-sm mt-1">{errors.jobPosition}</p>}
                 </div>
                 <div className="space-y-2">
-                  <label className="block text-sm font-bold text-slate-900">Company or Institution *</label>
+                  <label className="block text-sm font-bold text-slate-900">{t('contacts.companyOrInstitution')}</label>
                   <input type="text" name="company" value={formData.company} onChange={handleChange} className={getInputClass('company')} />
                   {errors.company && <p className="text-red-500 text-sm mt-1">{errors.company}</p>}
                 </div>
@@ -224,13 +226,13 @@ export default function Contacts() {
 
               {/* Full Width Inputs */}
               <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-900">Title *</label>
+                <label className="block text-sm font-bold text-slate-900">{t('contacts.title')}</label>
                 <input type="text" name="title" value={formData.title} onChange={handleChange} className={getInputClass('title')} />
                 {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
               </div>
 
               <div className="space-y-2">
-                <label className="block text-sm font-bold text-slate-900">Message *</label>
+                <label className="block text-sm font-bold text-slate-900">{t('contacts.message')}</label>
                 <textarea name="message" rows="4" value={formData.message} onChange={handleChange} className={`${getInputClass('message')} resize-none`}></textarea>
                 {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
               </div>
@@ -238,7 +240,7 @@ export default function Contacts() {
               {/* Submit Button */}
               <div className="pt-4 flex justify-center">
                 <button type="submit" className="w-full sm:w-auto px-12 py-4 bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:-translate-y-0.5 transition-all text-lg flex justify-center items-center">
-                  SUBMIT
+                  {t('contacts.submit')}
                 </button>
               </div>
 

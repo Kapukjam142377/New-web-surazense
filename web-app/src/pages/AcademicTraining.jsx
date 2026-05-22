@@ -2,71 +2,72 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, Cpu, Activity, FileText, Award, ChevronRight, GraduationCap, Beaker, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const LABS = [
   {
     id: 'lab-qcm',
-    title: 'Lab 1: QCM Sensor Calibration & Characterization',
-    subtitle: 'Frequency Sweeps & Hardware Interfacing',
-    description: 'Learn the fundamentals of Quartz Crystal Microbalance (QCM) sensors. Students perform frequency sweeps from 8MHz to 12MHz, interface with ESP32 microcontrollers, and capture real-time resonance behavior.',
+    titleKey: 'academic.lab1Title',
+    subtitleKey: 'academic.lab1Subtitle',
+    descKey: 'academic.lab1Desc',
     icon: <Cpu className="w-6 h-6" />,
-    duration: '3 hours',
-    topics: ['Serial communication (UART)', 'Resonance tracking', 'Hardware noise reduction']
+    durationKey: 'academic.lab1Duration',
+    topicsKey: 'academic.lab1Topics'
   },
   {
     id: 'lab-biomarker',
-    title: 'Lab 2: Biomarker Binding Kinetics (EGFR)',
-    subtitle: 'Target Biomarker Isolation & Detection',
-    description: 'Simulate molecular diagnostic binding experiments. Apply functionalized cell-free DNA to active gold sensor surfaces, observe real-time amplitude changes, and determine biomarker presence.',
+    titleKey: 'academic.lab2Title',
+    subtitleKey: 'academic.lab2Subtitle',
+    descKey: 'academic.lab2Desc',
     icon: <Beaker className="w-6 h-6" />,
-    duration: '4 hours',
-    topics: ['Gold surface functionalization', 'Antigen-antibody binding', 'Threshold-based detection']
+    durationKey: 'academic.lab2Duration',
+    topicsKey: 'academic.lab2Topics'
   },
   {
     id: 'lab-signal',
-    title: 'Lab 3: Advanced Signal Processing & Splines',
-    subtitle: 'Noise Analysis & Curve Smoothing',
-    description: 'Focus on the digital signal processing pipeline. Implement polynomial regression for baseline estimation and Savitzky-Golay filtering. Fit Univariate Splines to determine peak frequencies.',
+    titleKey: 'academic.lab3Title',
+    subtitleKey: 'academic.lab3Subtitle',
+    descKey: 'academic.lab3Desc',
     icon: <Activity className="w-6 h-6" />,
-    duration: '3 hours',
-    topics: ['Savitzky-Golay filtering', 'Baseline correction models', 'Spline peak interpolation']
+    durationKey: 'academic.lab3Duration',
+    topicsKey: 'academic.lab3Topics'
   }
 ];
 
 const COURSES = [
   {
     id: 'course-intro',
-    level: 'Beginner',
+    levelKey: 'academic.levelBeginner',
     levelColor: 'bg-emerald-100 text-emerald-700 border-emerald-200/50',
-    title: 'Introduction to Biosensors & Surface Science',
-    duration: '4 weeks (8 credits)',
-    description: 'An introductory course covering the physics behind QCM resonance, molecular interactions on gold substrates, and basic measurement instrumentation.',
-    skills: ['QCM Physics', 'Surface Science basics', 'Basic laboratory safety']
+    titleKey: 'academic.course1Title',
+    durationKey: 'academic.course1Duration',
+    descKey: 'academic.course1Desc',
+    skillsKey: 'academic.course1Skills'
   },
   {
     id: 'course-instrument',
-    level: 'Intermediate',
+    levelKey: 'academic.levelIntermediate',
     levelColor: 'bg-blue-100 text-blue-700 border-blue-200/50',
-    title: 'Medical Diagnostic Instrumentation',
-    duration: '6 weeks (12 credits)',
-    description: 'Deep dive into hardware interfacing. Learn to build ESP32-based frequency controllers, configure serial protocols, and structure responsive desktop UI frameworks.',
-    skills: ['ESP32 microcontrollers', 'Web Serial API / UART', 'UI/UX for diagnostics']
+    titleKey: 'academic.course2Title',
+    durationKey: 'academic.course2Duration',
+    descKey: 'academic.course2Desc',
+    skillsKey: 'academic.course2Skills'
   },
   {
     id: 'course-data',
-    level: 'Advanced',
+    levelKey: 'academic.levelAdvanced',
     levelColor: 'bg-purple-100 text-purple-700 border-purple-200/50',
-    title: 'Quantitative Biosignal Analysis',
-    duration: '5 weeks (10 credits)',
-    description: 'A mathematical approach to diagnostic noise reduction. Apply advanced filters, regression curves, and spline interpolations to real-time clinical biosignals.',
-    skills: ['Signal processing maths', 'Data regression models', 'Noise analysis']
+    titleKey: 'academic.course3Title',
+    durationKey: 'academic.course3Duration',
+    descKey: 'academic.course3Desc',
+    skillsKey: 'academic.course3Skills'
   }
 ];
 
 const BACKGROUNDS = [
-  { id: 'biology', label: 'Biology & Life Sciences', recommend: 'lab-biomarker', course: 'course-intro' },
-  { id: 'engineering', label: 'Electrical & Computer Engineering', recommend: 'lab-qcm', course: 'course-instrument' },
-  { id: 'maths', label: 'Signal Processing & Applied Mathematics', recommend: 'lab-signal', course: 'course-data' }
+  { id: 'biology', labelKey: 'academic.biologyLabel', recommend: 'lab-biomarker', course: 'course-intro' },
+  { id: 'engineering', labelKey: 'academic.engineeringLabel', recommend: 'lab-qcm', course: 'course-instrument' },
+  { id: 'maths', labelKey: 'academic.mathsLabel', recommend: 'lab-signal', course: 'course-data' }
 ];
 
 const teamMembers = [
@@ -81,36 +82,36 @@ const teamMembers = [
 const LAB_GALLERY_IMAGES = [
   {
     id: 1,
-    title: 'Medical / Engineer Training',
-    description: 'Bridging biomedical diagnostic techniques with high-precision engineering and electronics.',
-    category: 'Medical / Engineering',
+    titleKey: 'academic.gallery1Title',
+    descKey: 'academic.gallery1Desc',
+    categoryKey: 'academic.gallery1Category',
     image: '/lab-gallery-1.jpg',
     fallbackColor: 'from-blue-600/20 to-sky-500/20',
     gridClass: 'md:col-span-2 md:row-span-2 min-h-[320px] md:min-h-[460px]'
   },
   {
     id: 2,
-    title: 'LABORATORY TRAINING',
-    description: 'Hands-on training sessions focusing on biosensing principles, mechanics, and workflows.',
-    category: 'Lab Practice',
+    titleKey: 'academic.gallery2Title',
+    descKey: 'academic.gallery2Desc',
+    categoryKey: 'academic.gallery2Category',
     image: '/lab-gallery-2.jpg',
     fallbackColor: 'from-indigo-600/20 to-purple-500/20',
     gridClass: 'md:col-span-1 md:row-span-1 min-h-[220px]'
   },
   {
     id: 3,
-    title: 'PROJECT DEVELOPMENT',
-    description: 'Developing instrumentation systems, calibrating sensor sweeps, and creating desktop interfaces.',
-    category: 'Development',
+    titleKey: 'academic.gallery3Title',
+    descKey: 'academic.gallery3Desc',
+    categoryKey: 'academic.gallery3Category',
     image: '/lab-gallery-3.jpg',
     fallbackColor: 'from-sky-600/20 to-emerald-500/20',
     gridClass: 'md:col-span-1 md:row-span-1 min-h-[220px]'
   },
   {
     id: 4,
-    title: 'SCIENTIFIC RESEARCH',
-    description: 'Applying signal processing algorithms, spline calculations, and filtering models to active biosensor diagnostics.',
-    category: 'Research & Data',
+    titleKey: 'academic.gallery4Title',
+    descKey: 'academic.gallery4Desc',
+    categoryKey: 'academic.gallery4Category',
     image: '/lab-gallery-4.jpg',
     fallbackColor: 'from-violet-600/20 to-pink-500/20',
     gridClass: 'md:col-span-3 md:row-span-1 min-h-[220px]'
@@ -119,6 +120,7 @@ const LAB_GALLERY_IMAGES = [
 
 function GalleryCard({ item }) {
   const [imgErr, setImgErr] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <motion.div
@@ -145,7 +147,7 @@ function GalleryCard({ item }) {
       {!imgErr && (
         <img
           src={item.image}
-          alt={item.title}
+          alt={t(item.titleKey)}
           onError={() => setImgErr(true)}
           className="w-full h-full object-cover absolute inset-0 z-0 transition-transform duration-700 ease-out group-hover:scale-105"
         />
@@ -157,13 +159,13 @@ function GalleryCard({ item }) {
       {/* Content overlay */}
       <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 z-20 flex flex-col justify-end transform md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-300">
         <span className="text-xs font-bold text-sky-400 uppercase tracking-widest mb-1.5 inline-block">
-          {item.category}
+          {t(item.categoryKey)}
         </span>
         <h3 className="text-lg md:text-xl font-extrabold text-white leading-snug">
-          {item.title}
+          {t(item.titleKey)}
         </h3>
         <p className="text-xs md:text-sm text-slate-300 mt-2 leading-relaxed opacity-90 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 delay-75">
-          {item.description}
+          {t(item.descKey)}
         </p>
       </div>
 
@@ -176,44 +178,45 @@ function GalleryCard({ item }) {
 const CERTIFICATES = [
   {
     id: 1,
-    title: "Biotechnology Training Certificate",
-    recipient: "Cancer Biomarker Detection Lab Completion",
-    image: "/certificate-1.png"
+    titleKey: 'academic.cert1Title',
+    recipientKey: 'academic.cert1Recipient',
+    image: '/certificate-1.png'
   },
   {
     id: 2,
-    title: "Engineering Training Certificate",
-    recipient: "ESP32 & QCM Interfacing Lab Completion",
-    image: "/certificate-2.png"
+    titleKey: 'academic.cert2Title',
+    recipientKey: 'academic.cert2Recipient',
+    image: '/certificate-2.png'
   },
   {
     id: 3,
-    title: "Medical Science Training Certificate",
-    recipient: "Binding Kinetics & Assay Lab Completion",
-    image: "/certificate-3.png"
+    titleKey: 'academic.cert3Title',
+    recipientKey: 'academic.cert3Recipient',
+    image: '/certificate-3.png'
   },
   {
     id: 4,
-    title: "Biotechnology Advanced Certificate",
-    recipient: "Cancer Biomarker Detection Lab Completion",
-    image: "/certificate-4.png"
+    titleKey: 'academic.cert4Title',
+    recipientKey: 'academic.cert4Recipient',
+    image: '/certificate-4.png'
   },
   {
     id: 5,
-    title: "Engineering Advanced Certificate",
-    recipient: "ESP32 & QCM Interfacing Lab Completion",
-    image: "/certificate-5.png"
+    titleKey: 'academic.cert5Title',
+    recipientKey: 'academic.cert5Recipient',
+    image: '/certificate-5.png'
   },
   {
     id: 6,
-    title: "Medical Science Advanced Certificate",
-    recipient: "Binding Kinetics & Assay Lab Completion",
-    image: "/certificate-6.png"
+    titleKey: 'academic.cert6Title',
+    recipientKey: 'academic.cert6Recipient',
+    image: '/certificate-6.png'
   }
 ];
 
 function CertificateCard({ cert }) {
   const [imgErr, setImgErr] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <motion.div
@@ -241,7 +244,7 @@ function CertificateCard({ cert }) {
         {!imgErr && (
           <img
             src={cert.image}
-            alt={cert.title}
+            alt={t(cert.titleKey)}
             onError={() => setImgErr(true)}
             className="w-full h-full object-cover absolute inset-0 z-0 transition-transform duration-500 group-hover:scale-103"
           />
@@ -250,33 +253,35 @@ function CertificateCard({ cert }) {
 
       <div className="mt-4 text-center">
         <h4 className="text-sm font-bold text-slate-800 leading-snug group-hover:text-blue-600 transition-colors">
-          {cert.title}
+          {t(cert.titleKey)}
         </h4>
         <p className="text-xs text-slate-400 mt-1">
-          {cert.recipient}
+          {t(cert.recipientKey)}
         </p>
       </div>
     </motion.div>
   );
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } }
+};
+
 export default function AcademicTraining() {
+  const { t } = useLanguage();
   const [selectedBackground, setSelectedBackground] = useState('biology');
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } }
-  };
-
-  const activeRec = BACKGROUNDS.find(b => b.id === selectedBackground);
+  const activeRec = BACKGROUNDS.find(bg => bg.id === selectedBackground);
+  const labTrainingText = t('academic.labTraining');
+  const [labPart1, labPart2] = labTrainingText.includes('&') ? labTrainingText.split('&') : [labTrainingText, ''];
 
   return (
     <div className="bg-slate-50 min-h-screen pb-24 relative overflow-hidden">
@@ -311,7 +316,7 @@ export default function AcademicTraining() {
           >
             <GraduationCap className="w-5 h-5 text-blue-600 animate-bounce" style={{ animationDuration: '3s' }} />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-              Knowledge is endless
+              {t('academic.endlessKnowledge')}
             </span>
           </motion.div>
 
@@ -324,7 +329,7 @@ export default function AcademicTraining() {
           >
             Surazense{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600">
-              training program
+              {t('academic.trainingProgram')}
             </span>
           </motion.h1>
 
@@ -335,7 +340,7 @@ export default function AcademicTraining() {
             transition={{ duration: 1.2, ease: 'easeOut', delay: 0.2 }}
             className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-800 tracking-tight mb-8 leading-snug max-w-4xl mx-auto uppercase"
           >
-            Laboratory <span className="text-blue-600 font-black">&</span> Academic Training
+            {labPart1} {labPart2 && <><span className="text-blue-600 font-black">&</span> {labPart2}</>}
           </motion.h2>
 
           {/* Fields Badges */}
@@ -345,7 +350,7 @@ export default function AcademicTraining() {
             transition={{ duration: 1.0, ease: 'easeOut', delay: 0.3 }}
             className="flex flex-wrap justify-center items-center gap-4 mb-10"
           >
-            {['Biotechnology', 'Medical Science', 'Engineering'].map((field, idx) => (
+            {[t('academic.biotech'), t('academic.medicalScience'), t('academic.engineering')].map((field, idx) => (
               <React.Fragment key={field}>
                 <span className="text-xs md:text-sm font-extrabold text-slate-700 bg-white border border-slate-200/60 px-5 py-2.5 rounded-2xl shadow-sm hover:border-blue-500 hover:text-blue-600 hover:-translate-y-0.5 transition-all duration-300 cursor-default">
                   {field}
@@ -361,7 +366,7 @@ export default function AcademicTraining() {
             transition={{ duration: 1.2, ease: 'easeOut', delay: 0.4 }}
             className="text-base md:text-lg lg:text-xl text-slate-500 max-w-4xl mx-auto mb-12 leading-relaxed font-medium"
           >
-            Workshop and Training powered by our <strong className="text-slate-850 font-bold border-b-2 border-blue-500/25">Surazense Team</strong>, in collaboration with advisors from the <strong className="text-slate-850 font-bold border-b-2 border-sky-500/25">Engineering Department</strong> and the <strong className="text-slate-850 font-bold border-b-2 border-indigo-500/25">Translational Medicine Department at Suranaree University</strong>, for an interactive lab demonstration tailored to participants and enthusiasts passionate about biology and biosensor technology. Discover how cutting-edge biosensor technology is revolutionizing cancer detection through real-world applications of biosensor for cancer biomarker detection.
+            {t('academic.introDesc')}
           </motion.p>
 
           <motion.div
@@ -374,13 +379,13 @@ export default function AcademicTraining() {
               href="#labs"
               className="bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-[15px] hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/35 hover:-translate-y-0.5 transition-all text-center min-w-[180px]"
             >
-              Explore Labs
+              {t('academic.exploreLabs')}
             </a>
             <a
               href="#courses"
               className="bg-white text-slate-700 border-2 border-slate-200 px-8 py-4 rounded-full font-bold text-[15px] hover:border-slate-300 hover:bg-slate-50 hover:-translate-y-0.5 transition-all text-center min-w-[180px]"
             >
-              View Courses
+              {t('academic.viewCourses')}
             </a>
           </motion.div>
         </div>
@@ -397,7 +402,7 @@ export default function AcademicTraining() {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-blue-600 text-xs font-bold uppercase tracking-widest mb-4 shadow-sm"
           >
             <Activity className="w-3.5 h-3.5 text-blue-500" />
-            <span>Medical / Engineer Training</span>
+            <span>{t('academic.trainingAtmosphere')}</span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 15 }}
@@ -406,7 +411,7 @@ export default function AcademicTraining() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight"
           >
-            Laboratory Atmosphere & Activities
+            {t('academic.labAtmosphereTitle')}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 15 }}
@@ -415,7 +420,7 @@ export default function AcademicTraining() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-base text-slate-500 font-medium max-w-2xl mx-auto mt-3"
           >
-            Explore our state-of-the-art laboratory workshops combining medical biology with electronics and hardware engineering.
+            {t('academic.labAtmosphereDesc')}
           </motion.p>
         </div>
 
@@ -438,8 +443,6 @@ export default function AcademicTraining() {
         </motion.div>
       </section>
 
-
-
       {/* Student Certificates Section */}
       <section className="max-w-7xl mx-auto px-6 mb-28 relative z-10 scroll-mt-24">
         <div className="text-center mb-12">
@@ -451,7 +454,7 @@ export default function AcademicTraining() {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-blue-600 text-xs font-bold uppercase tracking-widest mb-4 shadow-sm"
           >
             <GraduationCap className="w-3.5 h-3.5 text-blue-500" />
-            <span>Student Achievements</span>
+            <span>{t('academic.studentAchievements')}</span>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 15 }}
@@ -460,7 +463,7 @@ export default function AcademicTraining() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight"
           >
-            Student Certificates of Completion
+            {t('academic.completionCertificates')}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 15 }}
@@ -469,7 +472,7 @@ export default function AcademicTraining() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-base text-slate-500 font-medium max-w-2xl mx-auto mt-3"
           >
-            Certifying hands-on proficiency in advanced molecular diagnostics, hardware interfacing, and quantitative biosignal analysis.
+            {t('academic.completionCertificatesDesc')}
           </motion.p>
         </div>
 
@@ -503,13 +506,13 @@ export default function AcademicTraining() {
         >
           <div className="text-center mb-8">
             <span className="text-xs font-bold text-blue-600 uppercase tracking-widest bg-blue-50 px-3.5 py-1.5 rounded-full mb-3 inline-block">
-              Interactive Guide
+              {t('academic.interactiveGuide')}
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">
-              Find Your Ideal Path
+              {t('academic.findIdealPath')}
             </h2>
             <p className="text-sm text-slate-500 mt-2">
-              Select your academic background to see customized laboratory recommendations
+              {t('academic.selectBackground')}
             </p>
           </div>
 
@@ -524,7 +527,7 @@ export default function AcademicTraining() {
                     : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
                 }`}
               >
-                {bg.label}
+                {t(bg.labelKey)}
               </button>
             ))}
           </div>
@@ -543,36 +546,36 @@ export default function AcademicTraining() {
                   <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shadow-sm">
                     <Beaker className="w-5 h-5" />
                   </div>
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Recommended Lab</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{t('academic.recommendedLab')}</span>
                 </div>
                 <h3 className="text-lg font-bold text-slate-800 mb-2">
-                  {LABS.find(l => l.id === activeRec?.recommend)?.title}
+                  {t(LABS.find(l => l.id === activeRec?.recommend)?.titleKey)}
                 </h3>
                 <p className="text-sm text-slate-500 leading-relaxed">
-                  {LABS.find(l => l.id === activeRec?.recommend)?.description}
+                  {t(LABS.find(l => l.id === activeRec?.recommend)?.descKey)}
                 </p>
               </div>
 
               <div className="border-t md:border-t-0 md:border-l border-slate-200 pt-6 md:pt-0 md:pl-8 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shadow-sm">
-                      <BookOpen className="w-5 h-5" />
-                    </div>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Recommended Course</span>
+                     <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shadow-sm">
+                       <BookOpen className="w-5 h-5" />
+                     </div>
+                     <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{t('academic.recommendedCourse')}</span>
                   </div>
                   <h4 className="text-lg font-bold text-slate-800 mb-2">
-                    {COURSES.find(c => c.id === activeRec?.course)?.title}
+                    {t(COURSES.find(c => c.id === activeRec?.course)?.titleKey)}
                   </h4>
                   <p className="text-sm text-slate-500 leading-relaxed mb-4">
-                    {COURSES.find(c => c.id === activeRec?.course)?.description}
+                    {t(COURSES.find(c => c.id === activeRec?.course)?.descKey)}
                   </p>
                 </div>
                 <Link
                   to="/products"
                   className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 group mt-auto"
                 >
-                  <span>Inquire for this syllabus</span>
+                  <span>{t('academic.inquireSyllabus')}</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
@@ -585,10 +588,10 @@ export default function AcademicTraining() {
       <section id="labs" className="max-w-7xl mx-auto px-6 mb-32 relative z-10 scroll-mt-24">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Hands-on Experimental Laboratories
+            {t('academic.handsOnLabs')}
           </h2>
           <p className="text-base text-slate-500 font-medium max-w-2xl mx-auto mt-3">
-            Real laboratory tasks that students can perform to gain command over advanced QCM hardware and biosensing interfaces.
+            {t('academic.handsOnLabsDesc')}
           </p>
         </div>
 
@@ -615,23 +618,23 @@ export default function AcademicTraining() {
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-800 mb-1 leading-snug group-hover:text-blue-600 transition-colors">
-                  {lab.title}
+                  {t(lab.titleKey)}
                 </h3>
                 <span className="text-[13px] font-bold text-slate-400 block mb-4">
-                  {lab.subtitle}
+                  {t(lab.subtitleKey)}
                 </span>
                 
                 <p className="text-sm text-slate-500 mb-6 leading-relaxed">
-                  {lab.description}
+                  {t(lab.descKey)}
                 </p>
 
                 <div className="border-t border-slate-100 pt-5 mb-6">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Key Skills Taught</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">{t('academic.keySkills')}</span>
                   <ul className="space-y-2">
-                    {lab.topics.map((t, idx) => (
+                    {t(lab.topicsKey).map((topicItem, idx) => (
                       <li key={idx} className="flex items-center gap-2.5 text-slate-700 text-sm font-medium">
                         <span className="w-5 h-5 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xs shrink-0">✓</span>
-                        {t}
+                        {topicItem}
                       </li>
                     ))}
                   </ul>
@@ -639,8 +642,8 @@ export default function AcademicTraining() {
               </div>
 
               <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100/50">
-                <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Duration</span>
-                <span className="text-sm font-bold text-blue-600 bg-blue-50/60 px-3 py-1 rounded-full">{lab.duration}</span>
+                <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">{t('academic.duration')}</span>
+                <span className="text-sm font-bold text-blue-600 bg-blue-50/60 px-3 py-1 rounded-full">{t(lab.durationKey)}</span>
               </div>
             </motion.div>
           ))}
@@ -651,10 +654,10 @@ export default function AcademicTraining() {
       <section id="courses" className="max-w-7xl mx-auto px-6 relative z-10 scroll-mt-24">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Academic Courses & Curricula
+            {t('academic.academicCourses')}
           </h2>
           <p className="text-base text-slate-500 font-medium max-w-2xl mx-auto mt-3">
-            Structured study plans recommended for undergraduate and graduate syllabus integrations.
+            {t('academic.academicCoursesDesc')}
           </p>
         </div>
 
@@ -675,23 +678,23 @@ export default function AcademicTraining() {
               <div>
                 <div className="flex justify-between items-center mb-6">
                   <span className={`px-3 py-1 rounded-full text-xs font-bold border ${course.levelColor}`}>
-                    {course.level}
+                    {t(course.levelKey)}
                   </span>
-                  <span className="text-xs text-slate-400 font-semibold">{course.duration}</span>
+                  <span className="text-xs text-slate-400 font-semibold">{t(course.durationKey)}</span>
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-800 mb-4 leading-snug">
-                  {course.title}
+                  {t(course.titleKey)}
                 </h3>
                 
                 <p className="text-sm text-slate-500 mb-6 leading-relaxed font-light">
-                  {course.description}
+                  {t(course.descKey)}
                 </p>
 
                 <div className="border-t border-slate-100 pt-5">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">Syllabus Competencies</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-3">{t('academic.syllabusCompetencies')}</span>
                   <div className="flex flex-wrap gap-2">
-                    {course.skills.map((s, idx) => (
+                    {t(course.skillsKey).map((s, idx) => (
                       <span key={idx} className="bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200/30">
                         {s}
                       </span>
@@ -705,7 +708,7 @@ export default function AcademicTraining() {
                   to="/contacts"
                   className="w-full bg-slate-900 text-white hover:bg-blue-600 font-semibold py-3 rounded-xl transition-colors text-center text-sm inline-block shadow-sm"
                 >
-                  Request Syllabus Details
+                  {t('academic.requestSyllabus')}
                 </Link>
               </div>
             </motion.div>
@@ -729,10 +732,10 @@ export default function AcademicTraining() {
               <Users className="w-6 h-6" />
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
-              Our team is ready to support every student's journey
+              {t('academic.teamSupport')}
             </h2>
             <p className="text-base text-slate-500 max-w-2xl mx-auto font-medium">
-              The experts and innovators driving the future of biomolecular sensing at Surazense.
+              {t('academic.teamSupportDesc')}
             </p>
           </motion.div>
 
@@ -752,9 +755,9 @@ export default function AcademicTraining() {
                 <div className="relative w-44 h-44 md:w-48 md:h-48 mb-6 overflow-hidden rounded-full border-4 border-white shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
                   <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 rounded-full"></div>
                   <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className={`w-full h-full object-cover transition-transform duration-500 ${member.scaleClass || 'scale-100'} ${member.hoverScaleClass || 'group-hover:scale-105'} ${member.position || 'object-top'}`}
+                     src={member.image} 
+                     alt={member.name} 
+                     className={`w-full h-full object-cover transition-transform duration-500 ${member.scaleClass || 'scale-100'} ${member.hoverScaleClass || 'group-hover:scale-105'} ${member.position || 'object-top'}`}
                   />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{member.name}</h3>

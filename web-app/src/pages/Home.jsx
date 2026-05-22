@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SolutionOption3 from '../components/SolutionOption3';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Home() {
+  const { language, t } = useLanguage();
   const [currentIdx, setCurrentIdx] = useState(0);
   const productImages = [
     '/x-zense-101.jpg', // Main device image
@@ -11,10 +13,10 @@ export default function Home() {
   ];
 
   const solutionSteps = [
-    { num: 1, title: "Patient Visit", desc: "Local clinic or hospital check-in", icon: <path d="M3 21h18 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16 M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4 M10 9h4 M12 7v4" strokeLinecap="round" strokeLinejoin="round" /> },
-    { num: 2, title: "Blood Extraction", desc: "Routine minimum invasive collection", icon: <><path d="m18 2 4 4" strokeLinecap="round" strokeLinejoin="round"/><path d="m17 7 3-3" strokeLinecap="round" strokeLinejoin="round"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5" strokeLinecap="round" strokeLinejoin="round"/><path d="m9 11 4 4" strokeLinecap="round" strokeLinejoin="round"/><path d="m5 19-3 3" strokeLinecap="round" strokeLinejoin="round"/><path d="m14 4 6 6" strokeLinecap="round" strokeLinejoin="round"/></> },
-    { num: 3, title: "Cell-free DNA", desc: "Isolating target biomarker elements", icon: <><path d="M9 2v17.5A2.5 2.5 0 0 0 11.5 22A2.5 2.5 0 0 0 14 19.5V2" strokeLinecap="round" strokeLinejoin="round"/><path d="M8.5 2h7" strokeLinecap="round" strokeLinejoin="round"/><path d="M14 9H9" strokeLinecap="round" strokeLinejoin="round"/></> },
-    { num: 4, title: "Measurement", desc: "X-ZENSE 101 automated analysis", icon: <><rect x="2" y="3" width="20" height="14" rx="2" ry="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="2" y1="20" x2="22" y2="20" strokeLinecap="round" strokeLinejoin="round"/></> }
+    { num: 1, title: t('home.step1Title'), desc: t('home.step1Desc'), icon: <path d="M3 21h18 M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16 M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4 M10 9h4 M12 7v4" strokeLinecap="round" strokeLinejoin="round" /> },
+    { num: 2, title: t('home.step2Title'), desc: t('home.step2Desc'), icon: <><path d="m18 2 4 4" strokeLinecap="round" strokeLinejoin="round"/><path d="m17 7 3-3" strokeLinecap="round" strokeLinejoin="round"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5" strokeLinecap="round" strokeLinejoin="round"/><path d="m9 11 4 4" strokeLinecap="round" strokeLinejoin="round"/><path d="m5 19-3 3" strokeLinecap="round" strokeLinejoin="round"/><path d="m14 4 6 6" strokeLinecap="round" strokeLinejoin="round"/></> },
+    { num: 3, title: t('home.step3Title'), desc: t('home.step3Desc'), icon: <><path d="M9 2v17.5A2.5 2.5 0 0 0 11.5 22A2.5 2.5 0 0 0 14 19.5V2" strokeLinecap="round" strokeLinejoin="round"/><path d="M8.5 2h7" strokeLinecap="round" strokeLinejoin="round"/><path d="M14 9H9" strokeLinecap="round" strokeLinejoin="round"/></> },
+    { num: 4, title: t('home.step4Title'), desc: t('home.step4Desc'), icon: <><rect x="2" y="3" width="20" height="14" rx="2" ry="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="2" y1="20" x2="22" y2="20" strokeLinecap="round" strokeLinejoin="round"/></> }
   ];
 
   const nextSlide = () => setCurrentIdx((prev) => (prev + 1) % productImages.length);
@@ -28,6 +30,16 @@ export default function Home() {
     // Cleanup interval on unmount
     return () => clearInterval(slideInterval);
   }, [productImages.length]);
+
+  const titleLine1 = t('home.heroTitleLine1');
+  const spaceIdx = titleLine1.indexOf(' ');
+  const part1 = spaceIdx !== -1 ? titleLine1.slice(0, spaceIdx) : titleLine1;
+  const part2 = spaceIdx !== -1 ? titleLine1.slice(spaceIdx + 1) : '';
+
+  const heroTitleLine2 = t('home.heroTitleLine2');
+  const cleanLine2 = language === 'en' 
+    ? heroTitleLine2.replace(/^for\s+/i, '') 
+    : heroTitleLine2.replace(/^เพื่อ/i, '');
 
   return (
     <>
@@ -70,12 +82,12 @@ export default function Home() {
             style={{ fontSize: 'clamp(2.25rem, 3vw, 52px)', filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.4))' }}
           >
             <span className="whitespace-nowrap">
-              <span className="text-slate-900">Sensor</span>{' '}
-              <span className="text-slate-700">Technology</span>
+              <span className="text-slate-900">{part1}</span>{' '}
+              {part2 && <span className="text-slate-700">{part2}</span>}
             </span>
             <span className="whitespace-nowrap mt-1 lg:mt-3">
-              <span className="text-slate-400">for</span>{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-sky-400">Diagnostic</span>
+              <span className="text-slate-400">{t('home.heroTitleFor')}</span>{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-sky-400">{cleanLine2}</span>
             </span>
           </motion.h1>
 
@@ -83,7 +95,7 @@ export default function Home() {
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: "easeOut" } } }}
             className="text-lg lg:text-xl text-slate-500 mb-12 leading-relaxed max-w-[540px]"
           >
-            We're all about boosting health systems with our biosensor tech and are working to make better biosensors for detecting cancer.
+            {t('home.heroDesc')}
           </motion.p>
 
           <motion.div
@@ -91,10 +103,10 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto"
           >
             <Link to="/products" className="bg-accent text-white px-8 py-4 rounded-full font-semibold text-[15px] transition-all hover:bg-accent-hover hover:-translate-y-1 hover:shadow-[0_8px_25px_rgba(2,132,199,0.35)] min-w-[200px] flex justify-center items-center">
-              Explore Technology
+              {t('home.exploreTech')}
             </Link>
             <Link to="/about" className="bg-white text-slate-700 border-2 border-slate-200 px-8 py-4 rounded-full font-semibold text-[15px] transition-all hover:border-slate-300 hover:bg-slate-50 hover:-translate-y-1 hover:shadow-sm min-w-[160px] flex justify-center items-center">
-              Learn More
+              {t('home.learnMore')}
             </Link>
           </motion.div>
         </motion.div>
@@ -146,9 +158,9 @@ export default function Home() {
             transition={{ duration: 1.2 }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-5">Featured Products</h2>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-5">{t('home.featuredProducts')}</h2>
             <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed">
-              Discover the state-of-the-art biosensor technology designed to deliver unprecedented accuracy and seamless clinical workflows.
+              {t('home.featuredProductsDesc')}
             </p>
           </motion.div>
 
@@ -202,27 +214,27 @@ export default function Home() {
               <h3 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">X-ZENSE 101</h3>
 
               <p className="text-xl text-slate-500 mb-10 leading-relaxed font-light">
-                The complete diagnostic package including our core hardware device and intuitive software monitoring suite. Engineered for extreme precision in detecting mass variations down to the molecular level.
+                {t('home.xzenseDesc')}
               </p>
 
               <ul className="space-y-4 mb-10 text-left">
                 <li className="flex items-center gap-4 text-slate-700 font-medium text-lg">
                   <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center shadow-md flex-shrink-0">✓</div>
-                  Advanced QCM sensing technology
+                  {t('home.xzensePoint1')}
                 </li>
                 <li className="flex items-center gap-4 text-slate-700 font-medium text-lg">
                   <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center shadow-md flex-shrink-0">✓</div>
-                  Enterprise software suite included
+                  {t('home.xzensePoint2')}
                 </li>
                 <li className="flex items-center gap-4 text-slate-700 font-medium text-lg">
                   <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center shadow-md flex-shrink-0">✓</div>
-                  Seamless clinical dashboard integration
+                  {t('home.xzensePoint3')}
                 </li>
               </ul>
 
               <div className="self-center lg:self-start mt-2">
                 <Link to="/technology" className="bg-slate-900 text-white px-8 py-4 rounded-full font-semibold text-[15px] transition-all hover:bg-accent hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(2,132,199,0.3)] inline-flex items-center gap-3">
-                  Explore X-ZENSE 101
+                  {t('home.exploreXzense')}
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                 </Link>
               </div>
@@ -245,10 +257,10 @@ export default function Home() {
           >
 
             <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-5">
-              Wide range of applications
+              {t('home.applications')}
             </h2>
             <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed">
-              Our sensory technology is engineered to meet the demanding requirements of diverse research fields.
+              {t('home.applicationsDesc')}
             </p>
           </motion.div>
 
@@ -278,32 +290,32 @@ export default function Home() {
 
             <AppCard
               index={0}
-              title="Material Science"
-              desc="Analyzing surface properties with extreme precision."
+              title={t('home.appMaterialScience')}
+              desc={t('home.appMaterialScienceDesc')}
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.3 14.8a10 10 0 0 0-14.6-5.6"></path><path d="M4.7 14.8a10 10 0 0 0 14.6-5.6"></path><path d="M9.2 4.7a10 10 0 0 0-5.6 14.6"></path><path d="M14.8 19.3a10 10 0 0 0 5.6-14.6"></path></svg>}
             />
             <AppCard
               index={1}
-              title="Biochemistry"
-              desc="Molecular diagnostics and tracking viral particles."
+              title={t('home.appBiochemistry')}
+              desc={t('home.appBiochemistryDesc')}
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 5l2 2" /><path d="M17 5l-2 2" /><path d="M5 19l2-2" /><path d="M17 19l-2-2" /><rect x="7" y="7" width="10" height="10" rx="2" /><circle cx="10" cy="10" r="1.5" /><circle cx="14" cy="14" r="1.5" /><path d="M14 10h.01" /><path d="M10 14h.01" /></svg>}
             />
             <AppCard
               index={2}
-              title="Drug Discovery"
-              desc="Instantaneous binding kinetics and compound verification."
+              title={t('home.appDrugDiscovery')}
+              desc={t('home.appDrugDiscoveryDesc')}
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10.5 4.5a3.53 3.53 0 0 0-5 0v0a3.53 3.53 0 0 0 0 5l8 8a3.53 3.53 0 0 0 5 0v0a3.53 3.53 0 0 0 0-5l-8-8z" /><path d="M12 18l3-3" /><path d="M15 21l3-3" /><line x1="16.5" x2="7.5" y1="7.5" y2="16.5" /></svg>}
             />
             <AppCard
               index={3}
-              title="Nanotech"
-              desc="Sub-micron particle detection supporting micro-processors."
+              title={t('home.appNanotech')}
+              desc={t('home.appNanotechDesc')}
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>}
             />
             <AppCard
               index={4}
-              title="Environmental"
-              desc="Resilient sensing arrays for toxin and ecological monitoring."
+              title={t('home.appEnvironmental')}
+              desc={t('home.appEnvironmentalDesc')}
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line><polyline points="5 10 9 10 12 5 15 14 18 10 21 10"></polyline></svg>}
             />
           </motion.div>
@@ -323,10 +335,10 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-5 tracking-tight">
-              Solution
+              {t('home.solutionTitle')}
             </h2>
             <p className="text-[16px] text-slate-500 font-medium max-w-xl mx-auto leading-relaxed">
-              <strong>4 Steps to Rapid Diagnosis.</strong> A streamlined, fast, and highly accurate cancer screening process powered by advanced biosensor technology.
+              {t('home.solutionDesc')}
             </p>
           </motion.div>
 
@@ -348,10 +360,10 @@ export default function Home() {
           >
 
             <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-5">
-              Strategic Partners & Distributors
+              {t('home.partnersTitle')}
             </h2>
             <p className="text-lg text-slate-500 font-medium leading-relaxed">
-              We collaborate with globally recognized technology institutions and exclusive distributors to deliver state-of-the-art sensor solutions.
+              {t('home.partnersDesc')}
             </p>
           </motion.div>
         </div>
@@ -438,7 +450,7 @@ export default function Home() {
               viewport={{ once: false, amount: 0.8 }}
               className="mb-8"
             >
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">Awards</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">{t('home.awardsTitle')}</h3>
               <div className="w-[40px] h-[4px] bg-[#2D9CDB] rounded-full shadow-sm"></div>
             </motion.div>
 
@@ -452,9 +464,9 @@ export default function Home() {
               className="grid grid-cols-1 md:grid-cols-3 gap-6"
             >
               {[
-                { title: "National Innovation Award", src: "/award-1.jpg" },
-                { title: "Best MedTech Startup", src: "/award-2.jpg" },
-                { title: "Excellence in Research", src: "/award-3.jpg" }
+                { title: t('home.nationalInnovationAward'), src: "/award-1.jpg" },
+                { title: t('home.bestMedTechStartup'), src: "/award-2.jpg" },
+                { title: t('home.excellenceInResearch'), src: "/award-3.jpg" }
               ].map((item, idx) => (
                 <GridPhotoCard key={idx} title={item.title} src={item.src} />
               ))}
@@ -469,7 +481,7 @@ export default function Home() {
               viewport={{ once: false, amount: 0.8 }}
               className="mb-8"
             >
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">Events</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">{t('home.eventsTitle')}</h3>
               <div className="w-[40px] h-[4px] bg-[#2D9CDB] rounded-full shadow-sm"></div>
             </motion.div>
 
@@ -483,9 +495,9 @@ export default function Home() {
               className="grid grid-cols-1 md:grid-cols-3 gap-6"
             >
               {[
-                { title: "Global Health Expo", src: "/event-1.png" },
-                { title: "Medical Tech Conference", src: "/event-2.png" },
-                { title: "Synchrotron Symposium", src: "/event-3.png" }
+                { title: t('home.globalHealthExpo'), src: "/event-1.png" },
+                { title: t('home.medicalTechConference'), src: "/event-2.png" },
+                { title: t('home.synchrotronSymposium'), src: "/event-3.png" }
               ].map((item, idx) => (
                 <GridPhotoCard key={idx} title={item.title} src={item.src} />
               ))}

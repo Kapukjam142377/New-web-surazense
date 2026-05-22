@@ -14,30 +14,33 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import AcademicTraining from './pages/AcademicTraining';
 import { CartProvider } from './context/CartContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/technology" element={<Technology />} />
-            <Route path="/collaboration" element={<Collaboration />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/academic-training" element={<AcademicTraining />} />
-            
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    </CartProvider>
+    <LanguageProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/:id" element={<ProductDetail />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/technology" element={<Technology />} />
+              <Route path="/collaboration" element={<Collaboration />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/academic-training" element={<AcademicTraining />} />
+              
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </CartProvider>
+    </LanguageProvider>
   );
 }
 

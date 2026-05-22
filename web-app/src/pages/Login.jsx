@@ -1,7 +1,9 @@
 import React from 'react';
 import { Mail, Key } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Login() {
+  const { t } = useLanguage();
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(350px, 1fr)', minHeight: 'calc(100vh - 120px)', alignItems: 'center' }}>
       
@@ -22,7 +24,7 @@ export default function Login() {
         }}>
           
           <h2 style={{ textAlign: 'center', marginBottom: '1.25rem', color: '#111827', fontSize: '1.4rem', fontWeight: 700 }}>
-            Login your account!
+            {t('login.loginHeader')}
           </h2>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -31,7 +33,7 @@ export default function Login() {
               <Mail style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} size={16} />
               <input 
                 type="email" 
-                placeholder="Email" 
+                placeholder={t('login.emailPlaceholder')} 
                 style={{ width: '100%', boxSizing: 'border-box', padding: '0.75rem 1rem 0.75rem 2.5rem', borderRadius: '8px', border: 'none', fontSize: '0.9rem', outline: 'none', color: '#333' }} 
               />
             </div>
@@ -41,7 +43,7 @@ export default function Login() {
               <Key style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} size={16} />
               <input 
                 type="password" 
-                placeholder="Password" 
+                placeholder={t('login.passwordPlaceholder')} 
                 style={{ width: '100%', boxSizing: 'border-box', padding: '0.75rem 1rem 0.75rem 2.5rem', borderRadius: '8px', border: 'none', fontSize: '0.9rem', outline: 'none', color: '#333' }} 
               />
             </div>
@@ -51,14 +53,14 @@ export default function Login() {
               <Key style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} size={16} />
               <input 
                 type="password" 
-                placeholder="Password" 
+                placeholder={t('login.passwordPlaceholder')} 
                 style={{ width: '100%', boxSizing: 'border-box', padding: '0.75rem 1rem 0.75rem 2.5rem', borderRadius: '8px', border: 'none', fontSize: '0.9rem', outline: 'none', color: '#333' }} 
               />
             </div>
           </div>
 
           <div style={{ textAlign: 'right', marginTop: '0.5rem', marginBottom: '1rem' }}>
-            <a href="#" style={{ color: '#111827', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 500 }}>Forgot password?</a>
+            <a href="#" style={{ color: '#111827', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 500 }}>{t('login.forgotPassword')}</a>
           </div>
 
           <button style={{ 
@@ -73,11 +75,11 @@ export default function Login() {
             cursor: 'pointer',
             boxShadow: '0 4px 15px rgba(56, 189, 248, 0.4)'
           }}>
-            Continue
+            {t('login.continue')}
           </button>
 
           <div style={{ textAlign: 'center', marginTop: '1.25rem', color: '#64748b', fontSize: '0.8rem' }}>
-            Sign in With
+            {t('login.signInWith')}
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1rem' }}>
@@ -96,7 +98,7 @@ export default function Login() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.8rem', color: '#111827' }}>
-            Dont have an account? <a href="#" style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600 }}>Sign up</a>
+            {t('login.dontHaveAccount')} <a href="#" style={{ color: '#38bdf8', textDecoration: 'none', fontWeight: 600 }}>{t('login.signUp')}</a>
           </div>
 
         </div>
