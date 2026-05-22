@@ -300,7 +300,24 @@ export const translations = {
       enterAge: "Age",
       enterDob: "YYYY-MM-DD",
       enterSpecimen: "e.g., Blood Serum",
-      enterDate: "YYYY-MM-DD"
+      enterDate: "YYYY-MM-DD",
+      dbConsole: "Database Console",
+      saveToDb: "Save to DB",
+      saving: "Saving...",
+      loading: "Loading...",
+      saveSuccess: "Report saved successfully to database!",
+      saveError: "Failed to save report to database.",
+      loadSuccess: "Report loaded successfully!",
+      loadError: "Failed to load report from database.",
+      deleteSuccess: "Report deleted successfully!",
+      deleteError: "Failed to delete report.",
+      savedReportsList: "Saved Reports History",
+      noSavedReports: "No reports saved in database yet.",
+      patientName: "Patient Name",
+      actions: "Actions",
+      load: "Load",
+      delete: "Delete",
+      close: "Close"
     }
   },
   th: {
@@ -604,7 +621,24 @@ export const translations = {
       enterAge: "อายุ",
       enterDob: "วัน/เดือน/ปี เกิด",
       enterSpecimen: "เช่น ซีรัมเลือด",
-      enterDate: "วัน/เดือน/ปี"
+      enterDate: "วัน/เดือน/ปี",
+      dbConsole: "ระบบฐานข้อมูล",
+      saveToDb: "บันทึกลงฐานข้อมูล",
+      saving: "กำลังบันทึก...",
+      loading: "กำลังโหลด...",
+      saveSuccess: "บันทึกรายงานลงฐานข้อมูลสำเร็จ!",
+      saveError: "ไม่สามารถบันทึกรายงานลงฐานข้อมูลได้",
+      loadSuccess: "โหลดรายงานสำเร็จ!",
+      loadError: "ไม่สามารถโหลดรายงานจากฐานข้อมูลได้",
+      deleteSuccess: "ลบรายงานสำเร็จ!",
+      deleteError: "ไม่สามารถลบรายงานได้",
+      savedReportsList: "ประวัติการบันทึกรายงาน",
+      noSavedReports: "ยังไม่มีรายงานที่ถูกบันทึกในฐานข้อมูล",
+      patientName: "ชื่อผู้ป่วย",
+      actions: "การจัดการ",
+      load: "โหลดข้อมูล",
+      delete: "ลบ",
+      close: "ปิด"
     }
   }
 };

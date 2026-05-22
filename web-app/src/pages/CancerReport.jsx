@@ -13,7 +13,9 @@ import {
   AlertCircle, 
   Info, 
   FlaskConical, 
-  Lock 
+  Lock,
+  Trash2,
+  Database
 } from 'lucide-react';
 
 // Helper to convert OKLCH computed colors to standard RGB/Hex dynamically using browser canvas API
@@ -168,6 +170,154 @@ export default function CancerReport() {
   const { t, language } = useLanguage();
   const [activeTab, setActiveTab] = useState('tumor'); // 'tumor' | 'genetics'
   const [isExporting, setIsExporting] = useState(false);
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const [savedReports, setSavedReports] = useState([]);
+  const [isLoadingSaved, setIsLoadingSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showSavedDrawer, setShowSavedDrawer] = useState(false);
+  const [toast, setToast] = useState({ message: '', type: null });
+
+  // Auto-hide toast notifications after 3 seconds
+  useEffect(() => {
+    if (toast.message) {
+      const timer = setTimeout(() => {
+        setToast({ message: '', type: null });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast.message]);
+
+  const fetchSavedReports = async () => {
+    setIsLoadingSaved(true);
+    try {
+      const res = await fetch(`${API_URL}/api/reports`);
+      if (!res.ok) throw new Error('Fetch failed');
+      const data = await res.json();
+      setSavedReports(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoadingSaved(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSavedReports();
+  }, []);
+
+  const handleSaveReport = async () => {
+    if (!patient.name.trim()) {
+      setToast({ 
+        message: language === 'th' ? 'กรุณากรอกชื่อผู้ป่วยก่อนบันทึก' : 'Please enter patient name before saving', 
+        type: 'error' 
+      });
+      return;
+    }
+    setIsSaving(true);
+    try {
+      const body = {
+        specimen1: patient.specimen1 || null,
+        specimen2: patient.specimen2 || null,
+        collecting_date: patient.collectingDate || null,
+        receiving_date: patient.receivingDate || null,
+        testing_date: patient.testingDate || null,
+        patient: {
+          name: patient.name,
+          sex: patient.sex || null,
+          age: patient.age ? parseInt(patient.age, 10) : null,
+          dob: patient.dob || null
+        },
+        markers: {
+          psa: markers.psa ? parseFloat(markers.psa) : null,
+          cea: markers.cea ? parseFloat(markers.cea) : null,
+          ca153: markers.ca153 ? parseFloat(markers.ca153) : null,
+          afp: markers.afp ? parseFloat(markers.afp) : null,
+          hpv: markers.hpv || null,
+          ctcs: markers.ctcs ? parseFloat(markers.ctcs) : null,
+          pca3: markers.pca3 ? parseFloat(markers.pca3) : null,
+          dlx1: markers.dlx1 || null
+        },
+        genetics: {
+          exon20: genetics.exon20 ? parseFloat(genetics.exon20) : null,
+          g719x: genetics.g719x ? parseFloat(genetics.g719x) : null,
+          exon19: genetics.exon19 ? parseFloat(genetics.exon19) : null,
+          l858r: genetics.l858r ? parseFloat(genetics.l858r) : null
+        }
+      };
+
+      const res = await fetch(`${API_URL}/api/reports`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      if (!res.ok) throw new Error('Save failed');
+      
+      setToast({ message: t('cancerReportPage.saveSuccess'), type: 'success' });
+      fetchSavedReports();
+    } catch (err) {
+      console.error(err);
+      setToast({ message: t('cancerReportPage.saveError'), type: 'error' });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleLoadReport = (report) => {
+    try {
+      setPatient({
+        name: report.patient?.name || '',
+        sex: report.patient?.sex || '',
+        age: report.patient?.age !== null && report.patient?.age !== undefined ? String(report.patient.age) : '',
+        dob: report.patient?.dob || '',
+        specimen1: report.specimen1 || '',
+        specimen2: report.specimen2 || '',
+        collectingDate: report.collecting_date || '',
+        receivingDate: report.receiving_date || '',
+        testingDate: report.testing_date || ''
+      });
+
+      setMarkers({
+        psa: report.markers?.psa !== null && report.markers?.psa !== undefined ? String(report.markers.psa) : '',
+        cea: report.markers?.cea !== null && report.markers?.cea !== undefined ? String(report.markers.cea) : '',
+        ca153: report.markers?.ca153 !== null && report.markers?.ca153 !== undefined ? String(report.markers.ca153) : '',
+        afp: report.markers?.afp !== null && report.markers?.afp !== undefined ? String(report.markers.afp) : '',
+        hpv: report.markers?.hpv || '',
+        ctcs: report.markers?.ctcs !== null && report.markers?.ctcs !== undefined ? String(report.markers.ctcs) : '',
+        pca3: report.markers?.pca3 !== null && report.markers?.pca3 !== undefined ? String(report.markers.pca3) : '',
+        dlx1: report.markers?.dlx1 || ''
+      });
+
+      setGenetics({
+        exon20: report.genetics?.exon20 !== null && report.genetics?.exon20 !== undefined ? String(report.genetics.exon20) : '',
+        g719x: report.genetics?.g719x !== null && report.genetics?.g719x !== undefined ? String(report.genetics.g719x) : '',
+        exon19: report.genetics?.exon19 !== null && report.genetics?.exon19 !== undefined ? String(report.genetics.exon19) : '',
+        l858r: report.genetics?.l858r !== null && report.genetics?.l858r !== undefined ? String(report.genetics.l858r) : ''
+      });
+
+      setToast({ message: t('cancerReportPage.loadSuccess'), type: 'success' });
+      setShowSavedDrawer(false);
+    } catch (err) {
+      console.error(err);
+      setToast({ message: t('cancerReportPage.loadError'), type: 'error' });
+    }
+  };
+
+  const handleDeleteReport = async (reportId) => {
+    if (!window.confirm(language === 'th' ? 'คุณแน่ใจหรือไม่ที่จะลบรายงานนี้?' : 'Are you sure you want to delete this report?')) return;
+    try {
+      const res = await fetch(`${API_URL}/api/reports/${reportId}`, {
+        method: 'DELETE'
+      });
+      if (!res.ok) throw new Error('Delete failed');
+      setSavedReports(prev => prev.filter(r => r.id !== reportId));
+      setToast({ message: t('cancerReportPage.deleteSuccess'), type: 'success' });
+    } catch (err) {
+      console.error(err);
+      setToast({ message: t('cancerReportPage.deleteError'), type: 'error' });
+    }
+  };
 
   // Editable Patient Info State
   const [patient, setPatient] = useState({
@@ -911,7 +1061,25 @@ export default function CancerReport() {
             </div>
 
             {/* Document Print/Export actions */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap justify-end">
+              <button
+                onClick={() => {
+                  fetchSavedReports();
+                  setShowSavedDrawer(true);
+                }}
+                className="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-extrabold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+              >
+                <Database className="w-4 h-4 text-slate-400" />
+                {t('cancerReportPage.dbConsole')}
+              </button>
+              <button
+                onClick={handleSaveReport}
+                disabled={isSaving}
+                className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs font-extrabold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-md shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <CheckCircle2 className="w-4 h-4 text-white/80" />
+                {isSaving ? t('cancerReportPage.saving') : t('cancerReportPage.saveToDb')}
+              </button>
               <button
                 onClick={handleExport}
                 className="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-extrabold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm"
@@ -932,6 +1100,112 @@ export default function CancerReport() {
 
         </div>
       </div>
+
+      {/* Toast Notification */}
+      {toast.message && (
+        <div className="fixed bottom-5 right-5 z-[100] max-w-sm w-full bg-white/90 backdrop-blur-md border border-slate-100 rounded-2xl shadow-xl p-4 flex items-center gap-3.5 animate-slide-in no-print">
+          {toast.type === 'success' ? (
+            <CheckCircle2 className="w-6 h-6 text-emerald-500 shrink-0" />
+          ) : (
+            <AlertCircle className="w-6 h-6 text-rose-500 shrink-0" />
+          )}
+          <span className="text-sm font-bold text-slate-800 leading-snug">{toast.message}</span>
+        </div>
+      )}
+
+      {/* Saved Reports Sidebar Drawer */}
+      {showSavedDrawer && (
+        <div className="fixed inset-0 z-50 flex justify-end no-print">
+          {/* Backdrop */}
+          <div 
+            onClick={() => setShowSavedDrawer(false)}
+            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
+          />
+          
+          {/* Drawer Body */}
+          <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col z-10 animate-slide-left">
+            {/* Header */}
+            <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <div className="flex items-center gap-2">
+                <Database className="w-5 h-5 text-blue-600" />
+                <h3 className="text-base font-extrabold text-slate-900 tracking-tight">
+                  {t('cancerReportPage.savedReportsList')}
+                </h3>
+              </div>
+              <button 
+                onClick={() => setShowSavedDrawer(false)}
+                className="p-2 hover:bg-slate-100 rounded-full transition-all text-slate-400 hover:text-slate-600 cursor-pointer border-0"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* List */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              {isLoadingSaved ? (
+                <div className="flex flex-col items-center justify-center h-48 gap-3">
+                  <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                  <p className="text-xs font-semibold text-slate-400">{t('cancerReportPage.loading')}</p>
+                </div>
+              ) : savedReports.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-48 text-center px-4">
+                  <Database className="w-10 h-10 text-slate-300 mb-3" />
+                  <p className="text-sm font-bold text-slate-800">{t('cancerReportPage.noSavedReports')}</p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    {language === 'th' ? 'กรอกข้อมูลแล้วคลิก "บันทึกลงฐานข้อมูล" เพื่อเริ่มสะสมประวัติ' : 'Fill details and click "Save to DB" to start building records.'}
+                  </p>
+                </div>
+              ) : (
+                savedReports.map((report) => (
+                  <div 
+                    key={report.id} 
+                    className="border border-slate-100 hover:border-blue-100 rounded-2xl p-4.5 bg-slate-50/30 hover:bg-blue-50/10 transition-all flex flex-col gap-3.5 group shadow-sm shadow-slate-100/50"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="text-sm font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors">
+                          {report.patient?.name || 'Unnamed Patient'}
+                        </h4>
+                        <p className="text-[11px] text-slate-400 font-semibold mt-1">
+                          {report.patient?.sex ? `${report.patient.sex} • ` : ''}
+                          {report.patient?.age ? `${report.patient.age} ${language === 'th' ? 'ปี' : 'years'}` : ''}
+                        </p>
+                      </div>
+                      <span className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-500 rounded-md font-bold">
+                        ID: {report.id}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1 text-[11px] text-slate-400 font-semibold">
+                      <Calendar className="w-3.5 h-3.5 shrink-0" />
+                      <span>{t('cancerReportPage.collectingDate')}: {report.collecting_date || '-'}</span>
+                    </div>
+
+                    <div className="flex items-center justify-end gap-2.5 pt-2.5 border-t border-slate-100/80">
+                      <button
+                        onClick={() => handleLoadReport(report)}
+                        className="px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700 text-xs font-extrabold rounded-lg transition-all border-0 cursor-pointer flex items-center gap-1.5"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        {t('cancerReportPage.load')}
+                      </button>
+                      <button
+                        onClick={() => handleDeleteReport(report.id)}
+                        className="px-3.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 hover:text-rose-700 text-xs font-extrabold rounded-lg transition-all border-0 cursor-pointer flex items-center gap-1.5"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        {t('cancerReportPage.delete')}
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
