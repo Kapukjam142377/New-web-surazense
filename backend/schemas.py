@@ -1,13 +1,35 @@
 from pydantic import BaseModel, ConfigDict
-from typing import Optional
+from typing import Optional, List
 from datetime import date, datetime
 
-# Patient Schema
+# User Schemas
+class UserBase(BaseModel):
+    username: Optional[str] = None
+    email: str
+    role: str = "customer" # 'patient', 'doctor', 'customer', 'admin'
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    phone: Optional[str] = None
+
+class UserCreate(UserBase):
+    password: str
+
+class User(UserBase):
+    id: int
+    is_active: bool
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+# Patient Schemas
 class PatientBase(BaseModel):
     name: str
     sex: Optional[str] = None
     age: Optional[int] = None
     dob: Optional[date] = None
+    user_id: Optional[int] = None
 
 class PatientCreate(PatientBase):
     pass
@@ -19,7 +41,8 @@ class Patient(PatientBase):
     
     model_config = ConfigDict(from_attributes=True)
 
-# Tumor Marker Schema
+
+# Tumor Marker Schemas
 class TumorMarkerBase(BaseModel):
     psa: Optional[float] = None
     cea: Optional[float] = None
@@ -39,7 +62,8 @@ class TumorMarker(TumorMarkerBase):
 
     model_config = ConfigDict(from_attributes=True)
 
-# Genetic Mutation Schema
+
+# Genetic Mutation Schemas
 class GeneticMutationBase(BaseModel):
     exon20: Optional[float] = None
     g719x: Optional[float] = None
@@ -55,8 +79,10 @@ class GeneticMutation(GeneticMutationBase):
 
     model_config = ConfigDict(from_attributes=True)
 
-# Medical Report Schema
+
+# Medical Report Schemas
 class MedicalReportBase(BaseModel):
+    doctor_id: Optional[int] = None
     specimen1: Optional[str] = None
     specimen2: Optional[str] = None
     collecting_date: Optional[date] = None
@@ -79,9 +105,31 @@ class MedicalReport(MedicalReportBase):
 
     model_config = ConfigDict(from_attributes=True)
 
+
+# Product Schemas
+class ProductBase(BaseModel):
+    name: str
+    sku: str
+    description: Optional[str] = None
+    price: float
+    image_url: Optional[str] = None
+    stock_quantity: int = 0
+    category: Optional[str] = None
+
+class ProductCreate(ProductBase):
+    pass
+
+class Product(ProductBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 # Order Item Schemas
 class OrderItemBase(BaseModel):
-    product_id: int
+    product_id: Optional[int] = None
     product_name: str
     price: float
     quantity: int
@@ -96,8 +144,30 @@ class OrderItem(OrderItemBase):
     model_config = ConfigDict(from_attributes=True)
 
 
+# Payment Transaction Schemas
+class PaymentTransactionBase(BaseModel):
+    order_id: int
+    gateway: str
+    transaction_ref: str
+    amount: float
+    currency: str = "THB"
+    status: str
+    payment_method: Optional[str] = None
+    raw_response: Optional[str] = None
+
+class PaymentTransactionCreate(PaymentTransactionBase):
+    pass
+
+class PaymentTransaction(PaymentTransactionBase):
+    id: int
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 # Order Schemas
 class OrderBase(BaseModel):
+    user_id: Optional[int] = None
     customer_name: str
     customer_email: str
     customer_phone: Optional[str] = None
@@ -105,7 +175,7 @@ class OrderBase(BaseModel):
     payment_method: str
 
 class OrderCreate(OrderBase):
-    items: list[OrderItemCreate]
+    items: List[OrderItemCreate]
 
 class OrderStatusUpdate(BaseModel):
     payment_status: Optional[str] = None
@@ -118,7 +188,49 @@ class Order(OrderBase):
     total_amount: float
     created_at: datetime
     updated_at: datetime
-    items: list[OrderItem]
+    items: List[OrderItem]
+    transactions: List[PaymentTransaction] = []
 
     model_config = ConfigDict(from_attributes=True)
 
+
+# Xzense Analysis Schemas
+class XzenseAnalysisBase(BaseModel):
+    title: str
+    measurement_type: str # 'single' or 'dual'
+    file1_name: str
+    file1_data: str # JSON string of relative_time & resonance_frequency
+    file2_name: Optional[str] = None
+    file2_data: Optional[str] = None
+    selected_time_start: Optional[float] = None
+    selected_time_end: Optional[float] = None
+    avg_frequency1: Optional[float] = None
+    avg_frequency2: Optional[float] = None
+    delta_f: Optional[float] = None
+
+class XzenseAnalysisCreate(XzenseAnalysisBase):
+    pass
+
+class XzenseAnalysis(XzenseAnalysisBase):
+    id: int
+    user_id: int
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+# Lab Registration Schemas
+class LabRegistrationBase(BaseModel):
+    course_id: str
+    status: str = "pending" # 'pending', 'confirmed', 'completed', 'cancelled'
+
+class LabRegistrationCreate(LabRegistrationBase):
+    pass
+
+class LabRegistration(LabRegistrationBase):
+    id: int
+    user_id: int
+    registration_date: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
