@@ -11,19 +11,19 @@ export class SerialService {
 
   _setupAutoConnectListeners() {
     if (navigator.serial) {
-      navigator.serial.addEventListener('connect', async (event) => {
+      navigator.serial.addEventListener("connect", async (event) => {
         // Automatically connect to the port that was just plugged in
         const port = event.target;
         this.port = port;
         try {
-            await this.connect(115200);
-            if (this.onConnectStatusChange) this.onConnectStatusChange(true);
+          await this.connect(115200);
+          if (this.onConnectStatusChange) this.onConnectStatusChange(true);
         } catch (e) {
-            console.error("Auto-connect failed:", e);
+          console.error("Auto-connect failed:", e);
         }
       });
 
-      navigator.serial.addEventListener('disconnect', (event) => {
+      navigator.serial.addEventListener("disconnect", (event) => {
         if (this.port === event.target) {
           this.disconnect();
           if (this.onConnectStatusChange) this.onConnectStatusChange(false);
@@ -49,28 +49,30 @@ export class SerialService {
 
   async requestPort() {
     try {
-        if (!navigator.serial) {
-            alert("เบราว์เซอร์ของคุณไม่รองรับ Web Serial API (แนะนำ Chrome / Edge)");
-            return false;
-        }
-        this.port = await navigator.serial.requestPort();
-        return true;
-    } catch (e) {
-        console.error("User cancelled port selection.");
+      if (!navigator.serial) {
+        alert(
+          "เบราว์เซอร์ของคุณไม่รองรับ Web Serial API (แนะนำ Chrome / Edge)",
+        );
         return false;
+      }
+      this.port = await navigator.serial.requestPort();
+      return true;
+    } catch (e) {
+      console.error("User cancelled port selection.");
+      return false;
     }
   }
 
   async connect(baudRate = 115200) {
     if (!this.port) return false;
-    
+
     // Prevent errors if already manually opened or locked
     if (this.port.readable) return true;
-    
+
     // Check if we are already in the middle of a connection attempt (React StrictMode)
     if (this.isConnecting) {
       // Short delay to wait for the other connection to finish
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise((r) => setTimeout(r, 500));
       return !!this.port?.readable;
     }
 
@@ -80,7 +82,7 @@ export class SerialService {
         baudRate: baudRate,
         dataBits: 8,
         stopBits: 1,
-        parity: 'none',
+        parity: "none",
       });
       this.isConnecting = false;
       return true;
@@ -94,7 +96,9 @@ export class SerialService {
   async disconnect() {
     this.keepReading = false;
     if (this.reader) {
-      try { await this.reader.cancel(); } catch(e) {}
+      try {
+        await this.reader.cancel();
+      } catch (e) {}
       this.reader = null;
     }
     if (this.writer) {
@@ -102,7 +106,9 @@ export class SerialService {
       this.writer = null;
     }
     if (this.port) {
-      try { await this.port.close(); } catch(e) {}
+      try {
+        await this.port.close();
+      } catch (e) {}
       this.port = null;
     }
   }
@@ -116,30 +122,30 @@ export class SerialService {
   }
 
   async readData() {
-     let buffer = "";
-     const decoder = new TextDecoder();
-     this.reader = this.port.readable.getReader();
+    let buffer = "";
+    const decoder = new TextDecoder();
+    this.reader = this.port.readable.getReader();
 
-     try {
-       while (this.keepReading) {
-         const { value, done } = await this.reader.read();
-         if (done) break;
-         
-         if (value) {
-           buffer += decoder.decode(value, { stream: true });
-           if (buffer.includes('s')) {
-             break;
-           }
-         }
-       }
-     } catch (error) {
-       console.error("Read error:", error);
-     } finally {
-       if (this.reader) {
-           this.reader.releaseLock();
-       }
-     }
-     return buffer;
+    try {
+      while (this.keepReading) {
+        const { value, done } = await this.reader.read();
+        if (done) break;
+
+        if (value) {
+          buffer += decoder.decode(value, { stream: true });
+          if (buffer.includes("s")) {
+            break;
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Read error:", error);
+    } finally {
+      if (this.reader) {
+        this.reader.releaseLock();
+      }
+    }
+    return buffer;
   }
 }
 

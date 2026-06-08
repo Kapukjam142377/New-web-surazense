@@ -1,22 +1,91 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, X, Image as ImageIcon, Menu, Home, Info, ShoppingBag, Briefcase, Cpu, Handshake, Newspaper, Phone } from 'lucide-react';
-import { useCart } from '../context/CartContext';
-import { useLanguage } from '../context/LanguageContext';
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  ShoppingCart,
+  X,
+  Image as ImageIcon,
+  Menu,
+  Home,
+  Info,
+  ShoppingBag,
+  Briefcase,
+  Cpu,
+  Handshake,
+  Newspaper,
+  Phone,
+  User,
+  LogOut,
+} from "lucide-react";
+import { useCart } from "../context/CartContext";
+import { useLanguage } from "../context/LanguageContext";
+import { useUser } from "../context/UserContext";
 
 export default function Layout({ children }) {
   const location = useLocation();
   const { cartItems, removeFromCart, itemCount, cartTotal } = useCart();
   const { language, toggleLanguage, t } = useLanguage();
+  const { user, login, register, logout } = useUser();
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginSidebarOpen, setIsLoginSidebarOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Auth Form States
+  const [authMode, setAuthMode] = useState("login"); // 'login' | 'signup'
+  const [authEmail, setAuthEmail] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [authUsername, setAuthUsername] = useState("");
+  const [authFirstName, setAuthFirstName] = useState("");
+  const [authLastName, setAuthLastName] = useState("");
+  const [authPhone, setAuthPhone] = useState("");
+  const [authError, setAuthError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
   const cartRef = useRef(null);
 
   // Close mobile drawer when changing page routes
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
+
+  const handleAuthSubmit = async (e) => {
+    e.preventDefault();
+    setAuthError("");
+    setIsSubmitting(true);
+
+    if (authMode === "login") {
+      const res = await login(authEmail, authPassword);
+      if (res.success) {
+        setIsLoginSidebarOpen(false);
+        setAuthEmail("");
+        setAuthPassword("");
+      } else {
+        setAuthError(res.message);
+      }
+    } else {
+      const res = await register({
+        email: authEmail,
+        password: authPassword,
+        username: authUsername,
+        first_name: authFirstName,
+        last_name: authLastName,
+        phone: authPhone,
+      });
+      if (res.success) {
+        setIsLoginSidebarOpen(false);
+        setAuthEmail("");
+        setAuthPassword("");
+        setAuthUsername("");
+        setAuthFirstName("");
+        setAuthLastName("");
+        setAuthPhone("");
+      } else {
+        setAuthError(res.message);
+      }
+    }
+    setIsSubmitting(false);
+  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -32,101 +101,184 @@ export default function Layout({ children }) {
 
   const isActive = (path) => {
     return location.pathname === path
-      ? 'text-accent font-semibold'
-      : 'text-slate-500 hover:text-accent font-medium';
+      ? "text-accent font-semibold"
+      : "text-slate-500 hover:text-accent font-medium";
   };
 
-  const linkBaseClass = "text-[13px] tracking-wider uppercase transition-colors duration-200";
+  const linkBaseClass =
+    "text-[13px] tracking-wider uppercase transition-colors duration-200";
 
   return (
     <div className="flex flex-col min-h-screen bg-transparent">
       <nav className="sticky top-0 z-50 bg-white/85 backdrop-blur-lg border-b border-sky-100 shadow-[0_4px_20px_-1px_rgba(0,0,0,0.03)] flex justify-between items-center px-6 py-3 lg:px-12 w-full">
-        <Link to="/" className="flex items-center gap-3 text-2xl font-extrabold text-accent no-underline tracking-tight">
-          <img src="/logo.png" alt="Surazense Logo" className="h-[46px] object-contain" />
+        <Link
+          to="/"
+          className="flex items-center gap-3 text-2xl font-extrabold text-accent no-underline tracking-tight"
+        >
+          <img
+            src="/logo.png"
+            alt="Surazense Logo"
+            className="h-[46px] object-contain"
+          />
           <span>Surazense</span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-          <Link to="/" className={`${linkBaseClass} ${isActive('/')}`}>{t('nav.home')}</Link>
-          <Link to="/about" className={`${linkBaseClass} ${isActive('/about')}`}>{t('nav.about')}</Link>
+          <Link to="/" className={`${linkBaseClass} ${isActive("/")}`}>
+            {t("nav.home")}
+          </Link>
+          <Link
+            to="/about"
+            className={`${linkBaseClass} ${isActive("/about")}`}
+          >
+            {t("nav.about")}
+          </Link>
           {/* Products Dropdown */}
           <div className="relative group flex items-center">
-            <Link to="/products" className={`${linkBaseClass} ${isActive('/products')} py-2`}>
-              {t('nav.products')}
+            <Link
+              to="/products"
+              className={`${linkBaseClass} ${isActive("/products")} py-2`}
+            >
+              {t("nav.products")}
             </Link>
 
             {/* Dropdown Menu */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[190px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
               <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
-                <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  {t('nav.exploringProducts')}
+                <Link
+                  to="/products"
+                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                >
+                  {t("nav.exploringProducts")}
                 </Link>
-                <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  {t('nav.researchSolution')}
+                <Link
+                  to="/products"
+                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                >
+                  {t("nav.researchSolution")}
                 </Link>
-                <Link to="/academic-training" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  {t('nav.academicTraining')}
+                <Link
+                  to="/academic-training"
+                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                >
+                  {t("nav.academicTraining")}
                 </Link>
-                <Link to="/products" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  {t('nav.others')}
+                <Link
+                  to="/products"
+                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                >
+                  {t("nav.others")}
                 </Link>
               </div>
             </div>
           </div>
           {/* Services Dropdown */}
           <div className="relative group flex items-center">
-            <Link to="/services" className={`${linkBaseClass} ${isActive('/services')} py-2`}>
-              {t('nav.services')}
+            <Link
+              to="/services"
+              className={`${linkBaseClass} ${isActive("/services")} py-2`}
+            >
+              {t("nav.services")}
             </Link>
 
             {/* Dropdown Menu */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[210px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
               <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
-                <Link to="/services" className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                  {t('nav.instrumentMaintaining')}
+                <Link
+                  to="/services"
+                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                >
+                  {t("nav.instrumentMaintaining")}
                 </Link>
-                
+
                 {/* Nested Xzense-101 Menu */}
                 <div className="relative group/sub flex flex-col">
                   <div className="flex items-center justify-between px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors cursor-pointer">
-                    <Link to="/services" className="flex-1 text-inherit no-underline">
-                      {t('nav.xzense101')}
+                    <Link
+                      to="/services"
+                      className="flex-1 text-inherit no-underline"
+                    >
+                      {t("nav.xzense101")}
                     </Link>
-                    <svg className="w-3 h-3 text-slate-400 group-hover/sub:text-blue-600 transition-colors ml-2" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"></path>
+                    <svg
+                      className="w-3 h-3 text-slate-400 group-hover/sub:text-blue-600 transition-colors ml-2"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 5l7 7-7 7"
+                      ></path>
                     </svg>
                   </div>
-                  
+
                   {/* Nested Sub-menu */}
                   <div className="absolute left-full top-0 pl-1 w-[260px] invisible opacity-0 -translate-x-2 group-hover/sub:visible group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all duration-300 z-[60]">
                     <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 py-2 flex flex-col">
-                      <Link to="/cancer-report" className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                        {t('nav.cancerReport')}
+                      <Link
+                        to="/cancer-report"
+                        className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                      >
+                        {t("nav.cancerReport")}
                       </Link>
-                      <Link to="/dashboard" className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors">
-                        {t('nav.xzenseSoftware')}
+                      <Link
+                        to="/dashboard"
+                        className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                      >
+                        {t("nav.xzenseSoftware")}
                       </Link>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
-          <Link to="/technology" className={`${linkBaseClass} ${isActive('/technology')}`}>{t('nav.technology')}</Link>
-          <Link to="/collaboration" className={`${linkBaseClass} ${isActive('/collaboration')}`}>{t('nav.collaboration')}</Link>
-          <Link to="/news" className={`${linkBaseClass} ${isActive('/news')}`}>{t('nav.news')}</Link>
-          <Link to="/contacts" className={`${linkBaseClass} ${isActive('/contacts')}`}>{t('nav.contacts')}</Link>
+          <Link
+            to="/technology"
+            className={`${linkBaseClass} ${isActive("/technology")}`}
+          >
+            {t("nav.technology")}
+          </Link>
+          <Link
+            to="/collaboration"
+            className={`${linkBaseClass} ${isActive("/collaboration")}`}
+          >
+            {t("nav.collaboration")}
+          </Link>
+          <Link to="/news" className={`${linkBaseClass} ${isActive("/news")}`}>
+            {t("nav.news")}
+          </Link>
+          <Link
+            to="/contacts"
+            className={`${linkBaseClass} ${isActive("/contacts")}`}
+          >
+            {t("nav.contacts")}
+          </Link>
 
           <div className="w-[1px] h-5 bg-slate-200 mx-2"></div>
 
-          <button 
-            onClick={toggleLanguage} 
+          <button
+            onClick={toggleLanguage}
             className={`${linkBaseClass} text-slate-700 hover:text-accent cursor-pointer active:scale-95 transition-transform bg-transparent border-none p-0 flex items-center gap-1`}
           >
-            <span className={language === 'en' ? 'text-accent font-bold' : 'text-slate-400'}>EN</span>
+            <span
+              className={
+                language === "en" ? "text-accent font-bold" : "text-slate-400"
+              }
+            >
+              EN
+            </span>
             <span className="text-slate-300">/</span>
-            <span className={language === 'th' ? 'text-accent font-bold' : 'text-slate-400'}>TH</span>
+            <span
+              className={
+                language === "th" ? "text-accent font-bold" : "text-slate-400"
+              }
+            >
+              TH
+            </span>
           </button>
 
           <div className="relative" ref={cartRef}>
@@ -148,26 +300,46 @@ export default function Layout({ children }) {
             {isCartOpen && (
               <div className="absolute top-full right-0 mt-4 w-80 bg-white rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 py-4 px-5 z-50">
                 <div className="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
-                  <h3 className="font-bold text-slate-800">{t('nav.yourCart')}</h3>
-                  <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">{itemCount} items</span>
+                  <h3 className="font-bold text-slate-800">
+                    {t("nav.yourCart")}
+                  </h3>
+                  <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">
+                    {itemCount} items
+                  </span>
                 </div>
 
                 <div className="space-y-4 mb-5 max-h-[60vh] overflow-y-auto">
                   {cartItems.length === 0 ? (
-                    <p className="text-sm text-slate-500 text-center py-4">{t('nav.cartEmpty')}</p>
+                    <p className="text-sm text-slate-500 text-center py-4">
+                      {t("nav.cartEmpty")}
+                    </p>
                   ) : (
                     cartItems.map((item) => (
-                      <div key={item.id} className="flex gap-3 items-center group">
+                      <div
+                        key={item.id}
+                        className="flex gap-3 items-center group"
+                      >
                         <div className="w-12 h-12 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-center shrink-0 overflow-hidden relative">
                           {item.image ? (
-                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="w-full h-full object-cover"
+                            />
                           ) : (
                             <ImageIcon className="w-5 h-5 text-slate-300 stroke-[1.5px]" />
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-bold text-slate-800 truncate" title={item.name}>{item.name}</p>
-                          <p className="text-xs text-slate-500">{item.quantity} x ${item.price.toFixed(2)}</p>
+                          <p
+                            className="text-sm font-bold text-slate-800 truncate"
+                            title={item.name}
+                          >
+                            {item.name}
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            {item.quantity} x ${item.price.toFixed(2)}
+                          </p>
                         </div>
                         <button
                           onClick={() => removeFromCart(item.id)}
@@ -181,23 +353,69 @@ export default function Layout({ children }) {
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 mb-5 flex justify-between items-center">
-                  <span className="text-sm font-medium text-slate-500">{t('nav.subtotal')}</span>
-                  <span className="text-lg font-bold text-slate-900">${cartTotal.toFixed(2)}</span>
+                  <span className="text-sm font-medium text-slate-500">
+                    {t("nav.subtotal")}
+                  </span>
+                  <span className="text-lg font-bold text-slate-900">
+                    ${cartTotal.toFixed(2)}
+                  </span>
                 </div>
 
-                <Link to="/checkout" onClick={() => setIsCartOpen(false)} className={`w-full block text-center py-2.5 rounded-xl font-bold text-sm transition-colors no-underline ${cartItems.length > 0 ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-slate-100 text-slate-400 pointer-events-none'}`}>
-                  {t('nav.checkout')}
+                <Link
+                  to="/checkout"
+                  onClick={() => setIsCartOpen(false)}
+                  className={`w-full block text-center py-2.5 rounded-xl font-bold text-sm transition-colors no-underline ${cartItems.length > 0 ? "bg-blue-600 hover:bg-blue-700 text-white" : "bg-slate-100 text-slate-400 pointer-events-none"}`}
+                >
+                  {t("nav.checkout")}
                 </Link>
               </div>
             )}
           </div>
 
-          <button
-            onClick={() => setIsLoginSidebarOpen(true)}
-            className="bg-accent text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:-translate-y-[1px] hover:bg-accent-hover hover:shadow-[0_4px_12px_rgba(2,132,199,0.25)] active:translate-y-0 cursor-pointer border-none"
-          >
-            {t('nav.login')}
-          </button>
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer border-none outline-none"
+              >
+                <div className="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-[10px] font-bold uppercase shrink-0">
+                  {user.username ? user.username[0] : user.email[0]}
+                </div>
+                <span className="max-w-[100px] truncate">
+                  {user.first_name || user.username || user.email.split("@")[0]}
+                </span>
+              </button>
+              {isUserDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-1.5 z-50">
+                  <div className="px-4 py-2 border-b border-slate-100">
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                      Signed in as
+                    </p>
+                    <p className="text-xs font-bold text-slate-700 truncate">
+                      {user.email}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setIsUserDropdownOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors bg-transparent border-none cursor-pointer flex items-center gap-2"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>{language === "th" ? "ออกจากระบบ" : "Log Out"}</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => setIsLoginSidebarOpen(true)}
+              className="bg-accent text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:-translate-y-[1px] hover:bg-accent-hover hover:shadow-[0_4px_12px_rgba(2,132,199,0.25)] active:translate-y-0 cursor-pointer border-none"
+            >
+              {t("nav.login")}
+            </button>
+          )}
         </div>
 
         {/* Mobile Controls (Cart & Hamburger Menu) */}
@@ -236,7 +454,7 @@ export default function Layout({ children }) {
       {/* Mobile Navigation Drawer Overlay */}
       <div
         className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[55] transition-opacity duration-300 lg:hidden ${
-          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={() => setIsMobileMenuOpen(false)}
       />
@@ -244,13 +462,20 @@ export default function Layout({ children }) {
       {/* Mobile Navigation Drawer Sheet */}
       <div
         className={`fixed top-0 left-0 h-full w-[320px] max-w-[100vw] bg-white z-[60] shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden transform ${
-          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         } flex flex-col`}
       >
         {/* Drawer Header */}
         <div className="flex justify-between items-center p-6 border-b border-slate-100 shrink-0">
-          <Link to="/" className="flex items-center gap-2.5 text-xl font-black text-accent no-underline tracking-tight">
-            <img src="/logo.png" alt="Surazense Logo" className="h-[36px] object-contain" />
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 text-xl font-black text-accent no-underline tracking-tight"
+          >
+            <img
+              src="/logo.png"
+              alt="Surazense Logo"
+              className="h-[36px] object-contain"
+            />
             <span>Surazense</span>
           </Link>
           <button
@@ -266,61 +491,73 @@ export default function Layout({ children }) {
           <Link
             to="/"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === '/' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+              location.pathname === "/"
+                ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
+                : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
             }`}
           >
             <Home className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">{t('nav.home')}</span>
+            <span className="uppercase tracking-wider">{t("nav.home")}</span>
           </Link>
 
           <Link
             to="/about"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === '/about' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+              location.pathname === "/about"
+                ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
+                : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
             }`}
           >
             <Info className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">{t('nav.about')}</span>
+            <span className="uppercase tracking-wider">{t("nav.about")}</span>
           </Link>
 
           {/* Products Group */}
           <div className="py-1">
             <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
               <ShoppingBag className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
-              <span>{t('nav.products')}</span>
+              <span>{t("nav.products")}</span>
             </div>
             <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1">
               <Link
                 to="/products"
                 className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === '/products' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                  location.pathname === "/products"
+                    ? "text-blue-600 bg-blue-50/50"
+                    : "text-slate-600 hover:text-blue-600"
                 }`}
               >
-                {t('nav.exploringProducts')}
+                {t("nav.exploringProducts")}
               </Link>
               <Link
                 to="/products"
                 className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === '/products' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                  location.pathname === "/products"
+                    ? "text-blue-600 bg-blue-50/50"
+                    : "text-slate-600 hover:text-blue-600"
                 }`}
               >
-                {t('nav.researchSolution')}
+                {t("nav.researchSolution")}
               </Link>
               <Link
                 to="/academic-training"
                 className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === '/academic-training' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                  location.pathname === "/academic-training"
+                    ? "text-blue-600 bg-blue-50/50"
+                    : "text-slate-600 hover:text-blue-600"
                 }`}
               >
-                {t('nav.academicTraining')}
+                {t("nav.academicTraining")}
               </Link>
               <Link
                 to="/products"
                 className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === '/products' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                  location.pathname === "/products"
+                    ? "text-blue-600 bg-blue-50/50"
+                    : "text-slate-600 hover:text-blue-600"
                 }`}
               >
-                {t('nav.others')}
+                {t("nav.others")}
               </Link>
             </div>
           </div>
@@ -329,41 +566,47 @@ export default function Layout({ children }) {
           <div className="py-1">
             <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
               <Briefcase className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
-              <span>{t('nav.services')}</span>
+              <span>{t("nav.services")}</span>
             </div>
             <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1.5">
               <Link
                 to="/services"
                 className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === '/services' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                  location.pathname === "/services"
+                    ? "text-blue-600 bg-blue-50/50"
+                    : "text-slate-600 hover:text-blue-600"
                 }`}
               >
-                {t('nav.instrumentMaintaining')}
+                {t("nav.instrumentMaintaining")}
               </Link>
-              
+
               {/* Xzense-101 Section inside Services */}
               <div className="px-4 pt-1.5 pb-0.5 text-[12px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
-                {t('nav.xzense101')}
+                {t("nav.xzense101")}
               </div>
-              
+
               {/* Xzense-101 Sub-Items */}
               <div className="pl-4 border-l border-slate-200 ml-4 space-y-1">
                 <Link
                   to="/cancer-report"
                   className={`flex items-center px-4 py-2 rounded-xl text-[13px] font-semibold no-underline transition-all ${
-                    location.pathname === '/cancer-report' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                    location.pathname === "/cancer-report"
+                      ? "text-blue-600 bg-blue-50/50"
+                      : "text-slate-600 hover:text-blue-600"
                   }`}
                 >
-                  {t('nav.cancerReport')}
+                  {t("nav.cancerReport")}
                 </Link>
                 <Link
                   to="/dashboard"
                   className={`flex items-center px-4 py-2 rounded-xl text-[13px] font-semibold no-underline transition-all ${
-                    location.pathname === '/dashboard' ? 'text-blue-600 bg-blue-50/50' : 'text-slate-600 hover:text-blue-600'
+                    location.pathname === "/dashboard"
+                      ? "text-blue-600 bg-blue-50/50"
+                      : "text-slate-600 hover:text-blue-600"
                   } leading-snug`}
                 >
-                  {t('nav.xzenseSoftware')}
+                  {t("nav.xzenseSoftware")}
                 </Link>
               </div>
             </div>
@@ -372,153 +615,345 @@ export default function Layout({ children }) {
           <Link
             to="/technology"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === '/technology' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+              location.pathname === "/technology"
+                ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
+                : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
             }`}
           >
             <Cpu className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">{t('nav.technology')}</span>
+            <span className="uppercase tracking-wider">
+              {t("nav.technology")}
+            </span>
           </Link>
 
           <Link
             to="/collaboration"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === '/collaboration' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+              location.pathname === "/collaboration"
+                ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
+                : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
             }`}
           >
             <Handshake className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">{t('nav.collaboration')}</span>
+            <span className="uppercase tracking-wider">
+              {t("nav.collaboration")}
+            </span>
           </Link>
 
           <Link
             to="/news"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === '/news' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+              location.pathname === "/news"
+                ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
+                : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
             }`}
           >
             <Newspaper className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">{t('nav.news')}</span>
+            <span className="uppercase tracking-wider">{t("nav.news")}</span>
           </Link>
 
           <Link
             to="/contacts"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === '/contacts' ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600'
+              location.pathname === "/contacts"
+                ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
+                : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
             }`}
           >
             <Phone className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">{t('nav.contacts')}</span>
+            <span className="uppercase tracking-wider">
+              {t("nav.contacts")}
+            </span>
           </Link>
         </div>
 
         {/* Drawer Footer Actions */}
         <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-4 shrink-0">
           <div className="flex justify-between items-center">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('nav.language')}</span>
-            <button 
-              onClick={toggleLanguage} 
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+              {t("nav.language")}
+            </span>
+            <button
+              onClick={toggleLanguage}
               className="text-xs font-bold text-slate-700 hover:text-accent transition-colors bg-white border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm cursor-pointer flex items-center gap-1"
             >
-              <span className={language === 'en' ? 'text-accent font-bold' : 'text-slate-400'}>EN</span>
+              <span
+                className={
+                  language === "en" ? "text-accent font-bold" : "text-slate-400"
+                }
+              >
+                EN
+              </span>
               <span className="text-slate-300">/</span>
-              <span className={language === 'th' ? 'text-accent font-bold' : 'text-slate-400'}>TH</span>
+              <span
+                className={
+                  language === "th" ? "text-accent font-bold" : "text-slate-400"
+                }
+              >
+                TH
+              </span>
             </button>
           </div>
-          <button
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              setIsLoginSidebarOpen(true);
-            }}
-            className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-sky-200 cursor-pointer border-none text-[14px]"
-          >
-            {t('nav.login')}
-          </button>
+          {user ? (
+            <div className="flex flex-col gap-2">
+              <div className="px-4 py-2.5 bg-slate-100 rounded-xl flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-sm font-bold uppercase shrink-0">
+                  {user.username ? user.username[0] : user.email[0]}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-slate-800 truncate">
+                    {user.first_name ||
+                      user.username ||
+                      user.email.split("@")[0]}
+                  </p>
+                  <p className="text-xs text-slate-400 truncate">
+                    {user.email}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  logout();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3 rounded-xl transition-colors cursor-pointer border-none text-[14px]"
+              >
+                {language === "th" ? "ออกจากระบบ" : "Log Out"}
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsLoginSidebarOpen(true);
+              }}
+              className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-sky-200 cursor-pointer border-none text-[14px]"
+            >
+              {t("nav.login")}
+            </button>
+          )}
         </div>
       </div>
 
-      <main className="flex-1 flex flex-col w-full">
-        {children}
-      </main>
+      <main className="flex-1 flex flex-col w-full">{children}</main>
 
       <footer className="bg-[#4fb0da] text-white py-16 px-6 lg:px-12 mt-auto w-full">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-14">
-
           {/* Column 1: Brand & Info */}
           <div className="flex flex-col">
             <div className="flex items-center gap-3 mb-6">
               <div className="bg-white p-1 rounded w-12 h-12 flex items-center justify-center shadow-sm">
-                <img src="/logo.png" alt="Surazense Logo" className="w-[85%] h-[85%] object-contain" />
+                <img
+                  src="/logo.png"
+                  alt="Surazense Logo"
+                  className="w-[85%] h-[85%] object-contain"
+                />
               </div>
-              <span className="text-2xl font-medium tracking-tight">Surazense</span>
+              <span className="text-2xl font-medium tracking-tight">
+                Surazense
+              </span>
             </div>
             <p className="text-white/90 text-[14px] leading-relaxed mb-8 max-w-[280px]">
-              {t('footer.brandDesc')}
+              {t("footer.brandDesc")}
             </p>
             {/* Social Icons */}
             <div className="flex items-center gap-5">
-              <a href="#" className="text-white/90 hover:text-white transition-colors hover:-translate-y-0.5 transform"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg></a>
-              <a href="#" className="text-white/90 hover:text-white transition-colors hover:-translate-y-0.5 transform"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path></svg></a>
-              <a href="#" className="text-white/90 hover:text-white transition-colors hover:-translate-y-0.5 transform"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path><circle cx="4" cy="4" r="2"></circle></svg></a>
-              <a href="#" className="text-white/90 hover:text-white transition-colors hover:-translate-y-0.5 transform"><svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></a>
+              <a
+                href="#"
+                className="text-white/90 hover:text-white transition-colors hover:-translate-y-0.5 transform"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                </svg>
+              </a>
+              <a
+                href="#"
+                className="text-white/90 hover:text-white transition-colors hover:-translate-y-0.5 transform"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                </svg>
+              </a>
+              <a
+                href="#"
+                className="text-white/90 hover:text-white transition-colors hover:-translate-y-0.5 transform"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              </a>
+              <a
+                href="#"
+                className="text-white/90 hover:text-white transition-colors hover:-translate-y-0.5 transform"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                >
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                </svg>
+              </a>
             </div>
           </div>
 
           {/* Column 2: Pages */}
           <div>
-            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">{t('footer.pagesTitle')}</h3>
+            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">
+              {t("footer.pagesTitle")}
+            </h3>
             <ul className="space-y-4">
-              <li><Link to="/how-it-works" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.howItWorks')}</Link></li>
-              <li><Link to="/pricing" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.pricing')}</Link></li>
-              <li><Link to="/blog" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.blog')}</Link></li>
-              <li><Link to="/demo" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.demo')}</Link></li>
+              <li>
+                <Link
+                  to="/how-it-works"
+                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                >
+                  {t("footer.howItWorks")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/pricing"
+                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                >
+                  {t("footer.pricing")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/blog"
+                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                >
+                  {t("footer.blog")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/demo"
+                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                >
+                  {t("footer.demo")}
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Column 3: Service */}
           <div>
-            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">{t('footer.servicesTitle')}</h3>
+            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">
+              {t("footer.servicesTitle")}
+            </h3>
             <ul className="space-y-4">
-              <li><Link to="/service/shopify" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.shopify')}</Link></li>
-              <li><Link to="/service/wordpress" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.wordpress')}</Link></li>
-              <li><Link to="/service/ui-ux" className="text-white/80 hover:text-white transition-colors text-[14px]">{t('footer.uiux')}</Link></li>
+              <li>
+                <Link
+                  to="/service/shopify"
+                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                >
+                  {t("footer.shopify")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/service/wordpress"
+                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                >
+                  {t("footer.wordpress")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/service/ui-ux"
+                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                >
+                  {t("footer.uiux")}
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Column 4: Map */}
           <div className="flex flex-col pr-4">
-            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">{t('footer.mapsTitle')}</h3>
+            <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">
+              {t("footer.mapsTitle")}
+            </h3>
             <div className="w-full bg-white/10 overflow-hidden aspect-[1.4] flex items-center justify-center relative cursor-pointer group shadow-sm">
               {/* Map Image Area - Will show fallback text if image is missing */}
               <div className="absolute inset-0 flex items-center justify-center p-4 text-center z-0">
-                <span className="text-sm text-white/80 font-medium">{t('footer.pleaseAddMap')}</span>
+                <span className="text-sm text-white/80 font-medium">
+                  {t("footer.pleaseAddMap")}
+                </span>
               </div>
-              <img src="/footer-map.jpg" alt="Map Location" className="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-105" onError={(e) => { e.target.style.opacity = '0' }} />
+              <img
+                src="/footer-map.jpg"
+                alt="Map Location"
+                className="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => {
+                  e.target.style.opacity = "0";
+                }}
+              />
             </div>
           </div>
-
         </div>
 
         {/* Copyright (Bonus: Not in image but good practice) */}
         <div className="max-w-[1200px] mx-auto mt-16 pt-6 border-t border-white/20 text-center text-white/50 text-xs">
-          <p>© {new Date().getFullYear()} Surazense Biosensors. {t('footer.rightsReserved')}</p>
+          <p>
+            © {new Date().getFullYear()} Surazense Biosensors.{" "}
+            {t("footer.rightsReserved")}
+          </p>
         </div>
       </footer>
 
       {/* Login Sidebar Overlay */}
       <div
-        className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60] transition-opacity duration-300 ${isLoginSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-          }`}
+        className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60] transition-opacity duration-300 ${
+          isLoginSidebarOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
         onClick={() => setIsLoginSidebarOpen(false)}
       />
 
       {/* Login Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-full w-[400px] max-w-[100vw] bg-white z-[70] shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] transform ${isLoginSidebarOpen ? 'translate-x-0' : 'translate-x-full'
-          } flex flex-col`}
+        className={`fixed top-0 right-0 h-full w-[400px] max-w-[100vw] bg-white z-[70] shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] transform ${
+          isLoginSidebarOpen ? "translate-x-0" : "translate-x-full"
+        } flex flex-col`}
       >
         <div className="flex justify-between items-center p-6 border-b border-slate-100">
-          <h2 className="text-2xl font-bold text-slate-800 tracking-tight">{t('login.welcomeBack')}</h2>
+          <h2 className="text-2xl font-bold text-slate-800 tracking-tight">
+            {authMode === "login"
+              ? t("login.loginHeader")
+              : language === "th"
+                ? "สมัครสมาชิก"
+                : "Sign Up"}
+          </h2>
           <button
-            onClick={() => setIsLoginSidebarOpen(false)}
+            onClick={() => {
+              setIsLoginSidebarOpen(false);
+              setAuthError("");
+            }}
             className="p-2.5 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors bg-transparent border-none cursor-pointer outline-none"
           >
             <X className="w-5 h-5 stroke-[2.5px]" />
@@ -526,49 +961,165 @@ export default function Layout({ children }) {
         </div>
 
         <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
-          <form className="flex flex-col gap-5">
+          <form onSubmit={handleAuthSubmit} className="flex flex-col gap-5">
+            {authError && (
+              <div className="bg-rose-50 border border-rose-100 rounded-xl p-3 text-rose-600 text-xs font-semibold">
+                {authError}
+              </div>
+            )}
+
+            {authMode === "signup" && (
+              <>
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                    {language === "th"
+                      ? "ชื่อผู้ใช้งาน (Username)"
+                      : "Username"}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={authUsername}
+                    onChange={(e) => setAuthUsername(e.target.value)}
+                    placeholder="username"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400 text-sm"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                      {language === "th" ? "ชื่อจริง" : "First Name"}
+                    </label>
+                    <input
+                      type="text"
+                      value={authFirstName}
+                      onChange={(e) => setAuthFirstName(e.target.value)}
+                      placeholder="John"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                      {language === "th" ? "นามสกุล" : "Last Name"}
+                    </label>
+                    <input
+                      type="text"
+                      value={authLastName}
+                      onChange={(e) => setAuthLastName(e.target.value)}
+                      placeholder="Doe"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400 text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                    {language === "th" ? "เบอร์โทรศัพท์" : "Phone"}
+                  </label>
+                  <input
+                    type="tel"
+                    value={authPhone}
+                    onChange={(e) => setAuthPhone(e.target.value)}
+                    placeholder="08XXXXXXXX"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400 text-sm"
+                  />
+                </div>
+              </>
+            )}
+
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">{t('login.email')}</label>
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                {t("login.email")}
+              </label>
               <input
                 type="email"
+                required
+                value={authEmail}
+                onChange={(e) => setAuthEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400"
+                className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400 text-sm"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">{t('login.password')}</label>
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                {t("login.password")}
+              </label>
               <input
                 type="password"
+                required
+                value={authPassword}
+                onChange={(e) => setAuthPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400"
+                className="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-4 focus:ring-sky-100 focus:border-accent transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-800 placeholder:text-slate-400 text-sm"
               />
             </div>
-            <div className="flex justify-between items-center text-sm mt-1">
-              <label className="flex items-center gap-2.5 cursor-pointer group">
-                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-accent focus:ring-accent transition-colors" />
-                <span className="text-slate-600 group-hover:text-slate-800 transition-colors font-medium">{t('login.rememberMe')}</span>
-              </label>
-              <a href="#" className="text-accent hover:text-accent-hover font-semibold no-underline transition-colors">{t('login.forgotPassword')}</a>
-            </div>
 
-            <button type="button" className="w-full bg-accent hover:bg-accent-hover text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-sky-200 hover:shadow-xl hover:-translate-y-[1px] mt-4 cursor-pointer border-none text-[15px]">
-              {t('login.signIn')}
-            </button>
+            {authMode === "login" && (
+              <div className="flex justify-between items-center text-xs mt-1">
+                <label className="flex items-center gap-2.5 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 rounded border-slate-300 text-accent focus:ring-accent transition-colors"
+                  />
+                  <span className="text-slate-600 group-hover:text-slate-800 transition-colors font-semibold">
+                    {t("login.rememberMe")}
+                  </span>
+                </label>
+                <a
+                  href="#"
+                  className="text-accent hover:text-accent-hover font-bold no-underline transition-colors"
+                >
+                  {t("login.forgotPassword")}
+                </a>
+              </div>
+            )}
 
-            <div className="relative my-6 flex items-center py-2">
-              <div className="flex-grow border-t border-slate-200"></div>
-              <span className="flex-shrink-0 mx-4 text-slate-400 text-sm font-medium uppercase tracking-wider">{t('login.orContinueWith')}</span>
-              <div className="flex-grow border-t border-slate-200"></div>
-            </div>
-
-            <button type="button" className="w-full bg-white border-2 border-slate-100 hover:border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-3 cursor-pointer text-[15px]">
-              <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" /><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" /><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" /><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" /><path d="M1 1h22v22H1z" fill="none" /></svg>
-              Google
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-accent hover:bg-accent-hover disabled:bg-slate-300 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-sky-200 hover:shadow-xl hover:-translate-y-[1px] mt-4 cursor-pointer border-none text-[15px]"
+            >
+              {isSubmitting
+                ? language === "th"
+                  ? "กำลังดำเนินการ..."
+                  : "Processing..."
+                : authMode === "login"
+                  ? t("login.signIn")
+                  : language === "th"
+                    ? "สมัครสมาชิก"
+                    : "Sign Up"}
             </button>
           </form>
 
           <p className="text-center text-slate-500 text-[15px] mt-8">
-            {t('login.dontHaveAccount')} <a href="#" className="text-accent hover:text-accent-hover font-bold no-underline transition-colors ml-1">{t('login.signUp')}</a>
+            {authMode === "login" ? (
+              <>
+                {t("login.dontHaveAccount")}
+                <button
+                  onClick={() => {
+                    setAuthMode("signup");
+                    setAuthError("");
+                  }}
+                  className="text-accent hover:text-accent-hover font-bold no-underline transition-colors ml-1 bg-transparent border-none cursor-pointer p-0"
+                >
+                  {t("login.signUp")}
+                </button>
+              </>
+            ) : (
+              <>
+                {language === "th"
+                  ? "มีบัญชีอยู่แล้ว?"
+                  : "Already have an account?"}
+                <button
+                  onClick={() => {
+                    setAuthMode("login");
+                    setAuthError("");
+                  }}
+                  className="text-accent hover:text-accent-hover font-bold no-underline transition-colors ml-1 bg-transparent border-none cursor-pointer p-0"
+                >
+                  {t("login.signIn")}
+                </button>
+              </>
+            )}
           </p>
         </div>
       </div>

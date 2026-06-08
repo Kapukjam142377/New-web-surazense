@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -9,12 +9,16 @@
   --color-warning: var(--warning);
   --color-text-main: var(--text-main);
   --color-text-muted: var(--text-muted);
-  
+
   --animate-sway: sway 15s ease-in-out infinite alternate;
-  
+
   @keyframes sway {
-    0% { transform: scale(1) translate(0, 0); }
-    100% { transform: scale(1.05) translate(-1.5%, 1%); }
+    0% {
+      transform: scale(1) translate(0, 0);
+    }
+    100% {
+      transform: scale(1.05) translate(-1.5%, 1%);
+    }
   }
 }
 
@@ -24,7 +28,7 @@
   --bg-nav: rgba(255, 255, 255, 0.95);
   --text-main: #0f172a;
   --text-muted: #475569;
-  --accent: #0284c7; 
+  --accent: #0284c7;
   --accent-hover: #0369a1;
   --success: #059669;
   --danger: #dc2626;
@@ -33,15 +37,20 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
+  font-family: "Inter", "IBM Plex Sans Thai", sans-serif;
   background-color: #f8fafc;
   color: var(--text-main);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Prompt', 'Inter', 'IBM Plex Sans Thai', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Prompt", "Inter", "IBM Plex Sans Thai", sans-serif;
 }
 
 /* Global Layout Base */
@@ -98,7 +107,8 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.2s ease;
 }
 
-.nav-link:hover, .nav-link.active {
+.nav-link:hover,
+.nav-link.active {
   color: var(--accent);
 }
 
@@ -215,7 +225,7 @@ h1 {
   background: white;
   color: var(--text-main);
   border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .btn:hover {

@@ -1,5 +1,5 @@
-import { PolynomialRegression } from 'ml-regression-polynomial';
-import savitzkyGolay from 'ml-savitzky-golay';
+import { PolynomialRegression } from "ml-regression-polynomial";
+import savitzkyGolay from "ml-savitzky-golay";
 
 /**
  * Fit a polynomial to the baseline and correct the signal
@@ -7,14 +7,14 @@ import savitzkyGolay from 'ml-savitzky-golay';
 export function baselineCorrection(readFREQ, dataMag, order = 8) {
   const regression = new PolynomialRegression(readFREQ, dataMag, order);
   const coeffs = regression.coefficients;
-  
+
   const polyfittedAll = readFREQ.map((x) => regression.predict(x));
   const magBaselineCorrected = dataMag.map((val, i) => val - polyfittedAll[i]);
-  
+
   return {
     magBaselineCorrected,
     polyfittedAll,
-    coeffs
+    coeffs,
   };
 }
 
@@ -23,7 +23,7 @@ export function evalPolynomial(coeffs, readFREQ) {
   const polyfitted = readFREQ.map((x) => {
     let y = 0;
     for (let i = 0; i < coeffs.length; i++) {
-        y += coeffs[i] * Math.pow(x, i);
+      y += coeffs[i] * Math.pow(x, i);
     }
     return y;
   });
@@ -31,7 +31,7 @@ export function evalPolynomial(coeffs, readFREQ) {
 }
 
 /**
- * Filter using SG Filter. 
+ * Filter using SG Filter.
  */
 export function sgFilter(y, windowSize, order) {
   const options = {
@@ -55,7 +55,11 @@ export function findPeak(freq, mag, dist) {
     let isPeak = true;
     const currentVal = mag[i];
     // Check neighbors
-    for (let j = Math.max(0, i - dist); j <= Math.min(mag.length - 1, i + dist); j++) {
+    for (
+      let j = Math.max(0, i - dist);
+      j <= Math.min(mag.length - 1, i + dist);
+      j++
+    ) {
       if (i !== j && mag[j] >= currentVal) {
         isPeak = false;
         break;
@@ -67,14 +71,14 @@ export function findPeak(freq, mag, dist) {
       maxValues.push(currentVal);
     }
   }
-  
+
   if (maxIndexes.length === 0) {
-      let globalMaxIdx = npArgmax(mag);
-      return {
-          maxIndexes: [globalMaxIdx],
-          maxFreqs: [freq[globalMaxIdx]],
-          maxValues: [mag[globalMaxIdx]]
-      };
+    let globalMaxIdx = npArgmax(mag);
+    return {
+      maxIndexes: [globalMaxIdx],
+      maxFreqs: [freq[globalMaxIdx]],
+      maxValues: [mag[globalMaxIdx]],
+    };
   }
 
   return { maxIndexes, maxFreqs, maxValues };

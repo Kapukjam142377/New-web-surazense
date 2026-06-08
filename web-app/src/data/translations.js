@@ -24,36 +24,46 @@ export const translations = {
       cartEmpty: "Your cart is empty.",
       subtotal: "Subtotal",
       welcomeBack: "Welcome Back",
-      signUp: "Sign up"
+      signUp: "Sign up",
     },
     home: {
       heroTitleLine1: "Sensor Technology",
       heroTitleLine2: "for Diagnostic",
       heroTitleFor: "for",
-      heroDesc: "We're all about boosting health systems with our biosensor tech and are working to make better biosensors for detecting cancer.",
+      heroDesc:
+        "We're all about boosting health systems with our biosensor tech and are working to make better biosensors for detecting cancer.",
       exploreTech: "Explore Technology",
       learnMore: "Learn More",
       featuredProducts: "Featured Products",
-      featuredProductsDesc: "Discover the state-of-the-art biosensor technology designed to deliver unprecedented accuracy and seamless clinical workflows.",
-      xzenseDesc: "The complete diagnostic package including our core hardware device and intuitive software monitoring suite. Engineered for extreme precision in detecting mass variations down to the molecular level.",
+      featuredProductsDesc:
+        "Discover the state-of-the-art biosensor technology designed to deliver unprecedented accuracy and seamless clinical workflows.",
+      xzenseDesc:
+        "The complete diagnostic package including our core hardware device and intuitive software monitoring suite. Engineered for extreme precision in detecting mass variations down to the molecular level.",
       xzensePoint1: "Advanced QCM sensing technology",
       xzensePoint2: "Enterprise software suite included",
       xzensePoint3: "Seamless clinical dashboard integration",
       exploreXzense: "Explore X-ZENSE 101",
       applications: "Wide range of applications",
-      applicationsDesc: "Our sensory technology is engineered to meet the demanding requirements of diverse research fields.",
+      applicationsDesc:
+        "Our sensory technology is engineered to meet the demanding requirements of diverse research fields.",
       appMaterialScience: "Material Science",
-      appMaterialScienceDesc: "Analyzing surface properties with extreme precision.",
+      appMaterialScienceDesc:
+        "Analyzing surface properties with extreme precision.",
       appBiochemistry: "Biochemistry",
-      appBiochemistryDesc: "Molecular diagnostics and tracking viral particles.",
+      appBiochemistryDesc:
+        "Molecular diagnostics and tracking viral particles.",
       appDrugDiscovery: "Drug Discovery",
-      appDrugDiscoveryDesc: "Instantaneous binding kinetics and compound verification.",
+      appDrugDiscoveryDesc:
+        "Instantaneous binding kinetics and compound verification.",
       appNanotech: "Nanotech",
-      appNanotechDesc: "Sub-micron particle detection supporting micro-processors.",
+      appNanotechDesc:
+        "Sub-micron particle detection supporting micro-processors.",
       appEnvironmental: "Environmental",
-      appEnvironmentalDesc: "Resilient sensing arrays for toxin and ecological monitoring.",
+      appEnvironmentalDesc:
+        "Resilient sensing arrays for toxin and ecological monitoring.",
       solutionTitle: "Solution",
-      solutionDesc: "4 Steps to Rapid Diagnosis. A streamlined, fast, and highly accurate cancer screening process powered by advanced biosensor technology.",
+      solutionDesc:
+        "4 Steps to Rapid Diagnosis. A streamlined, fast, and highly accurate cancer screening process powered by advanced biosensor technology.",
       step1Title: "Patient Visit",
       step1Desc: "Local clinic or hospital check-in",
       step2Title: "Blood Extraction",
@@ -63,7 +73,8 @@ export const translations = {
       step4Title: "Measurement",
       step4Desc: "X-ZENSE 101 automated analysis",
       partnersTitle: "Strategic Partners & Distributors",
-      partnersDesc: "We collaborate with globally recognized technology institutions and exclusive distributors to deliver state-of-the-art sensor solutions.",
+      partnersDesc:
+        "We collaborate with globally recognized technology institutions and exclusive distributors to deliver state-of-the-art sensor solutions.",
       awardsTitle: "Awards",
       eventsTitle: "Events",
       nationalInnovationAward: "National Innovation Award",
@@ -75,26 +86,36 @@ export const translations = {
     },
     about: {
       aboutUs: "About Us",
-      mainStatement: "We discovered that the majority of cancer patients died because the disease is recognized at the final stage.",
+      mainStatement:
+        "We discovered that the majority of cancer patients died because the disease is recognized at the final stage.",
       finalStage: "final stage.",
-      subStatement: "The primary factors are long diagnostic and distance transportation – difficulty in reaching the main hospital. We provide a specific cancer detection instrument with a rapid response time, accessibility for people in rural areas, and can able to interconnect with telemedicine.",
+      subStatement:
+        "The primary factors are long diagnostic and distance transportation – difficulty in reaching the main hospital. We provide a specific cancer detection instrument with a rapid response time, accessibility for people in rural areas, and can able to interconnect with telemedicine.",
       purposeTitle: "Our Purpose",
-      purposeDesc: "We are SuraZense team, we would like to help underprivileged people and small remote hospitals to detect an earlier stage of cancer. This could lead to the reduction of death rate due to cancer if the patients can be treated earlier.",
+      purposeDesc:
+        "We are SuraZense team, we would like to help underprivileged people and small remote hospitals to detect an earlier stage of cancer. This could lead to the reduction of death rate due to cancer if the patients can be treated earlier.",
       backgroundTitle: "Our Background & Technology",
-      backgroundDesc: "SuraZense founded by university instructors and students. SuraZense in the start-up phase (3 years established), collaborated in public and private organizations as Udonthani cancer hospital, Suanaree university of technology hospital, Suratec Co., Ltd., etc. our core technology is to develop a cost-effective and portable immunoassay (specific or non-specific) detector based on an innovative piezoelectric sensor. In these cases, SuraZense provided its expertise in the development of the immunoassay process and new generations of mass sensors based on quartz crystal microbalance with higher sensitivity. The principle of the device, which is used to provide the change of electrical signal of the sensor for monitoring biomarker detection.",
+      backgroundDesc:
+        "SuraZense founded by university instructors and students. SuraZense in the start-up phase (3 years established), collaborated in public and private organizations as Udonthani cancer hospital, Suanaree university of technology hospital, Suratec Co., Ltd., etc. our core technology is to develop a cost-effective and portable immunoassay (specific or non-specific) detector based on an innovative piezoelectric sensor. In these cases, SuraZense provided its expertise in the development of the immunoassay process and new generations of mass sensors based on quartz crystal microbalance with higher sensitivity. The principle of the device, which is used to provide the change of electrical signal of the sensor for monitoring biomarker detection.",
       meetTeam: "Meet Our Team",
-      meetTeamDesc: "The experts and innovators driving the future of biomolecular sensing at Surazense.",
+      meetTeamDesc:
+        "The experts and innovators driving the future of biomolecular sensing at Surazense.",
       missionTitle: "Our Mission",
-      missionDesc: "To empower researchers, clinicians, and industries with unparalleled real-time insights into biomolecular interactions. We strive to make high-precision QCM sensor technology accessible, intuitive, and seamlessly integrated into modern workflows.",
+      missionDesc:
+        "To empower researchers, clinicians, and industries with unparalleled real-time insights into biomolecular interactions. We strive to make high-precision QCM sensor technology accessible, intuitive, and seamlessly integrated into modern workflows.",
       visionTitle: "Our Vision",
-      visionDesc: "To become the global standard in real-time biochemical monitoring. By bridging the gap between advanced hardware and intelligent software, we envision a world where critical data is always instantaneous, accurate, and actionable.",
+      visionDesc:
+        "To become the global standard in real-time biochemical monitoring. By bridging the gap between advanced hardware and intelligent software, we envision a world where critical data is always instantaneous, accurate, and actionable.",
       coreValues: "Our Core Values",
       precisionTitle: "Precision",
-      precisionDesc: "Uncompromising accuracy in every data point. We build tools that professionals can trust for their most critical analyses.",
+      precisionDesc:
+        "Uncompromising accuracy in every data point. We build tools that professionals can trust for their most critical analyses.",
       innovationTitle: "Innovation",
-      innovationDesc: "Continuously pushing the boundaries of what's possible in sensor technology and data visualization.",
+      innovationDesc:
+        "Continuously pushing the boundaries of what's possible in sensor technology and data visualization.",
       reliabilityTitle: "Reliability",
-      reliabilityDesc: "Enterprise-grade stability. Our systems are designed to perform consistently under demanding environments.",
+      reliabilityDesc:
+        "Enterprise-grade stability. Our systems are designed to perform consistently under demanding environments.",
     },
     academic: {
       endlessKnowledge: "Knowledge is endless",
@@ -103,18 +124,22 @@ export const translations = {
       biotech: "Biotechnology",
       medicalScience: "Medical Science",
       engineering: "Engineering",
-      introDesc: "Workshop and Training powered by our Surazense Team, in collaboration with advisors from the Engineering Department and the Translational Medicine Department at Suranaree University, for an interactive lab demonstration tailored to participants and enthusiasts passionate about biology and biosensor technology. Discover how cutting-edge biosensor technology is revolutionizing cancer detection through real-world applications of biosensor for cancer biomarker detection.",
+      introDesc:
+        "Workshop and Training powered by our Surazense Team, in collaboration with advisors from the Engineering Department and the Translational Medicine Department at Suranaree University, for an interactive lab demonstration tailored to participants and enthusiasts passionate about biology and biosensor technology. Discover how cutting-edge biosensor technology is revolutionizing cancer detection through real-world applications of biosensor for cancer biomarker detection.",
       exploreLabs: "Explore Labs",
       viewCourses: "View Courses",
       trainingAtmosphere: "Medical / Engineer Training",
       labAtmosphereTitle: "Laboratory Atmosphere & Activities",
-      labAtmosphereDesc: "Explore our state-of-the-art laboratory workshops combining medical biology with electronics and hardware engineering.",
+      labAtmosphereDesc:
+        "Explore our state-of-the-art laboratory workshops combining medical biology with electronics and hardware engineering.",
       studentAchievements: "Student Achievements",
       completionCertificates: "Student Certificates of Completion",
-      completionCertificatesDesc: "Certifying hands-on proficiency in advanced molecular diagnostics, hardware interfacing, and quantitative biosignal analysis.",
+      completionCertificatesDesc:
+        "Certifying hands-on proficiency in advanced molecular diagnostics, hardware interfacing, and quantitative biosignal analysis.",
       interactiveGuide: "Interactive Guide",
       findIdealPath: "Find Your Ideal Path",
-      selectBackground: "Select your academic background to see customized laboratory recommendations",
+      selectBackground:
+        "Select your academic background to see customized laboratory recommendations",
       biologyLabel: "Biology & Life Sciences",
       engineeringLabel: "Electrical & Computer Engineering",
       mathsLabel: "Signal Processing & Applied Mathematics",
@@ -122,44 +147,81 @@ export const translations = {
       recommendedCourse: "Recommended Course",
       inquireSyllabus: "Inquire for this syllabus",
       handsOnLabs: "Hands-on Experimental Laboratories",
-      handsOnLabsDesc: "Real laboratory tasks that students can perform to gain command over advanced QCM hardware and biosensing interfaces.",
+      handsOnLabsDesc:
+        "Real laboratory tasks that students can perform to gain command over advanced QCM hardware and biosensing interfaces.",
       duration: "Duration",
       requestSyllabus: "Request Syllabus Details",
       academicCourses: "Academic Courses & Curricula",
-      academicCoursesDesc: "Structured study plans recommended for undergraduate and graduate syllabus integrations.",
+      academicCoursesDesc:
+        "Structured study plans recommended for undergraduate and graduate syllabus integrations.",
       teamSupport: "Our team is ready to support every student's journey",
-      teamSupportDesc: "The experts and innovators driving the future of biomolecular sensing at Surazense.",
+      teamSupportDesc:
+        "The experts and innovators driving the future of biomolecular sensing at Surazense.",
       keySkills: "Key Skills Taught",
       syllabusCompetencies: "Syllabus Competencies",
       lab1Title: "Lab 1: QCM Sensor Calibration & Characterization",
       lab1Subtitle: "Frequency Sweeps & Hardware Interfacing",
-      lab1Desc: "Learn the fundamentals of Quartz Crystal Microbalance (QCM) sensors. Students perform frequency sweeps from 8MHz to 12MHz, interface with ESP32 microcontrollers, and capture real-time resonance behavior.",
-      lab1Topics: ["Serial communication (UART)", "Resonance tracking", "Hardware noise reduction"],
+      lab1Desc:
+        "Learn the fundamentals of Quartz Crystal Microbalance (QCM) sensors. Students perform frequency sweeps from 8MHz to 12MHz, interface with ESP32 microcontrollers, and capture real-time resonance behavior.",
+      lab1Topics: [
+        "Serial communication (UART)",
+        "Resonance tracking",
+        "Hardware noise reduction",
+      ],
       lab2Title: "Lab 2: Biomarker Binding Kinetics (EGFR)",
       lab2Subtitle: "Target Biomarker Isolation & Detection",
-      lab2Desc: "Simulate molecular diagnostic binding experiments. Apply functionalized cell-free DNA to active gold sensor surfaces, observe real-time amplitude changes, and determine biomarker presence.",
-      lab2Topics: ["Gold surface functionalization", "Antigen-antibody binding", "Threshold-based detection"],
+      lab2Desc:
+        "Simulate molecular diagnostic binding experiments. Apply functionalized cell-free DNA to active gold sensor surfaces, observe real-time amplitude changes, and determine biomarker presence.",
+      lab2Topics: [
+        "Gold surface functionalization",
+        "Antigen-antibody binding",
+        "Threshold-based detection",
+      ],
       lab3Title: "Lab 3: Advanced Signal Processing & Splines",
       lab3Subtitle: "Noise Analysis & Curve Smoothing",
-      lab3Desc: "Focus on the digital signal processing pipeline. Implement polynomial regression for baseline estimation and Savitzky-Golay filtering. Fit Univariate Splines to determine peak frequencies.",
-      lab3Topics: ["Savitzky-Golay filtering", "Baseline correction models", "Spline peak interpolation"],
+      lab3Desc:
+        "Focus on the digital signal processing pipeline. Implement polynomial regression for baseline estimation and Savitzky-Golay filtering. Fit Univariate Splines to determine peak frequencies.",
+      lab3Topics: [
+        "Savitzky-Golay filtering",
+        "Baseline correction models",
+        "Spline peak interpolation",
+      ],
       course1Title: "Introduction to Biosensors & Surface Science",
-      course1Desc: "An introductory course covering the physics behind QCM resonance, molecular interactions on gold substrates, and basic measurement instrumentation.",
-      course1Skills: ["QCM Physics", "Surface Science basics", "Basic laboratory safety"],
+      course1Desc:
+        "An introductory course covering the physics behind QCM resonance, molecular interactions on gold substrates, and basic measurement instrumentation.",
+      course1Skills: [
+        "QCM Physics",
+        "Surface Science basics",
+        "Basic laboratory safety",
+      ],
       course2Title: "Medical Diagnostic Instrumentation",
-      course2Desc: "Deep dive into hardware interfacing. Learn to build ESP32-based frequency controllers, configure serial protocols, and structure responsive desktop UI frameworks.",
-      course2Skills: ["ESP32 microcontrollers", "Web Serial API / UART", "UI/UX for diagnostics"],
+      course2Desc:
+        "Deep dive into hardware interfacing. Learn to build ESP32-based frequency controllers, configure serial protocols, and structure responsive desktop UI frameworks.",
+      course2Skills: [
+        "ESP32 microcontrollers",
+        "Web Serial API / UART",
+        "UI/UX for diagnostics",
+      ],
       course3Title: "Quantitative Biosignal Analysis",
-      course3Desc: "A mathematical approach to diagnostic noise reduction. Apply advanced filters, regression curves, and spline interpolations to real-time clinical biosignals.",
-      course3Skills: ["Signal processing maths", "Data regression models", "Noise analysis"],
+      course3Desc:
+        "A mathematical approach to diagnostic noise reduction. Apply advanced filters, regression curves, and spline interpolations to real-time clinical biosignals.",
+      course3Skills: [
+        "Signal processing maths",
+        "Data regression models",
+        "Noise analysis",
+      ],
       gallery1Title: "Medical / Engineer Training",
-      gallery1Desc: "Bridging biomedical diagnostic techniques with high-precision engineering and electronics.",
+      gallery1Desc:
+        "Bridging biomedical diagnostic techniques with high-precision engineering and electronics.",
       gallery2Title: "LABORATORY TRAINING",
-      gallery2Desc: "Hands-on training sessions focusing on biosensing principles, mechanics, and workflows.",
+      gallery2Desc:
+        "Hands-on training sessions focusing on biosensing principles, mechanics, and workflows.",
       gallery3Title: "PROJECT DEVELOPMENT",
-      gallery3Desc: "Developing instrumentation systems, calibrating sensor sweeps, and creating desktop interfaces.",
+      gallery3Desc:
+        "Developing instrumentation systems, calibrating sensor sweeps, and creating desktop interfaces.",
       gallery4Title: "SCIENTIFIC RESEARCH",
-      gallery4Desc: "Applying signal processing algorithms, spline calculations, and filtering models to active biosensor diagnostics.",
+      gallery4Desc:
+        "Applying signal processing algorithms, spline calculations, and filtering models to active biosensor diagnostics.",
       cert1Title: "Biotechnology Training Certificate",
       cert1Recipient: "Cancer Biomarker Detection Lab Completion",
       cert2Title: "Engineering Training Certificate",
@@ -184,7 +246,7 @@ export const translations = {
       gallery1Category: "Medical / Engineering",
       gallery2Category: "Lab Practice",
       gallery3Category: "Development",
-      gallery4Category: "Research & Data"
+      gallery4Category: "Research & Data",
     },
     contacts: {
       contactUs: "Contact Us",
@@ -193,8 +255,10 @@ export const translations = {
       directContact: "Direct Contact",
       phone: "Phone",
       email: "Email",
-      pitchText1: "We seek distributors for long-term relationships, valuing those ready to understand our product and undergo essential training.",
-      pitchText2: "Join us in building a profitable and successful partnership.",
+      pitchText1:
+        "We seek distributors for long-term relationships, valuing those ready to understand our product and undergo essential training.",
+      pitchText2:
+        "Join us in building a profitable and successful partnership.",
       pleaseSelect: "Please Select *",
       firstName: "First Name *",
       lastName: "Last Name *",
@@ -221,11 +285,12 @@ export const translations = {
         quotation: "Request Quotation",
         demo: "Lab Visit / Demonstration",
         collab: "Join / Collaboration",
-        general: "General Question"
-      }
+        general: "General Question",
+      },
     },
     footer: {
-      brandDesc: "We're all about boosting health system with our biosensor tech and are working to make better biosensors for detecting cancer",
+      brandDesc:
+        "We're all about boosting health system with our biosensor tech and are working to make better biosensors for detecting cancer",
       pagesTitle: "Pages",
       servicesTitle: "Service",
       mapsTitle: "Maps Location",
@@ -237,7 +302,7 @@ export const translations = {
       demo: "Demo",
       shopify: "Shopify",
       wordpress: "WordPress",
-      uiux: "UI/UX Design"
+      uiux: "UI/UX Design",
     },
     login: {
       welcomeBack: "Welcome Back",
@@ -253,7 +318,7 @@ export const translations = {
       emailPlaceholder: "Email",
       passwordPlaceholder: "Password",
       continue: "Continue",
-      signInWith: "Sign in With"
+      signInWith: "Sign in With",
     },
     cancerReportPage: {
       title: "Cancer Detection Report",
@@ -288,7 +353,8 @@ export const translations = {
       high: "High",
       low: "Low",
       notAvailable: "N/A",
-      formulaText: "The ratio of interested RNA copies to PSA RNA copies, multiplied by 1000",
+      formulaText:
+        "The ratio of interested RNA copies to PSA RNA copies, multiplied by 1000",
       export: "Export",
       print: "Print",
       next: "NEXT",
@@ -317,8 +383,8 @@ export const translations = {
       actions: "Actions",
       load: "Load",
       delete: "Delete",
-      close: "Close"
-    }
+      close: "Close",
+    },
   },
   th: {
     nav: {
@@ -345,36 +411,46 @@ export const translations = {
       cartEmpty: "ตะกร้าของคุณยังว่างเปล่า",
       subtotal: "ยอดรวม",
       welcomeBack: "ยินดีต้อนรับกลับมา",
-      signUp: "สมัครสมาชิก"
+      signUp: "สมัครสมาชิก",
     },
     home: {
       heroTitleLine1: "เทคโนโลยีเซนเซอร์",
       heroTitleLine2: "เพื่อการวินิจฉัย",
       heroTitleFor: "สำหรับ",
-      heroDesc: "เรามุ่งมั่นที่จะพัฒนาและยกระดับระบบการแพทย์ด้วยเทคโนโลยีไบโอเซนเซอร์ และพัฒนาไบโอเซนเซอร์ที่มีประสิทธิภาพสูงขึ้นในการตรวจหาโรคมะเร็ง",
+      heroDesc:
+        "เรามุ่งมั่นที่จะพัฒนาและยกระดับระบบการแพทย์ด้วยเทคโนโลยีไบโอเซนเซอร์ และพัฒนาไบโอเซนเซอร์ที่มีประสิทธิภาพสูงขึ้นในการตรวจหาโรคมะเร็ง",
       exploreTech: "สำรวจเทคโนโลยี",
       learnMore: "เรียนรู้เพิ่มเติม",
       featuredProducts: "ผลิตภัณฑ์แนะนำ",
-      featuredProductsDesc: "ค้นพบเทคโนโลยีไบโอเซนเซอร์ที่ทันสมัย ออกแบบมาเพื่อให้ความแม่นยำสูงสุดและผสานรวมเข้ากับขั้นตอนการทำงานในคลินิกได้อย่างราบรื่น",
-      xzenseDesc: "ชุดอุปกรณ์วินิจฉัยครบวงจรที่รวมทั้งตัวอุปกรณ์ฮาร์ดแวร์หลักและชุดซอฟต์แวร์ตรวจสอบที่ใช้งานง่าย ได้รับการออกแบบทางวิศวกรรมเพื่อความแม่นยำสูงในการตรวจวัดความเปลี่ยนแปลงของมวลในระดับโมเลกุล",
-      xzensePoint1: "เทคโนโลยีตรวจวัด Quartz Crystal Microbalance (QCM) ขั้นสูง",
+      featuredProductsDesc:
+        "ค้นพบเทคโนโลยีไบโอเซนเซอร์ที่ทันสมัย ออกแบบมาเพื่อให้ความแม่นยำสูงสุดและผสานรวมเข้ากับขั้นตอนการทำงานในคลินิกได้อย่างราบรื่น",
+      xzenseDesc:
+        "ชุดอุปกรณ์วินิจฉัยครบวงจรที่รวมทั้งตัวอุปกรณ์ฮาร์ดแวร์หลักและชุดซอฟต์แวร์ตรวจสอบที่ใช้งานง่าย ได้รับการออกแบบทางวิศวกรรมเพื่อความแม่นยำสูงในการตรวจวัดความเปลี่ยนแปลงของมวลในระดับโมเลกุล",
+      xzensePoint1:
+        "เทคโนโลยีตรวจวัด Quartz Crystal Microbalance (QCM) ขั้นสูง",
       xzensePoint2: "มาพร้อมชุดซอฟต์แวร์สำหรับองค์กร",
       xzensePoint3: "เชื่อมต่อกับแดชบอร์ดคลินิกได้อย่างสะดวกและสมบูรณ์",
       exploreXzense: "สำรวจ X-ZENSE 101",
       applications: "ขอบเขตการใช้งานที่หลากหลาย",
-      applicationsDesc: "เทคโนโลยีเซนเซอร์ของเราได้รับการออกแบบทางวิศวกรรมเพื่อตอบสนองความต้องการด้านการวิจัยที่เข้มงวดในสาขาต่าง ๆ",
+      applicationsDesc:
+        "เทคโนโลยีเซนเซอร์ของเราได้รับการออกแบบทางวิศวกรรมเพื่อตอบสนองความต้องการด้านการวิจัยที่เข้มงวดในสาขาต่าง ๆ",
       appMaterialScience: "วัสดุศาสตร์",
-      appMaterialScienceDesc: "วิเคราะห์คุณสมบัติของพื้นผิวด้วยความแม่นยำสูงสุด",
+      appMaterialScienceDesc:
+        "วิเคราะห์คุณสมบัติของพื้นผิวด้วยความแม่นยำสูงสุด",
       appBiochemistry: "ชีวเคมี",
       appBiochemistryDesc: "การวินิจฉัยระดับโมเลกุลและการติดตามอนุภาคไวรัส",
       appDrugDiscovery: "การค้นคิดยาใหม่",
-      appDrugDiscoveryDesc: "ตรวจวัดจลนศาสตร์การจับตัวของสารและการพิสูจน์ยืนยันสารประกอบอย่างรวดเร็ว",
+      appDrugDiscoveryDesc:
+        "ตรวจวัดจลนศาสตร์การจับตัวของสารและการพิสูจน์ยืนยันสารประกอบอย่างรวดเร็ว",
       appNanotech: "นาโนเทคโนโลยี",
-      appNanotechDesc: "การตรวจหาอนุภาคขนาดต่ำกว่าไมครอนเพื่อสนับสนุนการพัฒนาไมโครโพรเซสเซอร์",
+      appNanotechDesc:
+        "การตรวจหาอนุภาคขนาดต่ำกว่าไมครอนเพื่อสนับสนุนการพัฒนาไมโครโพรเซสเซอร์",
       appEnvironmental: "สิ่งแวดล้อม",
-      appEnvironmentalDesc: "ชุดเซนเซอร์ที่มีความทนทานสำหรับตรวจหาสารพิษและเฝ้าระวังระบบนิเวศ",
+      appEnvironmentalDesc:
+        "ชุดเซนเซอร์ที่มีความทนทานสำหรับตรวจหาสารพิษและเฝ้าระวังระบบนิเวศ",
       solutionTitle: "โซลูชัน",
-      solutionDesc: "4 ขั้นตอนสู่การวินิจฉัยที่รวดเร็ว กระบวนการคัดกรองมะเร็งที่กระชับ รวดเร็ว และมีความแม่นยำสูง ขับเคลื่อนด้วยเทคโนโลยีไบโอเซนเซอร์ที่ก้าวหน้า",
+      solutionDesc:
+        "4 ขั้นตอนสู่การวินิจฉัยที่รวดเร็ว กระบวนการคัดกรองมะเร็งที่กระชับ รวดเร็ว และมีความแม่นยำสูง ขับเคลื่อนด้วยเทคโนโลยีไบโอเซนเซอร์ที่ก้าวหน้า",
       step1Title: "ผู้ป่วยเข้ารับการตรวจ",
       step1Desc: "ลงทะเบียนที่คลินิกหรือโรงพยาบาลในพื้นที่",
       step2Title: "การเจาะเลือด",
@@ -384,7 +460,8 @@ export const translations = {
       step4Title: "การตรวจวัดผล",
       step4Desc: "การวิเคราะห์อัตโนมัติด้วยเครื่อง X-ZENSE 101",
       partnersTitle: "พันธมิตรเชิงยุทธศาสตร์และผู้แทนจำหน่าย",
-      partnersDesc: "เราร่วมมือกับสถาบันเทคโนโลยีชั้นนำระดับโลกและผู้แทนจำหน่ายเฉพาะรายเพื่อส่งมอบโซลูชันเซนเซอร์ที่ทันสมัยที่สุด",
+      partnersDesc:
+        "เราร่วมมือกับสถาบันเทคโนโลยีชั้นนำระดับโลกและผู้แทนจำหน่ายเฉพาะรายเพื่อส่งมอบโซลูชันเซนเซอร์ที่ทันสมัยที่สุด",
       awardsTitle: "รางวัลความสำเร็จ",
       eventsTitle: "กิจกรรม & งานอีเวนต์",
       nationalInnovationAward: "รางวัลนวัตกรรมแห่งชาติ",
@@ -396,26 +473,36 @@ export const translations = {
     },
     about: {
       aboutUs: "เกี่ยวกับเรา",
-      mainStatement: "เราพบว่าผู้ป่วยโรคมะเร็งส่วนใหญ่เสียชีวิตเนื่องจากมักตรวจพบโรคในระยะสุดท้าย",
+      mainStatement:
+        "เราพบว่าผู้ป่วยโรคมะเร็งส่วนใหญ่เสียชีวิตเนื่องจากมักตรวจพบโรคในระยะสุดท้าย",
       finalStage: "ระยะสุดท้าย",
-      subStatement: "ปัจจัยหลักคือความล่าช้าในขั้นตอนการวินิจฉัยและการเดินทางที่ห่างไกล ซึ่งเป็นอุปสรรคต่อการเข้าถึงโรงพยาบาลขนาดใหญ่ เราขอนำเสนอเครื่องมือตรวจหาโรคมะเร็งที่จำเพาะเจาะจง ให้ผลตรวจรวดเร็ว เหมาะสำหรับผู้คนในพื้นที่ห่างไกล และสามารถเชื่อมต่อเข้ากับระบบการแพทย์ทางไกล (Telemedicine) ได้เป็นอย่างดี",
+      subStatement:
+        "ปัจจัยหลักคือความล่าช้าในขั้นตอนการวินิจฉัยและการเดินทางที่ห่างไกล ซึ่งเป็นอุปสรรคต่อการเข้าถึงโรงพยาบาลขนาดใหญ่ เราขอนำเสนอเครื่องมือตรวจหาโรคมะเร็งที่จำเพาะเจาะจง ให้ผลตรวจรวดเร็ว เหมาะสำหรับผู้คนในพื้นที่ห่างไกล และสามารถเชื่อมต่อเข้ากับระบบการแพทย์ทางไกล (Telemedicine) ได้เป็นอย่างดี",
       purposeTitle: "วัตถุประสงค์ของเรา",
-      purposeDesc: "เราคือทีมงาน SuraZense เราอยากจะช่วยเหลือผู้ที่ขาดโอกาสและโรงพยาบาลขนาดเล็กในชนบทให้สามารถตรวจหามะเร็งได้ตั้งแต่ระยะแรกเริ่ม ซึ่งจะช่วยลดอัตราการเสียชีวิตจากโรคมะเร็งลงได้หากผู้ป่วยได้รับการรักษาที่รวดเร็วขึ้น",
+      purposeDesc:
+        "เราคือทีมงาน SuraZense เราอยากจะช่วยเหลือผู้ที่ขาดโอกาสและโรงพยาบาลขนาดเล็กในชนบทให้สามารถตรวจหามะเร็งได้ตั้งแต่ระยะแรกเริ่ม ซึ่งจะช่วยลดอัตราการเสียชีวิตจากโรคมะเร็งลงได้หากผู้ป่วยได้รับการรักษาที่รวดเร็วขึ้น",
       backgroundTitle: "ความเป็นมาและเทคโนโลยีของเรา",
-      backgroundDesc: "SuraZense ก่อตั้งขึ้นโดยอาจารย์และนิสิตนักศึกษามหาวิทยาลัย ขณะนี้อยู่ในช่วงเริ่มต้นธุรกิจ (จัดตั้งมาแล้ว 3 ปี) และได้ทำงานร่วมกับองค์กรทั้งภาครัฐและเอกชน เช่น โรงพยาบาลมะเร็งอุดรธานี โรงพยาบาลมหาวิทยาลัยเทคโนโลยีสุรนารี และ บริษัท สุรเทค จำกัด เป็นต้น เทคโนโลยีหลักของเราคือการพัฒนาเครื่องตรวจวิเคราะห์ทางอิมมูโนแอสเซย์ (Immunoassay) ที่คุ้มค่าและพกพาสะดวก โดยอิงจากเซนเซอร์เพียโซอิเล็กทริกที่เปี่ยมด้วยนวัตกรรม ในโครงการเหล่านี้ SuraZense ได้นำความเชี่ยวชาญมาช่วยในการพัฒนากระบวนการอิมมูโนแอสเซย์และเซนเซอร์ตรวจวัดมวลรุ่นใหม่ ๆ บนฐานของระบบ Quartz Crystal Microbalance (QCM) ที่มีความไวสูงขึ้น หลักการของอุปกรณ์คือการวัดความเปลี่ยนแปลงทางสัญญาณไฟฟ้าของตัวเซนเซอร์เพื่อติดตามการตรวจหาตัวบ่งชี้ทางชีวภาพ",
+      backgroundDesc:
+        "SuraZense ก่อตั้งขึ้นโดยอาจารย์และนิสิตนักศึกษามหาวิทยาลัย ขณะนี้อยู่ในช่วงเริ่มต้นธุรกิจ (จัดตั้งมาแล้ว 3 ปี) และได้ทำงานร่วมกับองค์กรทั้งภาครัฐและเอกชน เช่น โรงพยาบาลมะเร็งอุดรธานี โรงพยาบาลมหาวิทยาลัยเทคโนโลยีสุรนารี และ บริษัท สุรเทค จำกัด เป็นต้น เทคโนโลยีหลักของเราคือการพัฒนาเครื่องตรวจวิเคราะห์ทางอิมมูโนแอสเซย์ (Immunoassay) ที่คุ้มค่าและพกพาสะดวก โดยอิงจากเซนเซอร์เพียโซอิเล็กทริกที่เปี่ยมด้วยนวัตกรรม ในโครงการเหล่านี้ SuraZense ได้นำความเชี่ยวชาญมาช่วยในการพัฒนากระบวนการอิมมูโนแอสเซย์และเซนเซอร์ตรวจวัดมวลรุ่นใหม่ ๆ บนฐานของระบบ Quartz Crystal Microbalance (QCM) ที่มีความไวสูงขึ้น หลักการของอุปกรณ์คือการวัดความเปลี่ยนแปลงทางสัญญาณไฟฟ้าของตัวเซนเซอร์เพื่อติดตามการตรวจหาตัวบ่งชี้ทางชีวภาพ",
       meetTeam: "พบกับทีมงานของเรา",
-      meetTeamDesc: "ผู้เชี่ยวชาญและนักนวัตกรรมผู้ขับเคลื่อนอนาคตของระบบตรวจวัดทางชีวโมเลกุลที่ Surazense",
+      meetTeamDesc:
+        "ผู้เชี่ยวชาญและนักนวัตกรรมผู้ขับเคลื่อนอนาคตของระบบตรวจวัดทางชีวโมเลกุลที่ Surazense",
       missionTitle: "พันธกิจของเรา",
-      missionDesc: "เพื่อช่วยเสริมพลังให้แก่นักวิจัย แพทย์ และภาคอุตสาหกรรม ด้วยการนำเสนอข้อมูลเชิงลึกแบบเรียลไทม์เกี่ยวกับการทำปฏิกิริยาของชีวโมเลกุล เรามุ่งมั่นที่จะทำให้เทคโนโลยีเซนเซอร์ QCM ความแม่นยำสูงสามารถเข้าถึงได้ง่าย ใช้งานได้อย่างเป็นธรรมชาติ และผสานรวมเข้ากับขั้นตอนการทำงานสมัยใหม่ได้อย่างราบรื่น",
+      missionDesc:
+        "เพื่อช่วยเสริมพลังให้แก่นักวิจัย แพทย์ และภาคอุตสาหกรรม ด้วยการนำเสนอข้อมูลเชิงลึกแบบเรียลไทม์เกี่ยวกับการทำปฏิกิริยาของชีวโมเลกุล เรามุ่งมั่นที่จะทำให้เทคโนโลยีเซนเซอร์ QCM ความแม่นยำสูงสามารถเข้าถึงได้ง่าย ใช้งานได้อย่างเป็นธรรมชาติ และผสานรวมเข้ากับขั้นตอนการทำงานสมัยใหม่ได้อย่างราบรื่น",
       visionTitle: "วิสัยทัศน์ของเรา",
-      visionDesc: "เพื่อก้าวขึ้นเป็นมาตรฐานระดับโลกในการตรวจสอบทางชีวเคมีแบบเรียลไทม์ ด้วยการประสานความเชื่อมโยงระหว่างฮาร์ดแวร์ขั้นสูงและซอฟต์แวร์อัจฉริยะ เรามุ่งหวังให้ข้อมูลสำคัญได้รับการวิเคราะห์อย่างแม่นยำ ทันทีทันใด และสามารถนำไปประกอบการตัดสินใจปฏิบัติจริงได้เสมอ",
+      visionDesc:
+        "เพื่อก้าวขึ้นเป็นมาตรฐานระดับโลกในการตรวจสอบทางชีวเคมีแบบเรียลไทม์ ด้วยการประสานความเชื่อมโยงระหว่างฮาร์ดแวร์ขั้นสูงและซอฟต์แวร์อัจฉริยะ เรามุ่งหวังให้ข้อมูลสำคัญได้รับการวิเคราะห์อย่างแม่นยำ ทันทีทันใด และสามารถนำไปประกอบการตัดสินใจปฏิบัติจริงได้เสมอ",
       coreValues: "ค่านิยมหลักของเรา",
       precisionTitle: "ความแม่นยำ",
-      precisionDesc: "ความแม่นยำในทุกข้อมูลอย่างไม่มีข้อลดหย่อน เราสร้างเครื่องมือที่ผู้เชี่ยวชาญไว้วางใจในการวิเคราะห์ที่สำคัญที่สุดได้",
+      precisionDesc:
+        "ความแม่นยำในทุกข้อมูลอย่างไม่มีข้อลดหย่อน เราสร้างเครื่องมือที่ผู้เชี่ยวชาญไว้วางใจในการวิเคราะห์ที่สำคัญที่สุดได้",
       innovationTitle: "นวัตกรรม",
-      innovationDesc: "ผลักดันขอบเขตความเป็นไปได้ในเทคโนโลยีเซนเซอร์และการแสดงผลข้อมูลอย่างไม่หยุดยั้ง",
+      innovationDesc:
+        "ผลักดันขอบเขตความเป็นไปได้ในเทคโนโลยีเซนเซอร์และการแสดงผลข้อมูลอย่างไม่หยุดยั้ง",
       reliabilityTitle: "ความน่าเชื่อถือ",
-      reliabilityDesc: "ความเสถียรระดับองค์กร ระบบของเราถูกออกแบบมาเพื่อการทำงานที่คงเส้นคงวาในสภาวะการใช้งานที่ท้าทาย",
+      reliabilityDesc:
+        "ความเสถียรระดับองค์กร ระบบของเราถูกออกแบบมาเพื่อการทำงานที่คงเส้นคงวาในสภาวะการใช้งานที่ท้าทาย",
     },
     academic: {
       endlessKnowledge: "ความรู้ไม่มีที่สิ้นสุด",
@@ -424,18 +511,22 @@ export const translations = {
       biotech: "เทคโนโลยีชีวภาพ",
       medicalScience: "วิทยาศาสตร์การแพทย์",
       engineering: "วิศวกรรมศาสตร์",
-      introDesc: "การสัมมนาเชิงปฏิบัติการและการฝึกอบรมขับเคลื่อนโดยทีมงาน SuraZense ภายใต้ความร่วมมือกับอาจารย์ที่ปรึกษาจากภาควิชาวิศวกรรมศาสตร์ และภาควิชาอายุรศาสตร์ปริวรรต มหาวิทยาลัยเทคโนโลยีสุรนารี สำหรับการสาธิตการปฏิบัติงานในห้องแล็บที่เหมาะสมกับผู้เข้าร่วมและผู้ที่สนใจด้านชีววิทยาและเทคโนโลยีไบโอเซนเซอร์ เรียนรู้ว่าเทคโนโลยีเซนเซอร์ที่ล้ำสมัยนี้จะช่วยปฏิวัติการตรวจหามะเร็งผ่านการประยุกต์ใช้งานในการตรวจวัดสารบ่งชี้มะเร็งอย่างไร",
+      introDesc:
+        "การสัมมนาเชิงปฏิบัติการและการฝึกอบรมขับเคลื่อนโดยทีมงาน SuraZense ภายใต้ความร่วมมือกับอาจารย์ที่ปรึกษาจากภาควิชาวิศวกรรมศาสตร์ และภาควิชาอายุรศาสตร์ปริวรรต มหาวิทยาลัยเทคโนโลยีสุรนารี สำหรับการสาธิตการปฏิบัติงานในห้องแล็บที่เหมาะสมกับผู้เข้าร่วมและผู้ที่สนใจด้านชีววิทยาและเทคโนโลยีไบโอเซนเซอร์ เรียนรู้ว่าเทคโนโลยีเซนเซอร์ที่ล้ำสมัยนี้จะช่วยปฏิวัติการตรวจหามะเร็งผ่านการประยุกต์ใช้งานในการตรวจวัดสารบ่งชี้มะเร็งอย่างไร",
       exploreLabs: "สำรวจห้องแล็บ",
       viewCourses: "ดูรายวิชา",
       trainingAtmosphere: "การฝึกอบรมแพทย์/วิศวกร",
       labAtmosphereTitle: "บรรยากาศและกิจกรรมในห้องปฏิบัติการ",
-      labAtmosphereDesc: "สำรวจเวิร์กช็อปห้องปฏิบัติการที่ทันสมัยของเรา ซึ่งประสานรวมชีววิทยาการแพทย์เข้ากับวิศวกรรมอิเล็กทรอนิกส์และฮาร์ดแวร์",
+      labAtmosphereDesc:
+        "สำรวจเวิร์กช็อปห้องปฏิบัติการที่ทันสมัยของเรา ซึ่งประสานรวมชีววิทยาการแพทย์เข้ากับวิศวกรรมอิเล็กทรอนิกส์และฮาร์ดแวร์",
       studentAchievements: "ความสำเร็จของนักเรียน",
       completionCertificates: "ใบรับรองการสำเร็จหลักสูตร",
-      completionCertificatesDesc: "รับรองความสามารถในภาคปฏิบัติในการวินิจฉัยโมเลกุลขั้นสูง การเชื่อมต่อฮาร์ดแวร์ และการวิเคราะห์สัญญาณชีวภาพเชิงปริมาณ",
+      completionCertificatesDesc:
+        "รับรองความสามารถในภาคปฏิบัติในการวินิจฉัยโมเลกุลขั้นสูง การเชื่อมต่อฮาร์ดแวร์ และการวิเคราะห์สัญญาณชีวภาพเชิงปริมาณ",
       interactiveGuide: "คำแนะนำแบบโต้ตอบ",
       findIdealPath: "ค้นหาเส้นทางที่เหมาะกับคุณ",
-      selectBackground: "เลือกพื้นฐานการศึกษาของคุณเพื่อรับคำแนะนำการฝึกอบรมที่เหมาะสม",
+      selectBackground:
+        "เลือกพื้นฐานการศึกษาของคุณเพื่อรับคำแนะนำการฝึกอบรมที่เหมาะสม",
       biologyLabel: "ชีววิทยา & วิทยาศาสตร์สิ่งมีชีวิต",
       engineeringLabel: "วิศวกรรมไฟฟ้า & วิศวกรรมคอมพิวเตอร์",
       mathsLabel: "การประมวลผลสัญญาณ & คณิตศาสตร์ประยุกต์",
@@ -443,44 +534,81 @@ export const translations = {
       recommendedCourse: "รายวิชาที่แนะนำ",
       inquireSyllabus: "สอบถามรายละเอียดหลักสูตรนี้",
       handsOnLabs: "ห้องปฏิบัติการทดลองภาคปฏิบัติ",
-      handsOnLabsDesc: "การทดลองจริงในห้องปฏิบัติการเพื่อให้ผู้เรียนเชี่ยวชาญการใช้งานฮาร์ดแวร์ QCM ขั้นสูงและอินเทอร์เฟซตัววัดสัญญาณชีวภาพ",
+      handsOnLabsDesc:
+        "การทดลองจริงในห้องปฏิบัติการเพื่อให้ผู้เรียนเชี่ยวชาญการใช้งานฮาร์ดแวร์ QCM ขั้นสูงและอินเทอร์เฟซตัววัดสัญญาณชีวภาพ",
       duration: "ระยะเวลา",
       requestSyllabus: "ขอรายละเอียดหลักสูตร",
       academicCourses: "รายวิชาและหลักสูตรการศึกษา",
-      academicCoursesDesc: "แผนการเรียนที่มีโครงสร้างชัดเจนซึ่งแนะนำสำหรับการบูรณาการหลักสูตรระดับปริญญาตรีและบัณฑิตศึกษา",
+      academicCoursesDesc:
+        "แผนการเรียนที่มีโครงสร้างชัดเจนซึ่งแนะนำสำหรับการบูรณาการหลักสูตรระดับปริญญาตรีและบัณฑิตศึกษา",
       teamSupport: "ทีมงานของเราพร้อมสนับสนุนการเรียนรู้ของนิสิตนักศึกษาทุกคน",
-      teamSupportDesc: "ผู้เชี่ยวชาญและนักนวัตกรรมผู้ขับเคลื่อนอนาคตของระบบตรวจวัดทางชีวโมเลกุลที่ Surazense",
+      teamSupportDesc:
+        "ผู้เชี่ยวชาญและนักนวัตกรรมผู้ขับเคลื่อนอนาคตของระบบตรวจวัดทางชีวโมเลกุลที่ Surazense",
       keySkills: "ทักษะหลักที่สอน",
       syllabusCompetencies: "สมรรถนะตามหลักสูตร",
       lab1Title: "แล็บ 1: การสอบเทียบและระบุลักษณะเซนเซอร์ QCM",
       lab1Subtitle: "การกวาดความถี่และการเชื่อมต่อฮาร์ดแวร์",
-      lab1Desc: "เรียนรู้พื้นฐานของเซนเซอร์ Quartz Crystal Microbalance (QCM) ผู้เรียนจะได้ทำการกวาดความถี่ตั้งแต่ 8MHz ถึง 12MHz เชื่อมต่อกับไมโครคอนโทรลเลอร์ ESP32 และจับพฤติกรรมการสั่นพ้องแบบเรียลไทม์",
-      lab1Topics: ["การสื่อสารแบบอนุกรม (UART)", "การติดตามการสั่นพ้อง", "การลดสัญญาณรบกวนของฮาร์ดแวร์"],
+      lab1Desc:
+        "เรียนรู้พื้นฐานของเซนเซอร์ Quartz Crystal Microbalance (QCM) ผู้เรียนจะได้ทำการกวาดความถี่ตั้งแต่ 8MHz ถึง 12MHz เชื่อมต่อกับไมโครคอนโทรลเลอร์ ESP32 และจับพฤติกรรมการสั่นพ้องแบบเรียลไทม์",
+      lab1Topics: [
+        "การสื่อสารแบบอนุกรม (UART)",
+        "การติดตามการสั่นพ้อง",
+        "การลดสัญญาณรบกวนของฮาร์ดแวร์",
+      ],
       lab2Title: "แล็บ 2: จลนศาสตร์การจับตัวของสารบ่งชี้ชีวภาพ (EGFR)",
       lab2Subtitle: "การแยกและการตรวจหาตัวบ่งชี้เป้าหมาย",
-      lab2Desc: "จำลองการทดลองจับคู่เพื่อการวินิจฉัยระดับโมเลกุล นำ DNA ชนิดปราศจากเซลล์ (cell-free DNA) ที่เตรียมไว้มาหยดลงบนผิวทองของเซนเซอร์ สังเกตการเปลี่ยนแปลงแอมพลิจูดแบบเรียลไทม์ และตัดสินการมีอยู่ของสารบ่งชี้ชีวภาพ",
-      lab2Topics: ["การเตรียมพื้นผิวทองเพื่อทำงาน", "การจับกันของแอนติเจนและแอนติบอดี", "การตรวจวัดตามเกณฑ์ตัดสิน"],
+      lab2Desc:
+        "จำลองการทดลองจับคู่เพื่อการวินิจฉัยระดับโมเลกุล นำ DNA ชนิดปราศจากเซลล์ (cell-free DNA) ที่เตรียมไว้มาหยดลงบนผิวทองของเซนเซอร์ สังเกตการเปลี่ยนแปลงแอมพลิจูดแบบเรียลไทม์ และตัดสินการมีอยู่ของสารบ่งชี้ชีวภาพ",
+      lab2Topics: [
+        "การเตรียมพื้นผิวทองเพื่อทำงาน",
+        "การจับกันของแอนติเจนและแอนติบอดี",
+        "การตรวจวัดตามเกณฑ์ตัดสิน",
+      ],
       lab3Title: "แล็บ 3: การประมวลผลสัญญาณขั้นสูงและสปลายน์",
       lab3Subtitle: "การวิเคราะห์สัญญาณรบกวนและการปรับเรียบเส้นโค้ง",
-      lab3Desc: "เน้นกระบวนการประมวลผลสัญญาณดิจิทัล ฝึกฝนการใช้สมการถดถอยพหุนามเพื่อประเมินเส้นฐานและการกรองแบบ Savitzky-Golay การประมาณค่า Peak Frequencies ด้วย Univariate Splines",
-      lab3Topics: ["การกรองแบบ Savitzky-Golay", "โมเดลปรับฐานข้อมูลให้ถูกต้อง", "การประมาณจุดยอดด้วย Spline"],
+      lab3Desc:
+        "เน้นกระบวนการประมวลผลสัญญาณดิจิทัล ฝึกฝนการใช้สมการถดถอยพหุนามเพื่อประเมินเส้นฐานและการกรองแบบ Savitzky-Golay การประมาณค่า Peak Frequencies ด้วย Univariate Splines",
+      lab3Topics: [
+        "การกรองแบบ Savitzky-Golay",
+        "โมเดลปรับฐานข้อมูลให้ถูกต้อง",
+        "การประมาณจุดยอดด้วย Spline",
+      ],
       course1Title: "บทนำสู่ไบโอเซนเซอร์และวิทยาศาสตร์พื้นผิว",
-      course1Desc: "วิชาเบื้องต้นที่ครอบคลุมฟิสิกส์เบื้องหลังการสั่นพ้องของ QCM ปฏิกิริยาระหว่างโมเลกุลบนพื้นผิวทอง และเครื่องมือวัดพื้นฐาน",
-      course1Skills: ["ฟิสิกส์ของ QCM", "วิทยาศาสตร์พื้นผิวเบื้องต้น", "ความปลอดภัยพื้นฐานในห้องปฏิบัติการ"],
+      course1Desc:
+        "วิชาเบื้องต้นที่ครอบคลุมฟิสิกส์เบื้องหลังการสั่นพ้องของ QCM ปฏิกิริยาระหว่างโมเลกุลบนพื้นผิวทอง และเครื่องมือวัดพื้นฐาน",
+      course1Skills: [
+        "ฟิสิกส์ของ QCM",
+        "วิทยาศาสตร์พื้นผิวเบื้องต้น",
+        "ความปลอดภัยพื้นฐานในห้องปฏิบัติการ",
+      ],
       course2Title: "เครื่องมือวินิจฉัยทางการแพทย์",
-      course2Desc: "เจาะลึกการเชื่อมต่อฮาร์ดแวร์ เรียนรู้การสร้างตัวควบคุมความถี่บนฐาน ESP32 กำหนดค่าโปรโตคอลอนุกรม และโครงสร้างอินเทอร์เฟซผู้ใช้บนเดสก์ท็อป",
-      course2Skills: ["ไมโครคอนโทรลเลอร์ ESP32", "Web Serial API / UART", "UI/UX สำหรับงานวินิจฉัย"],
+      course2Desc:
+        "เจาะลึกการเชื่อมต่อฮาร์ดแวร์ เรียนรู้การสร้างตัวควบคุมความถี่บนฐาน ESP32 กำหนดค่าโปรโตคอลอนุกรม และโครงสร้างอินเทอร์เฟซผู้ใช้บนเดสก์ท็อป",
+      course2Skills: [
+        "ไมโครคอนโทรลเลอร์ ESP32",
+        "Web Serial API / UART",
+        "UI/UX สำหรับงานวินิจฉัย",
+      ],
       course3Title: "การวิเคราะห์สัญญาณชีวภาพเชิงปริมาณ",
-      course3Desc: "แนวทางคณิตศาสตร์เพื่อลดสัญญาณรบกวนในการวินิจฉัย ประยุกต์ใช้ตัวกรองขั้นสูง เส้นโค้งการถดถอย และการประมาณค่าสปลายน์กับสัญญาณทางคลินิกแบบเรียลไทม์",
-      course3Skills: ["คณิตศาสตร์การประมวลผลสัญญาณ", "แบบจำลองการถดถอยข้อมูล", "การวิเคราะห์สัญญาณรบกวน"],
+      course3Desc:
+        "แนวทางคณิตศาสตร์เพื่อลดสัญญาณรบกวนในการวินิจฉัย ประยุกต์ใช้ตัวกรองขั้นสูง เส้นโค้งการถดถอย และการประมาณค่าสปลายน์กับสัญญาณทางคลินิกแบบเรียลไทม์",
+      course3Skills: [
+        "คณิตศาสตร์การประมวลผลสัญญาณ",
+        "แบบจำลองการถดถอยข้อมูล",
+        "การวิเคราะห์สัญญาณรบกวน",
+      ],
       gallery1Title: "การฝึกอบรมการแพทย์ / วิศวกรรม",
-      gallery1Desc: "เชื่อมโยงเทคนิคการวินิจฉัยทางชีวการแพทย์เข้ากับวิศวกรรมและความแม่นยำสูงทางอิเล็กทรอนิกส์",
+      gallery1Desc:
+        "เชื่อมโยงเทคนิคการวินิจฉัยทางชีวการแพทย์เข้ากับวิศวกรรมและความแม่นยำสูงทางอิเล็กทรอนิกส์",
       gallery2Title: "การฝึกปฏิบัติการในห้องแล็บ",
-      gallery2Desc: "ช่วงการฝึกปฏิบัติจริงที่มุ่งเน้นหลักการไบโอเซนเซอร์ กลไก และขั้นตอนการทำงาน",
+      gallery2Desc:
+        "ช่วงการฝึกปฏิบัติจริงที่มุ่งเน้นหลักการไบโอเซนเซอร์ กลไก และขั้นตอนการทำงาน",
       gallery3Title: "การพัฒนาโครงการ",
-      gallery3Desc: "พัฒนาระบบเครื่องมือวัด สอบเทียบการกวาดความถี่เซนเซอร์ และสร้างส่วนติดต่อผู้ใช้บนเดสก์ท็อป",
+      gallery3Desc:
+        "พัฒนาระบบเครื่องมือวัด สอบเทียบการกวาดความถี่เซนเซอร์ และสร้างส่วนติดต่อผู้ใช้บนเดสก์ท็อป",
       gallery4Title: "การวิจัยทางวิทยาศาสตร์",
-      gallery4Desc: "ประยุกต์ใช้อัลกอริทึมการประมวลผลสัญญาณ การคำนวณสปลายน์ และตัวกรองข้อมูลกับเซนเซอร์แบบเรียลไทม์",
+      gallery4Desc:
+        "ประยุกต์ใช้อัลกอริทึมการประมวลผลสัญญาณ การคำนวณสปลายน์ และตัวกรองข้อมูลกับเซนเซอร์แบบเรียลไทม์",
       cert1Title: "ใบรับรองการอบรมเทคโนโลยีชีวภาพ",
       cert1Recipient: "ผ่านการอบรมห้องปฏิบัติการตรวจหาตัวบ่งชี้มะเร็ง",
       cert2Title: "ใบรับรองการอบรมด้านวิศวกรรม",
@@ -492,7 +620,8 @@ export const translations = {
       cert5Title: "ใบรับรองขั้นสูงด้านวิศวกรรม",
       cert5Recipient: "ผ่านการอบรมระดับสูงการเชื่อมต่อ ESP32 & QCM",
       cert6Title: "ใบรับรองขั้นสูงวิทยาศาสตร์การแพทย์",
-      cert6Recipient: "ผ่านการอบรมระดับสูงห้องปฏิบัติการจลนศาสตร์และอิมมูโนแอสเซย์",
+      cert6Recipient:
+        "ผ่านการอบรมระดับสูงห้องปฏิบัติการจลนศาสตร์และอิมมูโนแอสเซย์",
       lab1Duration: "3 ชั่วโมง",
       lab2Duration: "4 ชั่วโมง",
       lab3Duration: "3 ชั่วโมง",
@@ -505,17 +634,20 @@ export const translations = {
       gallery1Category: "การแพทย์ / วิศวกรรม",
       gallery2Category: "การฝึกปฏิบัติในห้องแล็บ",
       gallery3Category: "การพัฒนาโครงการ",
-      gallery4Category: "การวิจัย & ข้อมูล"
+      gallery4Category: "การวิจัย & ข้อมูล",
     },
     contacts: {
       contactUs: "ติดต่อเรา",
-      formInstruction: "กรุณากรอกแบบฟอร์มเพื่อติดต่อเราเกี่ยวกับผลิตภัณฑ์ของเรา",
+      formInstruction:
+        "กรุณากรอกแบบฟอร์มเพื่อติดต่อเราเกี่ยวกับผลิตภัณฑ์ของเรา",
       headOffice: "สำนักงานใหญ่",
       directContact: "ติดต่อโดยตรง",
       phone: "โทรศัพท์",
       email: "อีเมล",
-      pitchText1: "เราแสวงหาผู้แทนจำหน่ายเพื่อสร้างความสัมพันธ์ระยะยาว โดยให้คุณค่ากับผู้ที่พร้อมทำความเข้าใจผลิตภัณฑ์ของเราและเข้ารับการฝึกอบรมที่จำเป็น",
-      pitchText2: "ร่วมมือกับเราเพื่อสร้างพันธมิตรที่ประสบความสำเร็จและสร้างผลกำไรร่วมกัน",
+      pitchText1:
+        "เราแสวงหาผู้แทนจำหน่ายเพื่อสร้างความสัมพันธ์ระยะยาว โดยให้คุณค่ากับผู้ที่พร้อมทำความเข้าใจผลิตภัณฑ์ของเราและเข้ารับการฝึกอบรมที่จำเป็น",
+      pitchText2:
+        "ร่วมมือกับเราเพื่อสร้างพันธมิตรที่ประสบความสำเร็จและสร้างผลกำไรร่วมกัน",
       pleaseSelect: "กรุณาเลือกหัวข้อ *",
       firstName: "ชื่อ *",
       lastName: "นามสกุล *",
@@ -542,11 +674,12 @@ export const translations = {
         quotation: "ขอใบเสนอราคา",
         demo: "เข้าชมห้องแล็บ / สาธิตการใช้งาน",
         collab: "เข้าร่วม / ร่วมมือพันธมิตร",
-        general: "สอบถามข้อมูลทั่วไป"
-      }
+        general: "สอบถามข้อมูลทั่วไป",
+      },
     },
     footer: {
-      brandDesc: "เรามุ่งมั่นที่จะพัฒนาและยกระดับระบบการแพทย์ด้วยเทคโนโลยีไบโอเซนเซอร์ และพัฒนาไบโอเซนเซอร์ที่มีประสิทธิภาพสูงขึ้นในการตรวจหาโรคมะเร็ง",
+      brandDesc:
+        "เรามุ่งมั่นที่จะพัฒนาและยกระดับระบบการแพทย์ด้วยเทคโนโลยีไบโอเซนเซอร์ และพัฒนาไบโอเซนเซอร์ที่มีประสิทธิภาพสูงขึ้นในการตรวจหาโรคมะเร็ง",
       pagesTitle: "หน้าเว็บ",
       servicesTitle: "บริการ",
       mapsTitle: "แผนที่ตั้ง",
@@ -558,7 +691,7 @@ export const translations = {
       demo: "การสาธิต",
       shopify: "ช้อปปี้ฟาย",
       wordpress: "เวิร์ดเพรสส์",
-      uiux: "ออกแบบ UI/UX"
+      uiux: "ออกแบบ UI/UX",
     },
     login: {
       welcomeBack: "ยินดีต้อนรับกลับมา",
@@ -574,7 +707,7 @@ export const translations = {
       emailPlaceholder: "อีเมล",
       passwordPlaceholder: "รหัสผ่าน",
       continue: "ดำเนินการต่อ",
-      signInWith: "เข้าสู่ระบบด้วย"
+      signInWith: "เข้าสู่ระบบด้วย",
     },
     cancerReportPage: {
       title: "รายงานการตรวจหามะเร็ง",
@@ -609,7 +742,8 @@ export const translations = {
       high: "สูง (High)",
       low: "ต่ำ (Low)",
       notAvailable: "ไม่มีข้อมูล",
-      formulaText: "อัตราส่วนของจำนวนสำเนา RNA ที่สนใจ ต่อจำนวนสำเนา PSA RNA คูณด้วย 1000",
+      formulaText:
+        "อัตราส่วนของจำนวนสำเนา RNA ที่สนใจ ต่อจำนวนสำเนา PSA RNA คูณด้วย 1000",
       export: "ส่งออกข้อมูล",
       print: "พิมพ์รายงาน",
       next: "ถัดไป",
@@ -638,7 +772,7 @@ export const translations = {
       actions: "การจัดการ",
       load: "โหลดข้อมูล",
       delete: "ลบ",
-      close: "ปิด"
-    }
-  }
+      close: "ปิด",
+    },
+  },
 };
