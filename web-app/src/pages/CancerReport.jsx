@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
+import { useUser } from "../context/UserContext";
 import {
   FileText,
   Printer,
@@ -176,6 +178,15 @@ const convertOklchToRgb = (element) => {
 
 export default function CancerReport() {
   const { t, language } = useLanguage();
+  const { user, loading, logout } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login?redirect=/cancer-report");
+    }
+  }, [user, loading, navigate]);
+
   const [activeTab, setActiveTab] = useState("tumor"); // 'tumor' | 'genetics'
   const [isExporting, setIsExporting] = useState(false);
 
@@ -185,6 +196,54 @@ export default function CancerReport() {
   const [isSaving, setIsSaving] = useState(false);
   const [showSavedDrawer, setShowSavedDrawer] = useState(false);
   const [toast, setToast] = useState({ message: "", type: null });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-slate-500 font-medium">Loading...</div>
+      </div>
+    );
+  }
+
+  const isAuthorized = user && (user.role === "doctor" || user.role === "patient" || user.role === "admin");
+
+  if (!isAuthorized) {
+    return (
+      <div className="min-h-screen bg-slate-50 pt-28 pb-24 flex items-center justify-center px-6">
+        <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl p-8 md:p-12 max-w-lg w-full text-center">
+          <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-rose-100">
+            <Lock className="w-10 h-10" />
+          </div>
+          <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">
+            {language === "th" ? "ปฏิเสธการเข้าถึง" : "Access Denied"}
+          </h2>
+          <p className="text-slate-500 mb-8 text-sm leading-relaxed">
+            {language === "th"
+              ? "หน้านี้จำกัดสิทธิ์เฉพาะ แพทย์ (Doctor) หรือ คนไข้ (Patient) เท่านั้น บัญชีของคุณไม่มีสิทธิ์ในการเข้าถึงรายงานวิเคราะห์โรคมะเร็ง"
+              : "This page is restricted to Doctors or Patients. Your account does not have permission to access the cancer detection reports."}
+          </p>
+
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => navigate("/")}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/20 transition-all text-center no-underline border-none cursor-pointer text-sm"
+            >
+              {language === "th" ? "กลับหน้าหลัก" : "Go to Home"}
+            </button>
+            <button
+              onClick={() => {
+                logout();
+                navigate("/login?redirect=/cancer-report");
+              }}
+              className="w-full bg-slate-50 hover:bg-slate-100 text-slate-600 font-bold py-4 rounded-xl transition-all text-center border border-slate-200 cursor-pointer text-sm"
+            >
+              {language === "th" ? "ออกจากระบบเพื่อเปลี่ยนบัญชี" : "Log Out & Switch Account"}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // Auto-hide toast notifications after 3 seconds
   useEffect(() => {

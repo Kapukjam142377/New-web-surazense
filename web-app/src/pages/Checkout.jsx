@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShoppingBag,
@@ -9,15 +9,31 @@ import {
   Truck,
   AlertCircle,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Checkout() {
   const { cartItems, cartTotal, clearCart } = useCart();
-  const { user } = useUser();
+  const { user, loading } = useUser();
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login?redirect=/checkout");
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-slate-500 font-medium">Loading...</div>
+      </div>
+    );
+  }
+
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const [form, setForm] = useState({

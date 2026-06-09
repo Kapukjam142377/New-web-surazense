@@ -113,15 +113,69 @@ export class SerialService {
     }
   }
 
+  async closePortOnly() {
+    this.keepReading = false;
+    if (this.reader) {
+      try {
+        await this.reader.cancel();
+      } catch (e) {}
+      this.reader = null;
+    }
+    if (this.writer) {
+      try {
+        this.writer.releaseLock();
+      } catch (e) {}
+      this.writer = null;
+    }
+    if (this.port) {
+      try {
+        await this.port.close();
+      } catch (e) {}
+    }
+  }
+
+  async openPortOnly(baudRate = 115200) {
+    if (!this.port) return false;
+    try {
+      await this.port.open({
+        baudRate: baudRate,
+        dataBits: 8,
+        stopBits: 1,
+        parity: "none",
+      });
+      this.keepReading = true;
+      return true;
+    } catch (e) {
+      console.error("Open port error:", e);
+      return false;
+    }
+  }
+
+  async resetConnection() {
+    if (!this.port) return false;
+    console.log("Resetting serial connection to clear buffers...");
+    await this.closePortOnly();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    const opened = await this.openPortOnly(115200);
+    if (opened) {
+      console.log("Serial connection reset successful. Waiting for device boot...");
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      return true;
+    }
+    return false;
+  }
+
   async writeCommand(cmd) {
     if (!this.port) return;
+    console.log("Writing serial command:", JSON.stringify(cmd));
     const encoder = new TextEncoder();
     this.writer = this.port.writable.getWriter();
     await this.writer.write(encoder.encode(cmd));
     this.writer.releaseLock();
   }
 
-  async readData() {
+  async readData(expectedLines = 0) {
+    console.log(`readData started (expectedLines: ${expectedLines})`);
     let buffer = "";
     const decoder = new TextDecoder();
     this.reader = this.port.readable.getReader();
@@ -129,21 +183,48 @@ export class SerialService {
     try {
       while (this.keepReading) {
         const { value, done } = await this.reader.read();
-        if (done) break;
+        if (done) {
+          console.log("readData: done signaled by stream");
+          break;
+        }
 
         if (value) {
-          buffer += decoder.decode(value, { stream: true });
+          const decoded = decoder.decode(value, { stream: true });
+          buffer += decoded;
+          console.log(`readData: received chunk (${value.length} bytes). Total buffer length: ${buffer.length}. Ends with 's': ${buffer.endsWith("s")}`);
+          
+          // Check for 's' and discard old incomplete sweep data if any
+          let hasS = buffer.includes("s");
+          while (hasS) {
+            const sIndex = buffer.indexOf("s");
+            const linesBeforeS = buffer.substring(0, sIndex).split("\n").length;
+            console.log(`readData: found 's' at index ${sIndex}. Lines before: ${linesBeforeS}`);
+            
+            if (expectedLines > 0 && linesBeforeS < expectedLines) {
+              console.log(`readData: lines before 's' (${linesBeforeS}) < expectedLines (${expectedLines}). Discarding leftover buffer up to 's'.`);
+              buffer = buffer.substring(sIndex + 1);
+              hasS = buffer.includes("s");
+            } else {
+              console.log(`readData: lines before 's' (${linesBeforeS}) >= expectedLines (${expectedLines}). Keeping buffer.`);
+              break;
+            }
+          }
+          
           if (buffer.includes("s")) {
+            console.log("readData: valid 's' found. Breaking read loop.");
             break;
           }
         }
       }
     } catch (error) {
-      console.error("Read error:", error);
+      console.error("readData: Read error:", error);
     } finally {
       if (this.reader) {
-        this.reader.releaseLock();
+        try {
+          this.reader.releaseLock();
+        } catch (e) {}
       }
+      console.log(`readData finished. Returned buffer length: ${buffer.length}`);
     }
     return buffer;
   }

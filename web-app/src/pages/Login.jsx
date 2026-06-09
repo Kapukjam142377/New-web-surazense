@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Mail, Key, User, Phone } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { useUser } from "../context/UserContext";
 
@@ -8,6 +8,8 @@ export default function Login() {
   const { t, language } = useLanguage();
   const { login, register } = useUser();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectPath = searchParams.get("redirect") || "/";
 
   const [authMode, setAuthMode] = useState("login"); // 'login' | 'signup'
   const [email, setEmail] = useState("");
@@ -27,7 +29,7 @@ export default function Login() {
     if (authMode === "login") {
       const res = await login(email, password);
       if (res.success) {
-        navigate("/");
+        navigate(redirectPath);
       } else {
         setError(res.message);
       }
@@ -41,7 +43,7 @@ export default function Login() {
         phone,
       });
       if (res.success) {
-        navigate("/");
+        navigate(redirectPath);
       } else {
         setError(res.message);
       }
