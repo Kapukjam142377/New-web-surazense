@@ -291,8 +291,8 @@ export const translations = {
     footer: {
       brandDesc:
         "We're all about boosting health system with our biosensor tech and are working to make better biosensors for detecting cancer",
-      pagesTitle: "Pages",
-      servicesTitle: "Service",
+      pagesTitle: "Company",
+      servicesTitle: "Products & Services",
       mapsTitle: "Maps Location",
       rightsReserved: "All rights reserved.",
       pleaseAddMap: "Please add 'footer-map.jpg' to public folder",
@@ -722,8 +722,8 @@ export const translations = {
     footer: {
       brandDesc:
         "เรามุ่งมั่นที่จะพัฒนาและยกระดับระบบการแพทย์ด้วยเทคโนโลยีไบโอเซนเซอร์ และพัฒนาไบโอเซนเซอร์ที่มีประสิทธิภาพสูงขึ้นในการตรวจหาโรคมะเร็ง",
-      pagesTitle: "หน้าเว็บ",
-      servicesTitle: "บริการ",
+      pagesTitle: "ข้อมูลบริษัท",
+      servicesTitle: "ผลิตภัณฑ์และบริการ",
       mapsTitle: "แผนที่ตั้ง",
       rightsReserved: "สงวนลิขสิทธิ์ทั้งหมด",
       pleaseAddMap: "กรุณาใส่รูป 'footer-map.jpg' ในโฟลเดอร์ public",

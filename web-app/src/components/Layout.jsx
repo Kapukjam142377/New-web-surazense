@@ -820,75 +820,99 @@ export default function Layout({ children }) {
             </div>
           </div>
 
-          {/* Column 2: Pages */}
+          {/* Column 2: Company */}
           <div>
             <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">
               {t("footer.pagesTitle")}
             </h3>
-            <ul className="space-y-4">
+            <ul className="space-y-3.5">
               <li>
                 <Link
-                  to="/how-it-works"
-                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                  to="/"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
                 >
-                  {t("footer.howItWorks")}
+                  {t("nav.home")}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/pricing"
-                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                  to="/about"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
                 >
-                  {t("footer.pricing")}
+                  {t("nav.about")}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/blog"
-                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                  to="/technology"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
                 >
-                  {t("footer.blog")}
+                  {t("nav.technology")}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/demo"
-                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                  to="/collaboration"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
                 >
-                  {t("footer.demo")}
+                  {t("nav.collaboration")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/news"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
+                >
+                  {t("nav.news")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contacts"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
+                >
+                  {t("nav.contacts")}
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Service */}
+          {/* Column 3: Products & Services */}
           <div>
             <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">
               {t("footer.servicesTitle")}
             </h3>
-            <ul className="space-y-4">
+            <ul className="space-y-3.5">
               <li>
                 <Link
-                  to="/service/shopify"
-                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                  to="/products"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
                 >
-                  {t("footer.shopify")}
+                  {t("nav.products")}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/service/wordpress"
-                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                  to="/academic-training"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
                 >
-                  {t("footer.wordpress")}
+                  {t("nav.academicTraining")}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/service/ui-ux"
-                  className="text-white/80 hover:text-white transition-colors text-[14px]"
+                  to="/cancer-report"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
                 >
-                  {t("footer.uiux")}
+                  {t("nav.cancerReport")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
+                >
+                  {t("nav.xzenseSoftware")}
                 </Link>
               </li>
             </ul>
@@ -899,21 +923,16 @@ export default function Layout({ children }) {
             <h3 className="text-[17px] font-bold mb-6 text-white tracking-wide">
               {t("footer.mapsTitle")}
             </h3>
-            <div className="w-full bg-white/10 overflow-hidden aspect-[1.4] flex items-center justify-center relative cursor-pointer group shadow-sm">
-              {/* Map Image Area - Will show fallback text if image is missing */}
-              <div className="absolute inset-0 flex items-center justify-center p-4 text-center z-0">
-                <span className="text-sm text-white/80 font-medium">
-                  {t("footer.pleaseAddMap")}
-                </span>
-              </div>
-              <img
-                src="/footer-map.jpg"
-                alt="Map Location"
-                className="w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-105"
-                onError={(e) => {
-                  e.target.style.opacity = "0";
-                }}
-              />
+            <div className="w-full bg-white/10 overflow-hidden aspect-[1.4] flex items-center justify-center relative shadow-sm rounded-xl">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.692899394595!2d102.04556377495457!3d14.86769648565092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x311ead4fb4cb071b%3A0x964929032c5e61ae!2z4Lia4Lij4Li04Lip4Lix4LiXIOC4quC4uOC4o-C5gOC4i-C4meC4quC5jCDguIjguLPguIHguLHguJQgKOC4quC4s-C4meC4seC4geC4h-C4suC4meC5g-C4q-C4jeC5iCk!5e1!3m2!1sth!2sth!4v1781083830344!5m2!1sth!2sth"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>
