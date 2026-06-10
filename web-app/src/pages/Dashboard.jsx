@@ -1,32 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import * as echarts from "echarts";
-import ReactECharts from "echarts-for-react";
-import { 
-  History, 
-  CheckCircle, 
-  AlertCircle, 
-  Play, 
-  Pause, 
-  Square, 
-  ArrowLeft, 
-  RefreshCw, 
-  Database,
-  FileText,
-  Activity,
-  Cpu,
-  Settings,
-  Folder
-} from "lucide-react";
+import QcmChart from "../components/QcmChart";
+import ResonanceMetrics from "../components/ResonanceMetrics";
+import SavedRunsDatabase from "../components/SavedRunsDatabase";
+import DataExportCard from "../components/DataExportCard";
+import SystemControlsCard from "../components/SystemControlsCard";
+import { CheckCircle, AlertCircle, Activity } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { serialInstance } from "../utils/serialService";
-import { 
-  baselineCorrection, 
-  findPeak, 
-  sgFilter, 
-  naturalCubicSpline, 
-  evaluateSpline, 
-  evalPolynomial, 
-  npAverage 
+import {
+  baselineCorrection,
+  findPeak,
+  sgFilter,
+  naturalCubicSpline,
+  evaluateSpline,
+  evalPolynomial,
+  npAverage,
 } from "../utils/mathUtils";
 import { useUser } from "../context/UserContext";
 
@@ -42,20 +31,20 @@ function Dashboard() {
   const [mode, setMode] = useState("calibration"); // 'calibration' or 'measurement'
   const [checkPage, setCheckPage] = useState("blank"); // 'blank', 'measure', 'cal'
   const [measurementView, setMeasurementView] = useState("A"); // 'A' or 'B'
-  
+
   // Measurement Run States
   const [isMeasurementRunning, setIsMeasurementRunning] = useState(false);
   const [isMeasurementPaused, setIsMeasurementPaused] = useState(false);
   const [measurementCount, setMeasurementCount] = useState(0);
-  
+
   // Calibration Coefficients & Resonance Peak
   const [calibrationCoeffs, setCalibrationCoeffs] = useState([]);
   const [calibrationPeak, setCalibrationPeak] = useState(null);
-  
+
   // Buffers for Peak Resonance Frequency over time
   const [freqRangeMean, setFreqRangeMean] = useState([]);
   const [peakFreqBuffer, setPeakFreqBuffer] = useState([]);
-  
+
   // Before / After collection states
   const [getValuesBefore, setGetValuesBefore] = useState([]);
   const [getValuesAfter, setGetValuesAfter] = useState([]);
@@ -64,23 +53,87 @@ function Dashboard() {
   const [deltaF, setDeltaF] = useState(null);
   const [statusCollectDataBefore, setStatusCollectDataBefore] = useState(false);
   const [statusCollectDataAfter, setStatusCollectDataAfter] = useState(false);
-  
+
   // Analysis parameters and results
   const [threshold, setThreshold] = useState(10); // Default 10 Hz
   const [targetName, setTargetName] = useState("EGFR");
   const [showResult, setShowResult] = useState(""); // 'Detected' or 'Not Detected'
-  
+
   // Zoomed-in spectrum data for View B
   const [zoomedFreqs, setZoomedFreqs] = useState([]);
   const [zoomedAmplitudes, setZoomedAmplitudes] = useState([]);
 
   // Entry inputs (modern equivalents of Python entries)
   const [nameEntry, setNameEntry] = useState("");
-  const [directoryEntry, setDirectoryEntry] = useState("C:/Users/Victus 15/QCM_Data");
+  const [directoryEntry, setDirectoryEntry] = useState(
+    "C:/Users/Victus 15/QCM_Data",
+  );
   const [directoryHandle, setDirectoryHandle] = useState(null);
   const [openBcEntry, setOpenBcEntry] = useState("");
   const [saveBcEntry, setSaveBcEntry] = useState("");
-  const [directoryBcEntry, setDirectoryBcEntry] = useState("C:/Users/Victus 15/QCM_Data/Baseline");
+  const [directoryBcEntry, setDirectoryBcEntry] = useState(
+    "C:/Users/Victus 15/QCM_Data/Baseline",
+  );
+
+  // Refs to store high-frequency real-time QCM sweep data to prevent excessive React renders
+  const freqRangeMeanRef = useRef([]);
+  const peakFreqBufferRef = useRef([]);
+  const zoomedFreqsRef = useRef([]);
+  const zoomedAmplitudesRef = useRef([]);
+  const measurementCountRef = useRef(0);
+  const getValuesBeforeRef = useRef([]);
+  const getValuesAfterRef = useRef([]);
+  const avgFreq1Ref = useRef(null);
+  const avgFreq2Ref = useRef(null);
+
+  // Refs for tracking loop control variables without restarting useEffect
+  const isMeasurementPausedRef = useRef(isMeasurementPaused);
+  const statusCollectDataBeforeRef = useRef(statusCollectDataBefore);
+  const statusCollectDataAfterRef = useRef(statusCollectDataAfter);
+  const calibrationPeakRef = useRef(calibrationPeak);
+  const calibrationCoeffsRef = useRef(calibrationCoeffs);
+
+  // Sync state values to refs on change
+  useEffect(() => {
+    isMeasurementPausedRef.current = isMeasurementPaused;
+  }, [isMeasurementPaused]);
+  useEffect(() => {
+    statusCollectDataBeforeRef.current = statusCollectDataBefore;
+  }, [statusCollectDataBefore]);
+  useEffect(() => {
+    statusCollectDataAfterRef.current = statusCollectDataAfter;
+  }, [statusCollectDataAfter]);
+  useEffect(() => {
+    calibrationPeakRef.current = calibrationPeak;
+  }, [calibrationPeak]);
+  useEffect(() => {
+    calibrationCoeffsRef.current = calibrationCoeffs;
+  }, [calibrationCoeffs]);
+
+  const flushRefsToState = () => {
+    setFreqRangeMean([...freqRangeMeanRef.current]);
+    setPeakFreqBuffer([...peakFreqBufferRef.current]);
+    setMeasurementCount(measurementCountRef.current);
+    setGetValuesBefore([...getValuesBeforeRef.current]);
+    setGetValuesAfter([...getValuesAfterRef.current]);
+    setAvgFreq1(avgFreq1Ref.current);
+    setAvgFreq2(avgFreq2Ref.current);
+    setZoomedFreqs([...zoomedFreqsRef.current]);
+    setZoomedAmplitudes([...zoomedAmplitudesRef.current]);
+  };
+
+  // Throttled UI state updater (runs every 150ms to batch update React states for UI and ECharts)
+  useEffect(() => {
+    if (!isMeasurementRunning) return;
+
+    const intervalId = setInterval(() => {
+      flushRefsToState();
+    }, 150);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isMeasurementRunning]);
 
   useEffect(() => {
     if (user) {
@@ -118,12 +171,21 @@ function Dashboard() {
         const handle = await window.showDirectoryPicker();
         setDirectoryHandle(handle);
         setDirectoryEntry(handle.name);
-        setToast({ message: `Save directory set to "${handle.name}".`, type: "success" });
+        setToast({
+          message: `Save directory set to "${handle.name}".`,
+          type: "success",
+        });
       } else {
-        const customPath = prompt("Enter the absolute save directory path:", directoryEntry);
+        const customPath = prompt(
+          "Enter the absolute save directory path:",
+          directoryEntry,
+        );
         if (customPath !== null) {
           setDirectoryEntry(customPath);
-          setToast({ message: `Save directory set to "${customPath}".`, type: "success" });
+          setToast({
+            message: `Save directory set to "${customPath}".`,
+            type: "success",
+          });
         }
       }
     } catch (e) {
@@ -155,23 +217,34 @@ function Dashboard() {
         csvContent = "Count,Time,Resonance_Frequency (Hz)\n";
         const now = new Date();
         freqRangeMean.forEach((val, idx) => {
-          const timeOffset = new Date(now.getTime() - (freqRangeMean.length - 1 - idx) * 1000);
+          const timeOffset = new Date(
+            now.getTime() - (freqRangeMean.length - 1 - idx) * 1000,
+          );
           const tStr = timeOffset.toTimeString().split(" ")[0];
           csvContent += `${idx + 1},${tStr},${val}\n`;
         });
       } else {
         csvContent = "xf,data,baseline,coefficial\n";
-        const limit = Math.max(baselineFreqs.length, baselineMag.length, calibrationBaseLine.length);
+        const limit = Math.max(
+          baselineFreqs.length,
+          baselineMag.length,
+          calibrationBaseLine.length,
+        );
         for (let i = 0; i < limit; i++) {
-          const xfVal = baselineFreqs[i] !== undefined ? (baselineFreqs[i] * 1e6) : "";
+          const xfVal =
+            baselineFreqs[i] !== undefined ? baselineFreqs[i] * 1e6 : "";
           const dataVal = baselineMag[i] !== undefined ? baselineMag[i] : "";
-          const baseVal = calibrationBaseLine[i] !== undefined ? calibrationBaseLine[i] : "";
-          const coeffVal = calibrationCoeffs[i] !== undefined ? calibrationCoeffs[i] : "";
+          const baseVal =
+            calibrationBaseLine[i] !== undefined ? calibrationBaseLine[i] : "";
+          const coeffVal =
+            calibrationCoeffs[i] !== undefined ? calibrationCoeffs[i] : "";
           csvContent += `${xfVal},${dataVal},${baseVal},${coeffVal}\n`;
         }
       }
 
-      const fileName = nameEntry.endsWith(".csv") ? nameEntry : `${nameEntry}.csv`;
+      const fileName = nameEntry.endsWith(".csv")
+        ? nameEntry
+        : `${nameEntry}.csv`;
 
       if (window.showDirectoryPicker && directoryHandle) {
         const opts = { mode: "readwrite" };
@@ -180,13 +253,20 @@ function Dashboard() {
             throw new Error("Write permission denied.");
           }
         }
-        const fileHandle = await directoryHandle.getFileHandle(fileName, { create: true });
+        const fileHandle = await directoryHandle.getFileHandle(fileName, {
+          create: true,
+        });
         const writable = await fileHandle.createWritable();
         await writable.write(csvContent);
         await writable.close();
-        setToast({ message: `CSV saved successfully as "${fileName}" inside the selected directory.`, type: "success" });
+        setToast({
+          message: `CSV saved successfully as "${fileName}" inside the selected directory.`,
+          type: "success",
+        });
       } else {
-        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const blob = new Blob([csvContent], {
+          type: "text/csv;charset=utf-8;",
+        });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.setAttribute("href", url);
@@ -194,12 +274,18 @@ function Dashboard() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        setToast({ message: `CSV download started: "${fileName}"`, type: "success" });
+        setToast({
+          message: `CSV download started: "${fileName}"`,
+          type: "success",
+        });
       }
       return true;
     } catch (e) {
       console.error("Save CSV error:", e);
-      setToast({ message: `Failed to save CSV file: ${e.message}`, type: "error" });
+      setToast({
+        message: `Failed to save CSV file: ${e.message}`,
+        type: "error",
+      });
       return false;
     }
   };
@@ -219,9 +305,14 @@ function Dashboard() {
     reader.onload = (event) => {
       try {
         const text = event.target.result;
-        const lines = text.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+        const lines = text
+          .split(/\r?\n/)
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0);
         if (lines.length < 2) {
-          throw new Error("Invalid CSV format: file is empty or missing headers.");
+          throw new Error(
+            "Invalid CSV format: file is empty or missing headers.",
+          );
         }
 
         const xf = [];
@@ -248,9 +339,9 @@ function Dashboard() {
         setMode("calibration");
         setCheckPage("measure");
         setOpenBcEntry(file.name);
-        
+
         const plotData = [];
-        const freqsMHz = xf.map(f => f / 1e6);
+        const freqsMHz = xf.map((f) => f / 1e6);
         for (let i = 0; i < freqsMHz.length; i++) {
           plotData.push([freqsMHz[i], rawData[i]]);
         }
@@ -265,10 +356,16 @@ function Dashboard() {
         const peakAmpVal = peakInfo.maxValues[0];
         setCalibrationPeak({ freq: peakFreqVal, value: peakAmpVal });
 
-        setToast({ message: `Successfully loaded baseline CSV: "${file.name}"`, type: "success" });
+        setToast({
+          message: `Successfully loaded baseline CSV: "${file.name}"`,
+          type: "success",
+        });
       } catch (err) {
         console.error("Baseline CSV import error:", err);
-        setToast({ message: `Failed to load CSV: ${err.message}`, type: "error" });
+        setToast({
+          message: `Failed to load CSV: ${err.message}`,
+          type: "error",
+        });
       }
     };
     reader.readAsText(file);
@@ -283,9 +380,14 @@ function Dashboard() {
     reader.onload = (event) => {
       try {
         const text = event.target.result;
-        const lines = text.split(/\r?\n/).map(line => line.trim()).filter(line => line.length > 0);
+        const lines = text
+          .split(/\r?\n/)
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0);
         if (lines.length < 2) {
-          throw new Error("Invalid CSV format: file is empty or missing headers.");
+          throw new Error(
+            "Invalid CSV format: file is empty or missing headers.",
+          );
         }
 
         const values = [];
@@ -300,22 +402,33 @@ function Dashboard() {
         }
 
         if (values.length === 0) {
-          throw new Error("No valid resonance frequency data found in column 3.");
+          throw new Error(
+            "No valid resonance frequency data found in column 3.",
+          );
         }
 
         const avg = npAverage(values);
         if (type === "before") {
           setGetValuesBefore(values);
           setAvgFreq1(avg);
-          setToast({ message: `Loaded Before CSV successfully: ${values.length} samples, average is ${Math.round(avg).toLocaleString()} Hz`, type: "success" });
+          setToast({
+            message: `Loaded Before CSV successfully: ${values.length} samples, average is ${Math.round(avg).toLocaleString()} Hz`,
+            type: "success",
+          });
         } else {
           setGetValuesAfter(values);
           setAvgFreq2(avg);
-          setToast({ message: `Loaded After CSV successfully: ${values.length} samples, average is ${Math.round(avg).toLocaleString()} Hz`, type: "success" });
+          setToast({
+            message: `Loaded After CSV successfully: ${values.length} samples, average is ${Math.round(avg).toLocaleString()} Hz`,
+            type: "success",
+          });
         }
       } catch (err) {
         console.error("Measurement CSV import error:", err);
-        setToast({ message: `Failed to load measurement CSV: ${err.message}`, type: "error" });
+        setToast({
+          message: `Failed to load measurement CSV: ${err.message}`,
+          type: "error",
+        });
       }
     };
     reader.readAsText(file);
@@ -383,7 +496,9 @@ function Dashboard() {
           setAvgFreq2(analysis.avg_frequency2);
           setDeltaF(analysis.delta_f);
           if (analysis.delta_f !== null) {
-            setShowResult(analysis.delta_f > threshold ? "Detected" : "Not Detected");
+            setShowResult(
+              analysis.delta_f > threshold ? "Detected" : "Not Detected",
+            );
           } else {
             setShowResult("");
           }
@@ -475,7 +590,10 @@ function Dashboard() {
     // Reset connection to clear buffers and restart Arduino
     const resetSuccess = await serialInstance.resetConnection();
     if (!resetSuccess) {
-      setToast({ message: "Failed to reset serial connection.", type: "error" });
+      setToast({
+        message: "Failed to reset serial connection.",
+        type: "error",
+      });
       setIsCalibrating(false);
       return;
     }
@@ -513,18 +631,24 @@ function Dashboard() {
     // Generate frequencies linspace
     const readFREQ = [];
     const samples = dataMag.length;
-    
+
     // Baseline estimation
     try {
       if (samples < 9) {
-        throw new Error(`Incomplete calibration data: received ${samples} points (expected ~4000). Please check the serial connection.`);
+        throw new Error(
+          `Incomplete calibration data: received ${samples} points (expected ~4000). Please check the serial connection.`,
+        );
       }
 
       for (let i = 0; i < samples; i++) {
         readFREQ.push(8 + (12 - 8) * (i / (samples - 1)));
       }
 
-      const { magBaselineCorrected, coeffs } = baselineCorrection(readFREQ, dataMag, 8);
+      const { magBaselineCorrected, coeffs } = baselineCorrection(
+        readFREQ,
+        dataMag,
+        8,
+      );
       setCalibrationBaseLine(magBaselineCorrected);
       setCalibrationCoeffs(coeffs);
       setBaselineFreqs(readFREQ);
@@ -541,7 +665,7 @@ function Dashboard() {
       const peakInfo = findPeak(readFREQHz, magBaselineCorrected, 4000);
       const peakFreqVal = peakInfo.maxFreqs[0];
       const peakAmpVal = peakInfo.maxValues[0];
-      
+
       setCalibrationPeak({ freq: peakFreqVal, value: peakAmpVal });
 
       // Check validation: peak amplitude > 0.1 and peak frequency between 9.5MHz and 10.5MHz
@@ -561,9 +685,22 @@ function Dashboard() {
         });
       }
     } catch (e) {
-      console.error("Math error:", e);
+      console.error("Calibration error:", e);
       setCheckPage("blank");
-      setToast({ message: e.message || "Calibration math error.", type: "error" });
+      if (
+        e.message?.includes("lost") ||
+        e.message?.includes("closed") ||
+        e.message?.includes("device")
+      ) {
+        setIsConnected(false);
+        setStatusText("Disconnected");
+        setToast({ message: "Connection to QCM device lost.", type: "error" });
+      } else {
+        setToast({
+          message: e.message || "Calibration math error.",
+          type: "error",
+        });
+      }
     }
 
     setIsCalibrating(false);
@@ -576,13 +713,17 @@ function Dashboard() {
 
     const runMeasurementLoop = async () => {
       if (!active) return;
-      if (!isConnected || !isMeasurementRunning || isMeasurementPaused) {
+      if (
+        !isConnected ||
+        !isMeasurementRunning ||
+        isMeasurementPausedRef.current
+      ) {
         timerId = setTimeout(runMeasurementLoop, 200);
         return;
       }
 
       try {
-        const peakFreqHz = calibrationPeak?.freq;
+        const peakFreqHz = calibrationPeakRef.current?.freq;
         if (!peakFreqHz) {
           throw new Error("No calibration peak frequency available.");
         }
@@ -632,7 +773,7 @@ function Dashboard() {
           freqsMHz.push((start + step * i) / 1e6);
         }
 
-        const poly = evalPolynomial(calibrationCoeffs, freqsMHz);
+        const poly = evalPolynomial(calibrationCoeffsRef.current, freqsMHz);
         const magBaselineCorrected = new Float64Array(samples);
         for (let i = 0; i < samples; i++) {
           magBaselineCorrected[i] = dataMag[i] - poly[i];
@@ -661,56 +802,62 @@ function Dashboard() {
         }
         const fitPeakFreq = freqRange[maxIdx];
 
-        // Store peak frequency in rolling buffer
-        setPeakFreqBuffer((prev) => {
-          const newBuffer = [fitPeakFreq, ...prev];
-          if (newBuffer.length > 50) {
-            newBuffer.pop();
-          }
+        // Store peak frequency in rolling buffer (write to refs)
+        peakFreqBufferRef.current = [fitPeakFreq, ...peakFreqBufferRef.current];
+        if (peakFreqBufferRef.current.length > 50) {
+          peakFreqBufferRef.current.pop();
+        }
 
-          // Once buffer has 50 elements, apply Savitzky-Golay filter (window 3, order 1) and average it
-          setMeasurementCount((prevCount) => {
-            const nextCount = prevCount + 1;
-            if (nextCount >= 50) {
-              const smoothed = sgFilter(newBuffer, 3, 1);
-              const avgSmoothed = npAverage(smoothed);
+        // Apply Savitzky-Golay filter (window 3, order 1) and average it
+        const nextCount = measurementCountRef.current + 1;
+        measurementCountRef.current = nextCount;
 
-              setFreqRangeMean((prevMean) => {
-                const nextMean = [...prevMean, avgSmoothed];
+        const smoothed = sgFilter(peakFreqBufferRef.current, 3, 1);
+        const avgSmoothed = npAverage(smoothed);
 
-                if (statusCollectDataBefore) {
-                  setGetValuesBefore((prevBefore) => {
-                    const nextBefore = [...prevBefore, avgSmoothed];
-                    setAvgFreq1(npAverage(nextBefore));
-                    return nextBefore;
-                  });
-                }
+        freqRangeMeanRef.current = [...freqRangeMeanRef.current, avgSmoothed];
 
-                if (statusCollectDataAfter) {
-                  setGetValuesAfter((prevAfter) => {
-                    const nextAfter = [...prevAfter, avgSmoothed];
-                    setAvgFreq2(npAverage(nextAfter));
-                    return nextAfter;
-                  });
-                }
+        if (statusCollectDataBeforeRef.current) {
+          getValuesBeforeRef.current = [
+            ...getValuesBeforeRef.current,
+            avgSmoothed,
+          ];
+          avgFreq1Ref.current = npAverage(getValuesBeforeRef.current);
+        }
 
-                return nextMean;
-              });
-            }
-            return nextCount;
-          });
+        if (statusCollectDataAfterRef.current) {
+          getValuesAfterRef.current = [
+            ...getValuesAfterRef.current,
+            avgSmoothed,
+          ];
+          avgFreq2Ref.current = npAverage(getValuesAfterRef.current);
+        }
 
-          return newBuffer;
-        });
-
-        setZoomedFreqs(freqsMHz);
-        setZoomedAmplitudes(filteredMag);
-
+        zoomedFreqsRef.current = freqsMHz;
+        zoomedAmplitudesRef.current = filteredMag;
       } catch (e) {
         console.error("Measurement loop error:", e);
+        if (
+          e.message?.includes("lost") ||
+          e.message?.includes("closed") ||
+          e.message?.includes("device")
+        ) {
+          setIsMeasurementRunning(false);
+          setIsConnected(false);
+          setStatusText("Disconnected");
+          setToast({
+            message: "Connection to QCM device lost. Please reconnect.",
+            type: "error",
+          });
+        }
       }
 
-      if (active && isConnected && isMeasurementRunning && !isMeasurementPaused) {
+      if (
+        active &&
+        isConnected &&
+        isMeasurementRunning &&
+        !isMeasurementPausedRef.current
+      ) {
         timerId = setTimeout(runMeasurementLoop, 50);
       } else {
         timerId = setTimeout(runMeasurementLoop, 200);
@@ -722,8 +869,9 @@ function Dashboard() {
     return () => {
       active = false;
       if (timerId) clearTimeout(timerId);
+      serialInstance.cancelRead();
     };
-  }, [isConnected, isMeasurementRunning, isMeasurementPaused, calibrationPeak, calibrationCoeffs, statusCollectDataBefore, statusCollectDataAfter]);
+  }, [isConnected, isMeasurementRunning]);
 
   const handleEnterMeasurementMode = () => {
     if (checkPage !== "measure") return;
@@ -740,6 +888,17 @@ function Dashboard() {
     setAvgFreq2(null);
     setDeltaF(null);
     setShowResult("");
+
+    // Clear refs to sync with UI state resets
+    measurementCountRef.current = 0;
+    freqRangeMeanRef.current = [];
+    peakFreqBufferRef.current = [];
+    getValuesBeforeRef.current = [];
+    getValuesAfterRef.current = [];
+    avgFreq1Ref.current = null;
+    avgFreq2Ref.current = null;
+    zoomedFreqsRef.current = [];
+    zoomedAmplitudesRef.current = [];
   };
 
   const handleBackToCalibration = () => {
@@ -753,7 +912,10 @@ function Dashboard() {
       // Clear buffers and reset device before starting measurement loop
       const resetSuccess = await serialInstance.resetConnection();
       if (!resetSuccess) {
-        setToast({ message: "Failed to reset serial connection.", type: "error" });
+        setToast({
+          message: "Failed to reset serial connection.",
+          type: "error",
+        });
         return;
       }
       setIsMeasurementRunning(true);
@@ -766,11 +928,15 @@ function Dashboard() {
   const handleStopMeasurement = () => {
     setIsMeasurementRunning(false);
     setIsMeasurementPaused(false);
+    flushRefsToState();
   };
 
   const handleCollectBefore = () => {
     if (!isMeasurementRunning) {
-      setToast({ message: "Start the sweep measurement first.", type: "error" });
+      setToast({
+        message: "Start the sweep measurement first.",
+        type: "error",
+      });
       return;
     }
     if (statusCollectDataBefore) {
@@ -783,7 +949,10 @@ function Dashboard() {
 
   const handleCollectAfter = () => {
     if (!isMeasurementRunning) {
-      setToast({ message: "Start the sweep measurement first.", type: "error" });
+      setToast({
+        message: "Start the sweep measurement first.",
+        type: "error",
+      });
       return;
     }
     if (statusCollectDataAfter) {
@@ -799,6 +968,10 @@ function Dashboard() {
     setAvgFreq1(null);
     setDeltaF(null);
     setShowResult("");
+
+    // Clear corresponding refs
+    getValuesBeforeRef.current = [];
+    avgFreq1Ref.current = null;
   };
 
   const handleRefreshAfter = () => {
@@ -806,6 +979,10 @@ function Dashboard() {
     setAvgFreq2(null);
     setDeltaF(null);
     setShowResult("");
+
+    // Clear corresponding refs
+    getValuesAfterRef.current = [];
+    avgFreq2Ref.current = null;
   };
 
   const handleCalculateResult = () => {
@@ -814,29 +991,52 @@ function Dashboard() {
       setDeltaF(delta);
       if (delta > threshold) {
         setShowResult("Detected");
-        setToast({ message: "Result calculated: EGFR Detected!", type: "error" });
+        setToast({
+          message: "Result calculated: EGFR Detected!",
+          type: "error",
+        });
       } else {
         setShowResult("Not Detected");
-        setToast({ message: "Result calculated: EGFR Not Detected.", type: "success" });
+        setToast({
+          message: "Result calculated: EGFR Not Detected.",
+          type: "success",
+        });
       }
     } else {
-      setToast({ message: "Please collect both Before and After frequency data.", type: "error" });
+      setToast({
+        message: "Please collect both Before and After frequency data.",
+        type: "error",
+      });
     }
   };
 
-  // ECharts Option - Premium transparent styling with smooth grid lines
-  const getOption = () => {
+  // ECharts Option - Premium transparent styling with smooth grid lines (useMemo to prevent re-evaluation unless data changes)
+  const chartOption = useMemo(() => {
     let plotData = [];
     if (mode === "calibration") {
       plotData = chartData;
     } else if (measurementView === "A") {
-      plotData = freqRangeMean.slice(1).map((val, idx) => [idx + 1, val]);
+      plotData = freqRangeMean.map((val, idx) => [idx + 1, val]);
     } else {
       plotData = zoomedFreqs.map((f, i) => [f, zoomedAmplitudes[i]]);
     }
 
-    const minX = (mode === "measurement" && measurementView === "B" && zoomedFreqs.length > 0) ? Math.min(...zoomedFreqs) : (mode === "calibration" ? 8 : undefined);
-    const maxX = (mode === "measurement" && measurementView === "B" && zoomedFreqs.length > 0) ? Math.max(...zoomedFreqs) : (mode === "calibration" ? 12 : undefined);
+    const minX =
+      mode === "measurement" &&
+      measurementView === "B" &&
+      zoomedFreqs.length > 0
+        ? Math.min(...zoomedFreqs)
+        : mode === "calibration"
+          ? 8
+          : undefined;
+    const maxX =
+      mode === "measurement" &&
+      measurementView === "B" &&
+      zoomedFreqs.length > 0
+        ? Math.max(...zoomedFreqs)
+        : mode === "calibration"
+          ? 12
+          : undefined;
 
     let lineStyleColor = "#0284c7"; // Blue
     if (mode === "measurement") {
@@ -847,7 +1047,7 @@ function Dashboard() {
       backgroundColor: "transparent",
       tooltip: {
         trigger: "axis",
-        axisPointer: { type: "cross" }
+        axisPointer: { type: "cross" },
       },
       grid: {
         left: "4%",
@@ -858,10 +1058,18 @@ function Dashboard() {
       },
       xAxis: {
         type: "value",
-        name: mode === "calibration" ? "Frequency (MHz)" : (measurementView === "A" ? "Reading" : "Frequency (MHz)"),
+        name:
+          mode === "calibration"
+            ? "Frequency (MHz)"
+            : measurementView === "A"
+              ? "Reading"
+              : "Frequency (MHz)",
         nameLocation: "middle",
         nameGap: 25,
-        splitLine: { show: true, lineStyle: { color: "rgba(148, 163, 184, 0.08)" } },
+        splitLine: {
+          show: true,
+          lineStyle: { color: "rgba(148, 163, 184, 0.08)" },
+        },
         min: minX,
         max: maxX,
         axisLabel: { color: "#64748b", fontSize: 11 },
@@ -869,19 +1077,32 @@ function Dashboard() {
       },
       yAxis: {
         type: "value",
-        name: mode === "calibration" ? "Amplitude (dB)" : (measurementView === "A" ? "Resonance Freq (Hz)" : "Amplitude (dB)"),
-        splitLine: { show: true, lineStyle: { color: "rgba(148, 163, 184, 0.08)" } },
-        axisLabel: { 
+        name:
+          mode === "calibration"
+            ? "Amplitude (dB)"
+            : measurementView === "A"
+              ? "Resonance Freq (Hz)"
+              : "Amplitude (dB)",
+        splitLine: {
+          show: true,
+          lineStyle: { color: "rgba(148, 163, 184, 0.08)" },
+        },
+        axisLabel: {
           color: "#64748b",
           fontSize: 11,
-          formatter: (val) => val.toLocaleString()
+          formatter: (val) => val.toLocaleString(),
         },
         nameTextStyle: { color: "#64748b", fontSize: 11 },
-        scale: true
+        scale: true,
       },
       series: [
         {
-          name: mode === "calibration" ? "Amplitude" : (measurementView === "A" ? "Resonance Freq" : "Filtered Amplitude"),
+          name:
+            mode === "calibration"
+              ? "Amplitude"
+              : measurementView === "A"
+                ? "Resonance Freq"
+                : "Filtered Amplitude",
           type: "line",
           showSymbol: measurementView === "A" && mode === "measurement",
           symbolSize: 4,
@@ -890,28 +1111,38 @@ function Dashboard() {
             color: lineStyleColor,
             width: 2,
           },
-          areaStyle: mode === "calibration" ? {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: "rgba(2, 132, 199, 0.2)" },
-              { offset: 1, color: "rgba(2, 132, 199, 0.01)" },
-            ]),
-          } : undefined,
+          areaStyle:
+            mode === "calibration"
+              ? {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    { offset: 0, color: "rgba(2, 132, 199, 0.2)" },
+                    { offset: 1, color: "rgba(2, 132, 199, 0.01)" },
+                  ]),
+                }
+              : undefined,
         },
       ],
     };
-  };
+  }, [
+    mode,
+    measurementView,
+    chartData,
+    freqRangeMean,
+    zoomedFreqs,
+    zoomedAmplitudes,
+  ]);
 
   return (
-    <div 
-      className="app-container" 
-      style={{ 
-        gridTemplateColumns: "1fr 350px", 
-        maxWidth: "1600px", 
-        height: "calc(100vh - 80px)", 
-        minHeight: "550px", 
-        overflow: "hidden", 
-        padding: "1rem 2rem", 
-        gap: "1.25rem" 
+    <div
+      className="app-container"
+      style={{
+        gridTemplateColumns: "1fr 350px",
+        maxWidth: "1600px",
+        height: "calc(100vh - 80px)",
+        minHeight: "550px",
+        overflow: "hidden",
+        padding: "1rem 2rem",
+        gap: "1.25rem",
       }}
     >
       {/* Toast Alert */}
@@ -934,7 +1165,10 @@ function Dashboard() {
               borderRadius: "10px",
               boxShadow: "0 8px 20px rgba(2, 132, 199, 0.15)",
               background: toast.type === "success" ? "#ecfdf5" : "#fef2f2",
-              border: toast.type === "success" ? "1px solid #a7f3d0" : "1px solid #fecaca",
+              border:
+                toast.type === "success"
+                  ? "1px solid #a7f3d0"
+                  : "1px solid #fecaca",
               color: toast.type === "success" ? "#065f46" : "#991b1b",
               fontSize: "0.8rem",
               fontWeight: 600,
@@ -952,325 +1186,94 @@ function Dashboard() {
 
       {/* LEFT COLUMN: Main Chart & Action controls */}
       <div className="flex flex-col gap-4 h-full min-h-0 justify-between">
-        
         {/* CHART CONTAINER CARD (Top-left zone - scaled down) */}
         <div className="glass-panel flex flex-col p-4 flex-1 min-h-0">
           <div className="flex justify-between items-center mb-2 border-b border-slate-100 pb-2">
             <div>
               <h2 className="text-base font-bold text-slate-800 flex items-center gap-1.5">
                 <Activity className="w-4.5 h-4.5 text-sky-500" />
-                {mode === "calibration" ? "QCM Calibration Sweep" : `QCM Measurement (${measurementView === "A" ? "View A: Time Series" : "View B: Zoomed Sweep"})`}
+                {mode === "calibration"
+                  ? "QCM Calibration Sweep"
+                  : `QCM Measurement (${measurementView === "A" ? "View A: Time Series" : "View B: Zoomed Sweep"})`}
               </h2>
             </div>
-            
-            <div className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${mode === "calibration" ? "bg-sky-50 text-sky-600 border border-sky-100" : "bg-emerald-50 text-emerald-600 border border-emerald-100"}`}>
+
+            <div
+              className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${mode === "calibration" ? "bg-sky-50 text-sky-600 border border-sky-100" : "bg-emerald-50 text-emerald-600 border border-emerald-100"}`}
+            >
               {mode === "calibration" ? "Calibration" : "Measurement"}
             </div>
           </div>
 
           {/* ECharts Area (scales to fill panel) */}
           <div className="flex-1 w-full bg-slate-50/50 rounded-lg border border-slate-100/50 p-1 min-h-0">
-            <ReactECharts
-              option={getOption()}
-              style={{ height: "100%", width: "100%" }}
-              notMerge={true}
-            />
+            <QcmChart option={chartOption} />
           </div>
         </div>
 
         {/* BOTTOM ACTION SECTION (Bottom-left zone) */}
         <div className="grid grid-cols-2 gap-4 shrink-0">
-          
-          {/* CARD B: File Settings & Data CSV Exporter */}
-          <div className="glass-panel p-4 flex flex-col justify-between">
-            <h3 className="text-xs font-bold text-slate-700 mb-1 flex items-center gap-1.5">
-              <FileText className="w-3.5 h-3.5 text-slate-500" />
-              Data & File Export
-            </h3>
+          <DataExportCard
+            nameEntry={nameEntry}
+            setNameEntry={setNameEntry}
+            directoryEntry={directoryEntry}
+            handleSelectSaveDirectory={handleSelectSaveDirectory}
+            openBcEntry={openBcEntry}
+            handleImportBaselineCSV={handleImportBaselineCSV}
+            handleSaveCSVDataAndAnalysis={handleSaveCSVDataAndAnalysis}
+            isSaving={isSaving}
+            mode={mode}
+            chartData={chartData}
+            freqRangeMean={freqRangeMean}
+          />
 
-            {/* File details input forms */}
-            <div className="flex flex-col gap-2">
-              <div>
-                <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">Session Run Name</span>
-                <input
-                  type="text"
-                  className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-[11px] focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
-                  value={nameEntry}
-                  onChange={(e) => setNameEntry(e.target.value)}
-                  placeholder="e.g. egfr_run_01"
-                />
-              </div>
-              <div>
-                <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">Save Directory</span>
-                <div className="flex gap-1.5">
-                  <input
-                    type="text"
-                    className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-[10px] text-slate-400 focus:outline-none truncate"
-                    value={directoryEntry}
-                    readOnly
-                  />
-                  <button 
-                    onClick={handleSelectSaveDirectory}
-                    className="bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md p-1.5 transition-colors"
-                    title="Select Save Directory"
-                  >
-                    <Folder className="w-3 h-3 text-slate-500" />
-                  </button>
-                </div>
-              </div>
-              <div>
-                <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">Import Baseline CSV</span>
-                <div className="flex gap-1.5">
-                  <input
-                    type="text"
-                    className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-[10px] text-slate-400 focus:outline-none truncate"
-                    value={openBcEntry || "No file imported"}
-                    readOnly
-                  />
-                  <label 
-                    className="bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md p-1.5 transition-colors cursor-pointer flex items-center justify-center"
-                    title="Import Baseline CSV File"
-                  >
-                    <Folder className="w-3 h-3 text-slate-500" />
-                    <input 
-                      type="file" 
-                      accept=".csv" 
-                      onChange={handleImportBaselineCSV} 
-                      className="hidden" 
-                    />
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            {/* Save CSV File actions */}
-            <button
-              className="btn btn-warning w-full !py-1.5 text-xs mt-2"
-              onClick={handleSaveCSVDataAndAnalysis}
-              disabled={isSaving || ((mode === "calibration" && chartData.length === 0) || (mode === "measurement" && freqRangeMean.length === 0))}
-            >
-              {isSaving ? "Saving..." : "Save CSV Data"}
-            </button>
-          </div>
-
-          {/* CARD A: Device Connection & Calibration Actions */}
-          <div className="glass-panel p-4 flex flex-col justify-between">
-            <h3 className="text-xs font-bold text-slate-700 mb-1 flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-slate-500" />
-              Device & System Controls
-            </h3>
-            
-            {/* COM Port Details & Status */}
-            <div className="flex items-center justify-between bg-slate-50 border border-slate-100 rounded-lg p-2 mb-2">
-              <div className="flex items-center gap-2">
-                <div className={`status-indicator !m-0 !py-0.5 !px-2`}>
-                  <div className={`status-dot ${isConnected ? "connected" : ""}`}></div>
-                  <span className="text-[10px]">{isConnected ? "Connected" : "Disconnected"}</span>
-                </div>
-                <span className="text-[10px] font-semibold text-slate-500 font-mono">Port: COM3</span>
-              </div>
-              <button 
-                onClick={handleConnect}
-                className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-all shadow-sm ${isConnected ? "bg-rose-50 text-rose-600 hover:bg-rose-100" : "bg-sky-50 text-sky-600 hover:bg-sky-100"}`}
-              >
-                {isConnected ? "Disconnect" : "Connect"}
-              </button>
-            </div>
-
-            {/* Sweep Trigger Buttons */}
-            <div className="flex flex-col gap-1.5">
-              {mode === "calibration" ? (
-                <>
-                  <button
-                    className="btn btn-primary w-full !py-1.5 text-xs"
-                    onClick={handleCalibrate}
-                    disabled={isCalibrating || !isConnected}
-                  >
-                    {isCalibrating ? "Calibrating..." : "Start Calibration Sweep"}
-                  </button>
-
-                  <button
-                    className="btn btn-success w-full !py-1.5 text-xs"
-                    onClick={handleEnterMeasurementMode}
-                    disabled={checkPage !== "measure"}
-                  >
-                    Start Measurement Mode
-                  </button>
-                </>
-              ) : (
-                <>
-                  {/* Measurement Mode Controls */}
-                  <div className="flex gap-1.5">
-                    <button
-                      className={`btn flex-1 !py-1.5 text-xs ${isMeasurementRunning && !isMeasurementPaused ? "btn-warning" : "btn-success"}`}
-                      onClick={handleToggleMeasurement}
-                    >
-                      {isMeasurementRunning && !isMeasurementPaused ? (
-                        <>
-                          <Pause className="w-3.5 h-3.5" /> Pause
-                        </>
-                      ) : (
-                        <>
-                          <Play className="w-3.5 h-3.5" /> Start Sweep
-                        </>
-                      )}
-                    </button>
-                    {isMeasurementRunning && (
-                      <button className="btn btn-danger px-2.5 !py-1.5" onClick={handleStopMeasurement}>
-                        <Square className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-1.5">
-                    <button
-                      className={`btn text-[10px] !py-1 ${measurementView === "A" ? "btn-primary" : "bg-slate-50"}`}
-                      onClick={() => setMeasurementView("A")}
-                    >
-                      View A (Freq)
-                    </button>
-                    <button
-                      className={`btn text-[10px] !py-1 ${measurementView === "B" ? "btn-primary" : "bg-slate-50"}`}
-                      onClick={() => setMeasurementView("B")}
-                    >
-                      View B (Spectrum)
-                    </button>
-                  </div>
-
-                  <button
-                    className="btn btn-outline w-full !py-1 text-[10px] flex gap-1 items-center text-slate-600"
-                    onClick={handleBackToCalibration}
-                  >
-                    <ArrowLeft className="w-3 h-3" /> Back to Calibration
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-
+          <SystemControlsCard
+            isConnected={isConnected}
+            mode={mode}
+            isCalibrating={isCalibrating}
+            checkPage={checkPage}
+            isMeasurementRunning={isMeasurementRunning}
+            isMeasurementPaused={isMeasurementPaused}
+            measurementView={measurementView}
+            handleConnect={handleConnect}
+            handleCalibrate={handleCalibrate}
+            handleEnterMeasurementMode={handleEnterMeasurementMode}
+            handleToggleMeasurement={handleToggleMeasurement}
+            handleStopMeasurement={handleStopMeasurement}
+            setMeasurementView={setMeasurementView}
+            handleBackToCalibration={handleBackToCalibration}
+          />
         </div>
       </div>
 
       {/* RIGHT COLUMN: Diagnostic Metrics & Target Selection */}
       <div className="flex flex-col gap-4 h-full min-h-0 justify-between">
-        
-        {/* CARD D: Before, After, Delta Metrics & Collection (Moved to top of right column) */}
-        <div className="glass-panel p-4 flex flex-col gap-2 shrink-0">
-          <div className="flex justify-between items-center border-b border-slate-100 pb-1.5">
-            <h3 className="text-xs font-bold text-slate-700">Resonance Metrics</h3>
-            <button
-              onClick={handleCalculateResult}
-              disabled={avgFreq1 === null || avgFreq2 === null}
-              className="px-2 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed border border-emerald-100 rounded-md text-[10px] font-bold transition-all"
-            >
-              Calculate
-            </button>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            {/* Before (Hz) Metric Card */}
-            <div className="bg-slate-50 border border-slate-100 rounded-lg p-2 flex justify-between items-center">
-              <div>
-                <span className="text-[9px] uppercase font-bold text-slate-400 block">Before</span>
-                <span className="text-sm font-bold text-slate-700 font-mono">
-                  {avgFreq1 !== null ? `${Math.round(avgFreq1).toLocaleString()} Hz` : "--,--- Hz"}
-                </span>
-              </div>
-              <div className="flex gap-1">
-                <button
-                  onClick={handleCollectBefore}
-                  disabled={!isMeasurementRunning}
-                  className={`px-2 py-1 rounded-md border text-[10px] font-bold transition-all ${
-                    statusCollectDataBefore 
-                      ? "bg-amber-100 border-amber-200 text-amber-600 animate-pulse" 
-                      : "bg-white border-slate-200 hover:bg-slate-50 text-slate-600"
-                  }`}
-                >
-                  Collect
-                </button>
-                <label 
-                  className="p-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-400 rounded-md transition-colors cursor-pointer flex items-center justify-center"
-                  title="Import Before CSV File"
-                >
-                  <Folder className="w-3.5 h-3.5 text-slate-500" />
-                  <input 
-                    type="file" 
-                    accept=".csv" 
-                    onChange={(e) => handleImportMeasurementCSV(e, "before")} 
-                    className="hidden" 
-                  />
-                </label>
-                <button 
-                  onClick={handleRefreshBefore}
-                  className="p-1 bg-white border border-slate-200 hover:bg-rose-50 hover:text-rose-600 rounded-md text-slate-400 transition-colors"
-                  title="Clear Before Data"
-                >
-                  <RefreshCw className="w-3 h-3" />
-                </button>
-              </div>
-            </div>
-
-            {/* After (Hz) Metric Card */}
-            <div className="bg-slate-50 border border-slate-100 rounded-lg p-2 flex justify-between items-center">
-              <div>
-                <span className="text-[9px] uppercase font-bold text-slate-400 block">After</span>
-                <span className="text-sm font-bold text-slate-700 font-mono">
-                  {avgFreq2 !== null ? `${Math.round(avgFreq2).toLocaleString()} Hz` : "--,--- Hz"}
-                </span>
-              </div>
-              <div className="flex gap-1">
-                <button
-                  onClick={handleCollectAfter}
-                  disabled={!isMeasurementRunning}
-                  className={`px-2 py-1 rounded-md border text-[10px] font-bold transition-all ${
-                    statusCollectDataAfter 
-                      ? "bg-amber-100 border-amber-200 text-amber-600 animate-pulse" 
-                      : "bg-white border-slate-200 hover:bg-slate-50 text-slate-600"
-                  }`}
-                >
-                  Collect
-                </button>
-                <label 
-                  className="p-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-400 rounded-md transition-colors cursor-pointer flex items-center justify-center"
-                  title="Import After CSV File"
-                >
-                  <Folder className="w-3.5 h-3.5 text-slate-500" />
-                  <input 
-                    type="file" 
-                    accept=".csv" 
-                    onChange={(e) => handleImportMeasurementCSV(e, "after")} 
-                    className="hidden" 
-                  />
-                </label>
-                <button 
-                  onClick={handleRefreshAfter}
-                  className="p-1 bg-white border border-slate-200 hover:bg-rose-50 hover:text-rose-600 rounded-md text-slate-400 transition-colors"
-                  title="Clear After Data"
-                >
-                  <RefreshCw className="w-3 h-3" />
-                </button>
-              </div>
-            </div>
-
-            {/* Delta F (Hz) Metric Card */}
-            <div className="bg-slate-50 border border-slate-100 rounded-lg p-2 flex justify-between items-center">
-              <div>
-                <span className="text-[9px] uppercase font-bold text-slate-400 block">Delta F</span>
-                <span className="text-sm font-extrabold text-sky-600 font-mono">
-                  {deltaF !== null ? `${Math.round(deltaF).toLocaleString()} Hz` : "-- Hz"}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ResonanceMetrics
+          avgFreq1={avgFreq1}
+          avgFreq2={avgFreq2}
+          deltaF={deltaF}
+          isMeasurementRunning={isMeasurementRunning}
+          statusCollectDataBefore={statusCollectDataBefore}
+          statusCollectDataAfter={statusCollectDataAfter}
+          handleCollectBefore={handleCollectBefore}
+          handleCollectAfter={handleCollectAfter}
+          handleImportMeasurementCSV={handleImportMeasurementCSV}
+          handleRefreshBefore={handleRefreshBefore}
+          handleRefreshAfter={handleRefreshAfter}
+          handleCalculateResult={handleCalculateResult}
+        />
 
         {/* CARD C: Analysis target & Threshold Settings (Moved below metrics) */}
         <div className="glass-panel p-4 shrink-0">
-          <h3 className="text-xs font-bold text-slate-700 mb-2">Target & Threshold Settings</h3>
+          <h3 className="text-xs font-bold text-slate-700 mb-2">
+            Target & Threshold Settings
+          </h3>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">Target Tumor</span>
-              <select 
+              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">
+                Target Tumor
+              </span>
+              <select
                 className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-xs focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
                 value={targetName}
                 onChange={(e) => {
@@ -1283,14 +1286,18 @@ function Dashboard() {
                 <option value="Custom">Custom</option>
               </select>
             </div>
-            
+
             <div>
-              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">Threshold (Hz)</span>
-              <input 
+              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">
+                Threshold (Hz)
+              </span>
+              <input
                 type="number"
                 className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2 text-xs focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
                 value={threshold}
-                onChange={(e) => setThreshold(Math.max(1, parseInt(e.target.value) || 1))}
+                onChange={(e) =>
+                  setThreshold(Math.max(1, parseInt(e.target.value) || 1))
+                }
                 disabled={targetName === "EGFR"}
               />
             </div>
@@ -1298,49 +1305,25 @@ function Dashboard() {
 
           {/* DIAGNOSIS BANNER OVERLAY */}
           {showResult && (
-            <div 
+            <div
               className={`mt-2 p-2 rounded-lg text-center font-bold text-xs shadow-sm transition-all border ${
-                showResult === "Detected" 
-                  ? "bg-rose-50 text-rose-600 border-rose-100" 
+                showResult === "Detected"
+                  ? "bg-rose-50 text-rose-600 border-rose-100"
                   : "bg-emerald-50 text-emerald-600 border-emerald-100"
               }`}
             >
-              Result: {showResult === "Detected" ? "EGFR Positive" : "EGFR Negative"}
+              Result:{" "}
+              {showResult === "Detected" ? "EGFR Positive" : "EGFR Negative"}
             </div>
           )}
         </div>
 
-        {/* CARD E: Saved Session History Database (Scales to fill remaining screen height) */}
         {user && (
-          <div className="glass-panel p-4 flex-1 flex flex-col min-h-0">
-            <h3 className="text-xs font-bold text-slate-700 mb-2 flex items-center gap-1.5 border-b border-slate-100 pb-1.5 shrink-0">
-              <Database className="w-3.5 h-3.5 text-blue-500" />
-              <span>Saved Runs Database</span>
-            </h3>
-            {analyses.length === 0 ? (
-              <p className="text-[10px] text-slate-400 italic">No saved runs in database.</p>
-            ) : (
-              <div className="overflow-y-auto flex-1 flex flex-col gap-1.5 pr-0.5 custom-scrollbar min-h-0">
-                {analyses.map((item) => (
-                  <div
-                    key={item.id}
-                    onClick={() => handleLoadAnalysis(item)}
-                    className="bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-md p-2 cursor-pointer flex justify-between items-center transition-all"
-                  >
-                    <div className="min-w-0 flex-1 mr-2">
-                      <p className="text-[11px] font-bold text-slate-700 truncate">{item.title}</p>
-                      <p className="text-[9px] text-slate-400 mt-0.5">{new Date(item.created_at).toLocaleDateString()}</p>
-                    </div>
-                    <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold ${item.measurement_type === "measurement" ? "bg-emerald-50 text-emerald-600" : "bg-sky-50 text-sky-600"}`}>
-                      {item.measurement_type === "measurement" ? "Measure" : "Sweep"}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <SavedRunsDatabase
+            analyses={analyses}
+            handleLoadAnalysis={handleLoadAnalysis}
+          />
         )}
-
       </div>
     </div>
   );

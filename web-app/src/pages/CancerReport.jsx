@@ -205,7 +205,11 @@ export default function CancerReport() {
     );
   }
 
-  const isAuthorized = user && (user.role === "doctor" || user.role === "patient" || user.role === "admin");
+  const isAuthorized =
+    user &&
+    (user.role === "doctor" ||
+      user.role === "patient" ||
+      user.role === "admin");
 
   if (!isAuthorized) {
     return (
@@ -237,7 +241,9 @@ export default function CancerReport() {
               }}
               className="w-full bg-slate-50 hover:bg-slate-100 text-slate-600 font-bold py-4 rounded-xl transition-all text-center border border-slate-200 cursor-pointer text-sm"
             >
-              {language === "th" ? "ออกจากระบบเพื่อเปลี่ยนบัญชี" : "Log Out & Switch Account"}
+              {language === "th"
+                ? "ออกจากระบบเพื่อเปลี่ยนบัญชี"
+                : "Log Out & Switch Account"}
             </button>
           </div>
         </div>

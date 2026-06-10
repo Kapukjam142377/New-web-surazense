@@ -158,7 +158,9 @@ export class SerialService {
     await new Promise((resolve) => setTimeout(resolve, 200));
     const opened = await this.openPortOnly(115200);
     if (opened) {
-      console.log("Serial connection reset successful. Waiting for device boot...");
+      console.log(
+        "Serial connection reset successful. Waiting for device boot...",
+      );
       await new Promise((resolve) => setTimeout(resolve, 1500));
       return true;
     }
@@ -174,11 +176,37 @@ export class SerialService {
     this.writer.releaseLock();
   }
 
+  async cancelRead() {
+    this.keepReading = false;
+    if (this.reader) {
+      try {
+        await this.reader.cancel();
+      } catch (e) {}
+      this.reader = null;
+    }
+  }
+
   async readData(expectedLines = 0) {
     console.log(`readData started (expectedLines: ${expectedLines})`);
     let buffer = "";
     const decoder = new TextDecoder();
-    this.reader = this.port.readable.getReader();
+
+    if (!this.port || !this.port.readable) {
+      console.warn("readData: port is not readable or closed.");
+      return buffer;
+    }
+
+    this.keepReading = true;
+
+    try {
+      this.reader = this.port.readable.getReader();
+    } catch (e) {
+      console.error(
+        "readData: Failed to get reader (port might be locked):",
+        e,
+      );
+      return buffer;
+    }
 
     try {
       while (this.keepReading) {
@@ -191,25 +219,33 @@ export class SerialService {
         if (value) {
           const decoded = decoder.decode(value, { stream: true });
           buffer += decoded;
-          console.log(`readData: received chunk (${value.length} bytes). Total buffer length: ${buffer.length}. Ends with 's': ${buffer.endsWith("s")}`);
-          
+          console.log(
+            `readData: received chunk (${value.length} bytes). Total buffer length: ${buffer.length}. Ends with 's': ${buffer.endsWith("s")}`,
+          );
+
           // Check for 's' and discard old incomplete sweep data if any
           let hasS = buffer.includes("s");
           while (hasS) {
             const sIndex = buffer.indexOf("s");
             const linesBeforeS = buffer.substring(0, sIndex).split("\n").length;
-            console.log(`readData: found 's' at index ${sIndex}. Lines before: ${linesBeforeS}`);
-            
+            console.log(
+              `readData: found 's' at index ${sIndex}. Lines before: ${linesBeforeS}`,
+            );
+
             if (expectedLines > 0 && linesBeforeS < expectedLines) {
-              console.log(`readData: lines before 's' (${linesBeforeS}) < expectedLines (${expectedLines}). Discarding leftover buffer up to 's'.`);
+              console.log(
+                `readData: lines before 's' (${linesBeforeS}) < expectedLines (${expectedLines}). Discarding leftover buffer up to 's'.`,
+              );
               buffer = buffer.substring(sIndex + 1);
               hasS = buffer.includes("s");
             } else {
-              console.log(`readData: lines before 's' (${linesBeforeS}) >= expectedLines (${expectedLines}). Keeping buffer.`);
+              console.log(
+                `readData: lines before 's' (${linesBeforeS}) >= expectedLines (${expectedLines}). Keeping buffer.`,
+              );
               break;
             }
           }
-          
+
           if (buffer.includes("s")) {
             console.log("readData: valid 's' found. Breaking read loop.");
             break;
@@ -223,8 +259,11 @@ export class SerialService {
         try {
           this.reader.releaseLock();
         } catch (e) {}
+        this.reader = null;
       }
-      console.log(`readData finished. Returned buffer length: ${buffer.length}`);
+      console.log(
+        `readData finished. Returned buffer length: ${buffer.length}`,
+      );
     }
     return buffer;
   }
