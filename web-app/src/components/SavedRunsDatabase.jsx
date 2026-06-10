@@ -34,12 +34,12 @@ function SavedRunsDatabase({ analyses, handleLoadAnalysis }) {
 
   return (
     <div className="glass-panel p-2 flex-1 flex flex-col min-h-[180px]">
-      <h3 className="text-sm font-bold text-slate-700 mb-1 flex items-center gap-1 border-b border-slate-100 pb-1 shrink-0">
+      <h3 className="text-base font-bold text-slate-700 mb-1 flex items-center gap-1 border-b border-slate-100 pb-1 shrink-0">
         <Database className="w-4 h-4 text-blue-500" />
         <span>Saved Runs Database (.json)</span>
       </h3>
       {analyses.length === 0 ? (
-        <p className="text-xs text-slate-400 italic">
+        <p className="text-sm text-slate-400 italic">
           No saved runs in database.
         </p>
       ) : (
@@ -52,16 +52,16 @@ function SavedRunsDatabase({ analyses, handleLoadAnalysis }) {
             >
               <FileJson className="w-5.5 h-5.5 text-slate-400 group-hover:text-sky-500 mr-2.5 shrink-0 transition-colors" />
               <div className="min-w-0 flex-1 mr-2">
-                <p className="text-xs font-bold text-slate-700 truncate">
+                <p className="text-sm font-bold text-slate-700 truncate">
                   {item.title}
                 </p>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="text-[11px] text-slate-400">
+                  <span className="text-xs text-slate-400">
                     {new Date(item.created_at).toLocaleDateString()}
                   </span>
-                  <span className="text-[11px] text-slate-300">•</span>
+                  <span className="text-xs text-slate-300">•</span>
                   <span
-                    className="text-[11px] text-sky-600 font-mono truncate max-w-[120px]"
+                    className="text-xs text-sky-600 font-mono truncate max-w-[120px]"
                     title={item.file1_name}
                   >
                     {item.file1_name || "data.json"}
@@ -77,7 +77,7 @@ function SavedRunsDatabase({ analyses, handleLoadAnalysis }) {
                   <Download className="w-4 h-4" />
                 </button>
                 <span
-                  className={`text-[10px] px-1.5 py-0.5 rounded font-extrabold ${item.measurement_type === "measurement" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-sky-50 text-sky-600 border border-sky-100"}`}
+                  className={`text-xs px-1.5 py-0.5 rounded font-extrabold ${item.measurement_type === "measurement" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-sky-50 text-sky-600 border border-sky-100"}`}
                 >
                   {item.measurement_type === "measurement"
                     ? "Measure"

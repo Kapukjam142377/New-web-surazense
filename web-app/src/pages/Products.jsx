@@ -4,6 +4,8 @@ import { ShoppingCart, Search, Filter, Image as ImageIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { MOCK_PRODUCTS } from "../data/mockProducts";
+import { useLanguage } from "../context/LanguageContext";
+
 const CATEGORIES = ["All", "Biosensors", "Modules", "Accessories"];
 
 export default function Products() {
@@ -11,11 +13,39 @@ export default function Products() {
   const [searchQuery, setSearchQuery] = useState("");
   const [flyingItem, setFlyingItem] = useState(null);
   const { addToCart } = useCart();
+  const { t, language } = useLanguage();
+
+  const getCategoryTranslation = (cat) => {
+    switch (cat) {
+      case "All":
+        return t("products.categories.all");
+      case "Biosensors":
+        return t("products.categories.biosensors");
+      case "Modules":
+        return t("products.categories.modules");
+      case "Accessories":
+        return t("products.categories.accessories");
+      default:
+        return cat;
+    }
+  };
+
+  const getStatusTranslation = (status) => {
+    switch (status) {
+      case "In Stock":
+        return t("products.statuses.inStock");
+      case "Low Stock":
+        return t("products.statuses.lowStock");
+      default:
+        return status;
+    }
+  };
 
   const filteredProducts = MOCK_PRODUCTS.filter((product) => {
     const matchesCategory =
       activeCategory === "All" || product.category === activeCategory;
-    const matchesSearch = product.name
+    const productName = product.name[language] || product.name.en || "";
+    const matchesSearch = productName
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
@@ -105,17 +135,25 @@ export default function Products() {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tight drop-shadow-sm">
-              Surazense{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-500">
-                Store
-              </span>
+              {language === "th" ? (
+                <>
+                  ร้านค้า{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-500">
+                    Surazense
+                  </span>
+                </>
+              ) : (
+                <>
+                  Surazense{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-500">
+                    Store
+                  </span>
+                </>
+              )}
             </h1>
 
             <p className="text-base md:text-lg text-slate-600 leading-relaxed font-normal max-w-2xl mx-auto">
-              Explore our premium range of{" "}
-              <strong className="text-slate-800 font-bold">QCM sensors</strong>,
-              advanced analytical modules, and accessories designed for
-              high-precision research.
+              {t("products.storeSubtitle")}
             </p>
           </motion.div>
         </div>
@@ -136,7 +174,7 @@ export default function Products() {
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
-                {category}
+                {getCategoryTranslation(category)}
               </button>
             ))}
           </div>
@@ -146,7 +184,7 @@ export default function Products() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search products..."
+              placeholder={t("products.searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-11 pr-4 py-3 bg-slate-100 border border-transparent rounded-full text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white focus:border-blue-500 transition-all outline-none text-slate-900"
@@ -161,11 +199,9 @@ export default function Products() {
           <div className="text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
             <Filter className="w-12 h-12 text-slate-300 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-slate-800 mb-2">
-              No products found
+              {t("products.noProducts")}
             </h3>
-            <p className="text-slate-500">
-              Try adjusting your search or category filter.
-            </p>
+            <p className="text-slate-500">{t("products.adjustSearch")}</p>
             <button
               onClick={() => {
                 setActiveCategory("All");
@@ -173,7 +209,7 @@ export default function Products() {
               }}
               className="mt-6 px-6 py-2.5 bg-blue-50 text-blue-600 font-bold rounded-full hover:bg-blue-100 transition-colors"
             >
-              Clear Filters
+              {t("products.clearFilters")}
             </button>
           </div>
         ) : (
@@ -201,7 +237,7 @@ export default function Products() {
                       {product.image ? (
                         <img
                           src={product.image}
-                          alt={product.name}
+                          alt={product.name[language] || product.name.en}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
@@ -222,7 +258,7 @@ export default function Products() {
                               : "bg-orange-100/80 text-orange-700 border border-orange-200/50"
                           }`}
                         >
-                          {product.status}
+                          {getStatusTranslation(product.status)}
                         </span>
                       </div>
                     </div>
@@ -232,7 +268,7 @@ export default function Products() {
                   <div className="p-8 flex flex-col flex-1">
                     <div className="mb-3">
                       <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">
-                        {product.category}
+                        {getCategoryTranslation(product.category)}
                       </span>
                     </div>
                     <Link
@@ -240,18 +276,18 @@ export default function Products() {
                       className="no-underline group-hover:text-blue-600 transition-colors"
                     >
                       <h3 className="text-xl font-extrabold text-slate-900 mb-3 leading-tight group-hover:text-blue-600 transition-colors">
-                        {product.name}
+                        {product.name[language] || product.name.en}
                       </h3>
                     </Link>
                     <p className="text-sm text-slate-500 mb-8 line-clamp-2 flex-1 leading-relaxed">
-                      {product.description}
+                      {product.description[language] || product.description.en}
                     </p>
 
                     {/* Price & Action */}
                     <div className="flex items-center justify-between mt-auto">
                       <div className="flex flex-col">
                         <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-                          Price
+                          {t("products.priceLabel")}
                         </span>
                         <span className="text-2xl font-black text-slate-900">
                           ${product.price.toFixed(2)}
@@ -260,7 +296,7 @@ export default function Products() {
                       <button
                         onClick={(e) => handleAddToCart(product, e)}
                         className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center hover:bg-gradient-to-r hover:from-blue-600 hover:to-sky-500 hover:border-transparent hover:text-white hover:shadow-lg hover:shadow-blue-500/30 transition-all group/btn"
-                        title="Add to Cart"
+                        title={t("products.addToCart")}
                       >
                         <ShoppingCart className="w-6 h-6 stroke-[2px] group-hover/btn:scale-110 group-hover/btn:-rotate-6 transition-all duration-300" />
                       </button>

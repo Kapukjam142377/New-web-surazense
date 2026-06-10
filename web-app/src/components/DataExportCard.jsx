@@ -16,7 +16,7 @@ function DataExportCard({
 }) {
   return (
     <div className="glass-panel p-2 flex flex-col justify-between">
-      <h3 className="text-sm font-bold text-slate-700 mb-0.5 flex items-center gap-1">
+      <h3 className="text-base font-bold text-slate-700 mb-0.5 flex items-center gap-1">
         <FileText className="w-4 h-4 text-slate-500" />
         Save File
       </h3>
@@ -24,25 +24,25 @@ function DataExportCard({
       {/* File details input forms */}
       <div className="flex flex-col gap-1.5">
         <div>
-          <span className="text-xs uppercase font-bold text-slate-400 block mb-0.5">
+          <span className="text-sm uppercase font-bold text-slate-400 block mb-0.5">
             Session Run Name
           </span>
           <input
             type="text"
-            className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-sm focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
+            className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-base focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
             value={nameEntry}
             onChange={(e) => setNameEntry(e.target.value)}
             placeholder="e.g. egfr_run_01"
           />
         </div>
         <div>
-          <span className="text-xs uppercase font-bold text-slate-400 block mb-0.5">
+          <span className="text-sm uppercase font-bold text-slate-400 block mb-0.5">
             Save Directory
           </span>
           <div className="flex gap-1.5">
             <input
               type="text"
-              className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-xs text-slate-400 focus:outline-none truncate font-mono"
+              className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-sm text-slate-400 focus:outline-none truncate font-mono"
               value={directoryEntry}
               readOnly
             />
@@ -56,13 +56,13 @@ function DataExportCard({
           </div>
         </div>
         <div>
-          <span className="text-xs uppercase font-bold text-slate-400 block mb-0.5">
+          <span className="text-sm uppercase font-bold text-slate-400 block mb-0.5">
             Import Baseline CSV
           </span>
           <div className="flex gap-1.5">
             <input
               type="text"
-              className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-xs text-slate-400 focus:outline-none truncate font-mono"
+              className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-sm text-slate-400 focus:outline-none truncate font-mono"
               value={openBcEntry || "No file imported"}
               readOnly
             />

@@ -4,12 +4,42 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ShoppingCart, ChevronRight } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { MOCK_PRODUCTS } from "../data/mockProducts";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const { addToCart } = useCart();
   const [activeTab, setActiveTab] = useState("Product Information");
   const [flyingItem, setFlyingItem] = useState(null);
+  const { t, language } = useLanguage();
+
+  const getCategoryTranslation = (cat) => {
+    switch (cat) {
+      case "All":
+        return t("products.categories.all");
+      case "Biosensors":
+        return t("products.categories.biosensors");
+      case "Modules":
+        return t("products.categories.modules");
+      case "Accessories":
+        return t("products.categories.accessories");
+      default:
+        return cat;
+    }
+  };
+
+  const getTabLabel = (tab) => {
+    switch (tab) {
+      case "Product Information":
+        return t("products.productInfo");
+      case "Specification":
+        return t("products.specification");
+      case "Assay Documents":
+        return t("products.assayDocuments");
+      default:
+        return tab;
+    }
+  };
 
   // Find the product
   const product = MOCK_PRODUCTS.find((p) => p.id === parseInt(id));
@@ -23,13 +53,13 @@ export default function ProductDetail() {
     return (
       <div className="min-h-screen pt-32 pb-24 flex flex-col items-center justify-center bg-slate-50">
         <h2 className="text-2xl font-bold text-slate-800 mb-4">
-          Product not found
+          {t("products.productNotFound")}
         </h2>
         <Link
           to="/products"
           className="text-blue-600 hover:underline flex items-center gap-2"
         >
-          <ArrowLeft className="w-4 h-4" /> Back to Store
+          <ArrowLeft className="w-4 h-4" /> {t("products.backToStore")}
         </Link>
       </div>
     );
@@ -106,12 +136,16 @@ export default function ProductDetail() {
             to="/products"
             className="hover:text-blue-600 transition-colors"
           >
-            Products
+            {t("nav.products")}
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <span className="text-slate-800 font-medium">{product.category}</span>
+          <span className="text-slate-800 font-medium">
+            {getCategoryTranslation(product.category)}
+          </span>
           <ChevronRight className="w-4 h-4" />
-          <span className="text-slate-800 font-medium">{product.name}</span>
+          <span className="text-slate-800 font-medium">
+            {product.name[language] || product.name.en}
+          </span>
         </div>
 
         {/* Title and Tabs Header */}
@@ -125,7 +159,7 @@ export default function ProductDetail() {
               letterSpacing: "-0.02em",
             }}
           >
-            {product.name.toUpperCase()}
+            {(product.name[language] || product.name.en).toUpperCase()}
           </motion.h1>
 
           <div className="flex flex-wrap items-center gap-4 text-lg md:text-xl border-b border-slate-200 pb-2">
@@ -139,7 +173,7 @@ export default function ProductDetail() {
                       : "text-slate-400 hover:text-slate-600"
                   }`}
                 >
-                  {tab}
+                  {getTabLabel(tab)}
                 </button>
                 {idx < TABS.length - 1 && (
                   <div className="w-[2px] h-6 bg-blue-700 mx-2"></div>
@@ -161,12 +195,14 @@ export default function ProductDetail() {
               {product.image ? (
                 <img
                   src={product.image}
-                  alt={product.name}
+                  alt={product.name[language] || product.name.en}
                   className="w-full h-full object-contain"
                 />
               ) : (
                 <div className="w-full h-full bg-slate-50 flex items-center justify-center rounded-2xl text-slate-400">
-                  No Image Available
+                  {language === "th"
+                    ? "ไม่มีรูปภาพสินค้า"
+                    : "No Image Available"}
                 </div>
               )}
             </div>
@@ -198,10 +234,10 @@ export default function ProductDetail() {
                   className="space-y-6"
                 >
                   <h2 className="text-2xl font-bold text-slate-900">
-                    Product Information
+                    {t("products.productInfo")}
                   </h2>
                   <p className="text-slate-700 leading-relaxed text-lg text-justify">
-                    {product.description}
+                    {product.description[language] || product.description.en}
                   </p>
                 </motion.div>
               )}
@@ -218,39 +254,41 @@ export default function ProductDetail() {
                     {/* Left Column: Model */}
                     <div className="space-y-6">
                       <h3 className="text-xl font-bold text-slate-900">
-                        Model
+                        {t("products.model")}
                       </h3>
                       <div className="space-y-4">
                         <div className="grid grid-cols-[140px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Model
+                            {t("products.model")}
                           </span>
                           <span className="text-slate-700">Xzense-101</span>
                         </div>
                         <div className="grid grid-cols-[140px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Portable Devices
+                            {t("products.portableDevices")}
                           </span>
                           <span className="text-slate-700">XXX x XX</span>
                         </div>
                         <div className="grid grid-cols-[140px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Weight
+                            {t("products.weight")}
                           </span>
                           <span className="text-slate-700">0.3 kg</span>
                         </div>
                         <div className="grid grid-cols-[140px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Minimum buying
+                            {t("products.minimumBuying")}
                           </span>
-                          <span className="text-slate-700">1 device</span>
+                          <span className="text-slate-700">
+                            {language === "th" ? "1 เครื่อง" : "1 device"}
+                          </span>
                         </div>
                       </div>
 
                       {/* Quantity Selector */}
                       <div className="pt-8 flex items-center gap-4">
                         <span className="font-bold text-slate-900 text-lg">
-                          Quantity:
+                          {t("products.quantity")}
                         </span>
                         <div className="relative">
                           <select className="appearance-none border-2 border-slate-900 rounded-md py-1.5 pl-3 pr-10 font-medium text-slate-900 bg-white focus:outline-none w-28 text-center cursor-pointer">
@@ -279,70 +317,87 @@ export default function ProductDetail() {
                     {/* Right Column: Specification */}
                     <div className="space-y-6">
                       <h3 className="text-xl font-bold text-slate-900">
-                        Specification
+                        {t("products.specification")}
                       </h3>
                       <div className="space-y-4">
                         <div className="grid grid-cols-[160px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Principle
+                            {t("products.principle")}
                           </span>
                           <span className="text-slate-700">
-                            Piezoelectric effect
+                            {language === "th"
+                              ? "ปรากฏการณ์เพียโซอิเล็กทริก"
+                              : "Piezoelectric effect"}
                           </span>
                         </div>
                         <div className="grid grid-cols-[160px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Sensor type
+                            {t("products.sensorType")}
                           </span>
                           <span className="text-slate-700">
-                            Piezoelectric Quartz Crystal Microbalance (QCM)
+                            {language === "th"
+                              ? "เครื่องตรวจวัดมวลแบบควอตซ์คริสตัล (QCM)"
+                              : "Piezoelectric Quartz Crystal Microbalance (QCM)"}
                           </span>
                         </div>
                         <div className="grid grid-cols-[160px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Frequency range
+                            {t("products.frequencyRange")}
                           </span>
                           <span className="text-slate-700">
-                            1 MHz to 100 MHz
+                            {language === "th"
+                              ? "1 MHz ถึง 100 MHz"
+                              : "1 MHz to 100 MHz"}
                           </span>
                         </div>
                         <div className="grid grid-cols-[160px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Signal measurement
+                            {t("products.signalMeasurement")}
                           </span>
                           <span className="text-slate-700">
-                            Amplitude and real-time frequency monitoring
+                            {language === "th"
+                              ? "การตรวจวัดแอมพลิจูดและความถี่แบบเรียลไทม์"
+                              : "Amplitude and real-time frequency monitoring"}
                           </span>
                         </div>
                         <div className="grid grid-cols-[160px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Holder design
+                            {t("products.holderDesign")}
                           </span>
                           <span className="text-slate-700">
-                            Detachable holder for easy liquid media application
+                            {language === "th"
+                              ? "แท่นยึดแบบถอดได้เพื่อความสะดวกในการหยดสารละลาย"
+                              : "Detachable holder for easy liquid media application"}
                           </span>
                         </div>
                         <div className="grid grid-cols-[160px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900 whitespace-nowrap">
-                            Connection Interface
+                            {t("products.connectionInterface")}
                           </span>
                           <span className="text-slate-700">
-                            Pogo-pin connector
+                            {language === "th"
+                              ? "ขั้วต่อแบบสปริง (Pogo-pin)"
+                              : "Pogo-pin connector"}
                           </span>
                         </div>
                         <div className="grid grid-cols-[160px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Power supply
+                            {t("products.powerSupply")}
                           </span>
-                          <span className="text-slate-700">USB-powered</span>
+                          <span className="text-slate-700">
+                            {language === "th"
+                              ? "จ่ายไฟผ่านพอร์ต USB"
+                              : "USB-powered"}
+                          </span>
                         </div>
                         <div className="grid grid-cols-[160px_1fr] gap-4 items-start">
                           <span className="font-bold text-slate-900">
-                            Applications
+                            {t("products.applications")}
                           </span>
                           <span className="text-slate-700 leading-relaxed">
-                            Biosensing, environmental monitoring, material
-                            characterization, and more
+                            {language === "th"
+                              ? "ระบบไบโอเซนเซอร์, การตรวจสอบสิ่งแวดล้อม, การวิเคราะห์วัสดุ และอื่นๆ"
+                              : "Biosensing, environmental monitoring, material characterization, and more"}
                           </span>
                         </div>
                       </div>
@@ -360,11 +415,10 @@ export default function ProductDetail() {
                   className="space-y-6"
                 >
                   <h2 className="text-2xl font-bold text-slate-900">
-                    Assay Documents
+                    {t("products.assayDocuments")}
                   </h2>
                   <p className="text-slate-500 italic text-lg">
-                    Manuals, protocols, and whitepapers will be available for
-                    download here.
+                    {t("products.assayDesc")}
                   </p>
                 </motion.div>
               )}
@@ -374,7 +428,7 @@ export default function ProductDetail() {
             <div className="mt-16 pt-8 border-t border-slate-100 flex items-end justify-between">
               <div>
                 <span className="block text-sm text-slate-400 font-bold uppercase tracking-wider mb-1">
-                  Price
+                  {t("products.priceLabel")}
                 </span>
                 <span className="text-4xl font-black text-slate-900">
                   ${product.price.toFixed(2)}
@@ -385,7 +439,7 @@ export default function ProductDetail() {
                 className="px-8 py-4 bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-1 transition-all flex items-center gap-3 cursor-pointer border-none outline-none"
               >
                 <ShoppingCart className="w-5 h-5" />
-                Add to Cart
+                {t("products.addToCart")}
               </button>
             </div>
           </motion.div>

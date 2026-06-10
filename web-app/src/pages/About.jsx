@@ -22,7 +22,7 @@ export default function About() {
   const { t } = useLanguage();
   const teamMembers = [
     {
-      name: Dr.Thita || "Dr.Thita",
+      name: "Dr.Thita",
       role: "Dr.Thita",
       roleDisplay:
         "Director\nPhD-Material Engineering\nB. Eng.(Hons) Ceramic Engineering",
