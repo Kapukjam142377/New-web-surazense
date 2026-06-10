@@ -33,13 +33,13 @@ function SavedRunsDatabase({ analyses, handleLoadAnalysis }) {
   };
 
   return (
-    <div className="glass-panel p-4 flex-1 flex flex-col min-h-0">
-      <h3 className="text-xs font-bold text-slate-700 mb-2 flex items-center gap-1.5 border-b border-slate-100 pb-1.5 shrink-0">
-        <Database className="w-3.5 h-3.5 text-blue-500" />
+    <div className="glass-panel p-2 flex-1 flex flex-col min-h-[180px]">
+      <h3 className="text-sm font-bold text-slate-700 mb-1 flex items-center gap-1 border-b border-slate-100 pb-1 shrink-0">
+        <Database className="w-4 h-4 text-blue-500" />
         <span>Saved Runs Database (.json)</span>
       </h3>
       {analyses.length === 0 ? (
-        <p className="text-[10px] text-slate-400 italic">
+        <p className="text-xs text-slate-400 italic">
           No saved runs in database.
         </p>
       ) : (
@@ -50,18 +50,18 @@ function SavedRunsDatabase({ analyses, handleLoadAnalysis }) {
               onClick={() => handleLoadAnalysis(item)}
               className="bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-md p-2 cursor-pointer flex items-center transition-all group"
             >
-              <FileJson className="w-5 h-5 text-slate-400 group-hover:text-sky-500 mr-2.5 shrink-0 transition-colors" />
+              <FileJson className="w-5.5 h-5.5 text-slate-400 group-hover:text-sky-500 mr-2.5 shrink-0 transition-colors" />
               <div className="min-w-0 flex-1 mr-2">
-                <p className="text-[11px] font-bold text-slate-700 truncate">
+                <p className="text-xs font-bold text-slate-700 truncate">
                   {item.title}
                 </p>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="text-[9px] text-slate-400">
+                  <span className="text-[11px] text-slate-400">
                     {new Date(item.created_at).toLocaleDateString()}
                   </span>
-                  <span className="text-[9px] text-slate-300">•</span>
+                  <span className="text-[11px] text-slate-300">•</span>
                   <span
-                    className="text-[9px] text-sky-600 font-mono truncate max-w-[120px]"
+                    className="text-[11px] text-sky-600 font-mono truncate max-w-[120px]"
                     title={item.file1_name}
                   >
                     {item.file1_name || "data.json"}
@@ -74,10 +74,10 @@ function SavedRunsDatabase({ analyses, handleLoadAnalysis }) {
                   className="p-1 hover:bg-slate-200/60 rounded-md text-slate-400 hover:text-slate-600 transition-colors"
                   title="Download JSON File"
                 >
-                  <Download className="w-3.5 h-3.5" />
+                  <Download className="w-4 h-4" />
                 </button>
                 <span
-                  className={`text-[8px] px-1 py-0.5 rounded font-extrabold ${item.measurement_type === "measurement" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-sky-50 text-sky-600 border border-sky-100"}`}
+                  className={`text-[10px] px-1.5 py-0.5 rounded font-extrabold ${item.measurement_type === "measurement" ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-sky-50 text-sky-600 border border-sky-100"}`}
                 >
                   {item.measurement_type === "measurement"
                     ? "Measure"

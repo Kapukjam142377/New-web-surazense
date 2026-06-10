@@ -16,36 +16,36 @@ function ResonanceMetrics({
   handleCalculateResult,
 }) {
   return (
-    <div className="glass-panel p-4 flex flex-col gap-2 shrink-0">
-      <div className="flex justify-between items-center border-b border-slate-100 pb-1.5">
-        <h3 className="text-xs font-bold text-slate-700">Resonance Metrics</h3>
+    <div className="glass-panel p-2 flex flex-col gap-1 shrink-0">
+      <div className="flex justify-between items-center border-b border-slate-100 pb-0.5">
+        <h3 className="text-sm font-bold text-slate-700">Resonance Metrics</h3>
         <button
           onClick={handleCalculateResult}
           disabled={avgFreq1 === null || avgFreq2 === null}
-          className="px-2 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed border border-emerald-100 rounded-md text-[10px] font-bold transition-all"
+          className="px-2.5 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed border border-emerald-100 rounded-md text-xs font-bold transition-all"
         >
           Calculate
         </button>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1">
         {/* Before (Hz) Metric Card */}
-        <div className="bg-slate-50 border border-slate-100 rounded-lg p-2 flex justify-between items-center">
+        <div className="bg-slate-50 border border-slate-100 rounded-lg p-1.5 flex justify-between items-center">
           <div>
-            <span className="text-[9px] uppercase font-bold text-slate-400 block">
+            <span className="text-xs uppercase font-bold text-slate-400 block">
               Before
             </span>
-            <span className="text-sm font-bold text-slate-700 font-mono">
+            <span className="text-base font-bold text-slate-700 font-mono">
               {avgFreq1 !== null
                 ? `${Math.round(avgFreq1).toLocaleString()} Hz`
                 : "--,--- Hz"}
             </span>
           </div>
-          <div className="flex gap-1">
+          <div className="flex gap-1.5">
             <button
               onClick={handleCollectBefore}
               disabled={!isMeasurementRunning}
-              className={`px-2 py-1 rounded-md border text-[10px] font-bold transition-all ${
+              className={`px-2.5 py-0.5 rounded-md border text-xs font-bold transition-all ${
                 statusCollectDataBefore
                   ? "bg-amber-100 border-amber-200 text-amber-600 animate-pulse"
                   : "bg-white border-slate-200 hover:bg-slate-50 text-slate-600"
@@ -76,22 +76,22 @@ function ResonanceMetrics({
         </div>
 
         {/* After (Hz) Metric Card */}
-        <div className="bg-slate-50 border border-slate-100 rounded-lg p-2 flex justify-between items-center">
+        <div className="bg-slate-50 border border-slate-100 rounded-lg p-1.5 flex justify-between items-center">
           <div>
-            <span className="text-[9px] uppercase font-bold text-slate-400 block">
+            <span className="text-xs uppercase font-bold text-slate-400 block">
               After
             </span>
-            <span className="text-sm font-bold text-slate-700 font-mono">
+            <span className="text-base font-bold text-slate-700 font-mono">
               {avgFreq2 !== null
                 ? `${Math.round(avgFreq2).toLocaleString()} Hz`
                 : "--,--- Hz"}
             </span>
           </div>
-          <div className="flex gap-1">
+          <div className="flex gap-1.5">
             <button
               onClick={handleCollectAfter}
               disabled={!isMeasurementRunning}
-              className={`px-2 py-1 rounded-md border text-[10px] font-bold transition-all ${
+              className={`px-2.5 py-0.5 rounded-md border text-xs font-bold transition-all ${
                 statusCollectDataAfter
                   ? "bg-amber-100 border-amber-200 text-amber-600 animate-pulse"
                   : "bg-white border-slate-200 hover:bg-slate-50 text-slate-600"
@@ -122,12 +122,12 @@ function ResonanceMetrics({
         </div>
 
         {/* Delta F (Hz) Metric Card */}
-        <div className="bg-slate-50 border border-slate-100 rounded-lg p-2 flex justify-between items-center">
+        <div className="bg-slate-50 border border-slate-100 rounded-lg p-1.5 flex justify-between items-center">
           <div>
-            <span className="text-[9px] uppercase font-bold text-slate-400 block">
+            <span className="text-xs uppercase font-bold text-slate-400 block">
               Delta F
             </span>
-            <span className="text-sm font-extrabold text-sky-600 font-mono">
+            <span className="text-base font-extrabold text-sky-600 font-mono">
               {deltaF !== null
                 ? `${Math.round(deltaF).toLocaleString()} Hz`
                 : "-- Hz"}

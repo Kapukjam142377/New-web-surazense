@@ -15,34 +15,34 @@ function DataExportCard({
   freqRangeMean,
 }) {
   return (
-    <div className="glass-panel p-4 flex flex-col justify-between">
-      <h3 className="text-xs font-bold text-slate-700 mb-1 flex items-center gap-1.5">
-        <FileText className="w-3.5 h-3.5 text-slate-500" />
-        Data & File Export
+    <div className="glass-panel p-2 flex flex-col justify-between">
+      <h3 className="text-sm font-bold text-slate-700 mb-0.5 flex items-center gap-1">
+        <FileText className="w-4 h-4 text-slate-500" />
+        Save File
       </h3>
 
       {/* File details input forms */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1.5">
         <div>
-          <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">
+          <span className="text-xs uppercase font-bold text-slate-400 block mb-0.5">
             Session Run Name
           </span>
           <input
             type="text"
-            className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-[11px] focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
+            className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-sm focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
             value={nameEntry}
             onChange={(e) => setNameEntry(e.target.value)}
             placeholder="e.g. egfr_run_01"
           />
         </div>
         <div>
-          <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">
+          <span className="text-xs uppercase font-bold text-slate-400 block mb-0.5">
             Save Directory
           </span>
           <div className="flex gap-1.5">
             <input
               type="text"
-              className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-[10px] text-slate-400 focus:outline-none truncate"
+              className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-xs text-slate-400 focus:outline-none truncate font-mono"
               value={directoryEntry}
               readOnly
             />
@@ -51,18 +51,18 @@ function DataExportCard({
               className="bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md p-1.5 transition-colors"
               title="Select Save Directory"
             >
-              <Folder className="w-3 h-3 text-slate-500" />
+              <Folder className="w-3.5 h-3.5 text-slate-500" />
             </button>
           </div>
         </div>
         <div>
-          <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">
+          <span className="text-xs uppercase font-bold text-slate-400 block mb-0.5">
             Import Baseline CSV
           </span>
           <div className="flex gap-1.5">
             <input
               type="text"
-              className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-[10px] text-slate-400 focus:outline-none truncate"
+              className="flex-1 bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-xs text-slate-400 focus:outline-none truncate font-mono"
               value={openBcEntry || "No file imported"}
               readOnly
             />
@@ -70,7 +70,7 @@ function DataExportCard({
               className="bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-md p-1.5 transition-colors cursor-pointer flex items-center justify-center"
               title="Import Baseline CSV File"
             >
-              <Folder className="w-3 h-3 text-slate-500" />
+              <Folder className="w-3.5 h-3.5 text-slate-500" />
               <input
                 type="file"
                 accept=".csv"
@@ -84,7 +84,7 @@ function DataExportCard({
 
       {/* Save CSV File actions */}
       <button
-        className="btn btn-warning w-full !py-1.5 text-xs mt-2"
+        className="btn btn-warning w-full !py-1.5 text-sm font-bold mt-1"
         onClick={handleSaveCSVDataAndAnalysis}
         disabled={
           isSaving ||

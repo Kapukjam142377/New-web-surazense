@@ -1,5 +1,5 @@
 import React from "react";
-import { Cpu, Pause, Play, Square, ArrowLeft } from "lucide-react";
+import { Cpu, Pause, Play, Square, ArrowLeft, RefreshCw } from "lucide-react";
 
 function SystemControlsCard({
   isConnected,
@@ -18,33 +18,43 @@ function SystemControlsCard({
   handleBackToCalibration,
 }) {
   return (
-    <div className="glass-panel p-4 flex flex-col justify-between">
-      <h3 className="text-xs font-bold text-slate-700 mb-1 flex items-center gap-1.5">
-        <Cpu className="w-3.5 h-3.5 text-slate-500" />
-        Device & System Controls
+    <div className="glass-panel p-2 flex flex-col justify-between">
+      {/* Title row — standalone, no border */}
+      <h3 className="text-sm font-bold text-slate-700 flex items-center gap-1 mb-1.5">
+        <Cpu className="w-4 h-4 text-slate-500" />
+        System Controls
       </h3>
 
-      {/* COM Port Details & Status */}
-      <div className="flex items-center justify-between bg-slate-50 border border-slate-100 rounded-lg p-2 mb-2">
-        <div className="flex items-center gap-2">
-          <div className="status-indicator !m-0 !py-0.5 !px-2">
-            <div
-              className={`status-dot ${isConnected ? "connected" : ""}`}
-            ></div>
-            <span className="text-[10px]">
-              {isConnected ? "Connected" : "Disconnected"}
-            </span>
-          </div>
-          <span className="text-[10px] font-semibold text-slate-500 font-mono">
-            Port: COM3
+      {/* Connection Status Box */}
+      <div className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 mb-1.5">
+        <div className="flex items-center gap-1.5">
+          <div
+            className={`status-dot !w-2 !h-2 shrink-0 ${isConnected ? "connected" : ""}`}
+          ></div>
+          <span className="text-[11px] font-bold text-slate-600 font-mono">
+            {isConnected ? "COM3" : "No Port"}
+          </span>
+          <span
+            className={`text-[10px] font-semibold ${isConnected ? "text-emerald-500" : "text-slate-400"}`}
+          >
+            {isConnected ? "Connected" : "Disconnected"}
           </span>
         </div>
-        <button
-          onClick={handleConnect}
-          className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-all shadow-sm ${isConnected ? "bg-rose-50 text-rose-600 hover:bg-rose-100" : "bg-sky-50 text-sky-600 hover:bg-sky-100"}`}
-        >
-          {isConnected ? "Disconnect" : "Connect"}
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => window.location.reload()}
+            className="p-1 rounded-md bg-white border border-slate-200 text-slate-400 hover:text-sky-500 hover:border-sky-200 transition-colors"
+            title="Refresh page"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={handleConnect}
+            className={`px-2.5 py-0.5 rounded-md text-xs font-bold transition-all border whitespace-nowrap ${isConnected ? "bg-rose-50 text-rose-600 hover:bg-rose-100 border-rose-200" : "bg-sky-50 text-sky-600 hover:bg-sky-100 border-sky-200"}`}
+          >
+            {isConnected ? "Disconnect" : "Connect"}
+          </button>
+        </div>
       </div>
 
       {/* Sweep Trigger Buttons */}
@@ -52,7 +62,7 @@ function SystemControlsCard({
         {mode === "calibration" ? (
           <>
             <button
-              className="btn btn-primary w-full !py-1.5 text-xs"
+              className="btn btn-primary w-full !py-1.5 text-sm font-bold"
               onClick={handleCalibrate}
               disabled={isCalibrating || !isConnected}
             >
@@ -60,7 +70,7 @@ function SystemControlsCard({
             </button>
 
             <button
-              className="btn btn-success w-full !py-1.5 text-xs"
+              className="btn btn-success w-full !py-1.5 text-sm font-bold"
               onClick={handleEnterMeasurementMode}
               disabled={checkPage !== "measure"}
             >
@@ -72,17 +82,17 @@ function SystemControlsCard({
             {/* Measurement Mode Controls */}
             <div className="flex gap-1.5">
               <button
-                className={`btn flex-1 !py-1.5 text-xs ${isMeasurementRunning && !isMeasurementPaused ? "btn-warning" : "btn-success"}`}
+                className={`btn flex-1 !py-1.5 text-sm font-bold ${isMeasurementRunning && !isMeasurementPaused ? "btn-warning" : "btn-success"}`}
                 onClick={handleToggleMeasurement}
               >
                 {isMeasurementRunning && !isMeasurementPaused ? (
-                  <>
-                    <Pause className="w-3.5 h-3.5" /> Pause
-                  </>
+                  <span className="flex items-center gap-1">
+                    <Pause className="w-4 h-4" /> Pause
+                  </span>
                 ) : (
-                  <>
-                    <Play className="w-3.5 h-3.5" /> Start Sweep
-                  </>
+                  <span className="flex items-center gap-1">
+                    <Play className="w-4 h-4" /> Start Sweep
+                  </span>
                 )}
               </button>
               {isMeasurementRunning && (
@@ -90,20 +100,20 @@ function SystemControlsCard({
                   className="btn btn-danger px-2.5 !py-1.5"
                   onClick={handleStopMeasurement}
                 >
-                  <Square className="w-3.5 h-3.5" />
+                  <Square className="w-4 h-4" />
                 </button>
               )}
             </div>
 
             <div className="grid grid-cols-2 gap-1.5">
               <button
-                className={`btn text-[10px] !py-1 ${measurementView === "A" ? "btn-primary" : "bg-slate-50"}`}
+                className={`btn text-xs font-bold !py-1.5 ${measurementView === "A" ? "btn-primary" : "bg-slate-50"}`}
                 onClick={() => setMeasurementView("A")}
               >
                 View A (Freq)
               </button>
               <button
-                className={`btn text-[10px] !py-1 ${measurementView === "B" ? "btn-primary" : "bg-slate-50"}`}
+                className={`btn text-xs font-bold !py-1.5 ${measurementView === "B" ? "btn-primary" : "bg-slate-50"}`}
                 onClick={() => setMeasurementView("B")}
               >
                 View B (Spectrum)
@@ -111,10 +121,10 @@ function SystemControlsCard({
             </div>
 
             <button
-              className="btn btn-outline w-full !py-1 text-[10px] flex gap-1 items-center text-slate-600"
+              className="btn btn-outline w-full !py-1 text-xs font-semibold flex gap-1 items-center text-slate-600 justify-center"
               onClick={handleBackToCalibration}
             >
-              <ArrowLeft className="w-3 h-3" /> Back to Calibration
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to Calibration
             </button>
           </>
         )}

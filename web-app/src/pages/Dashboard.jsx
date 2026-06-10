@@ -1050,10 +1050,10 @@ function Dashboard() {
         axisPointer: { type: "cross" },
       },
       grid: {
-        left: "4%",
-        right: "4%",
-        bottom: "12%",
-        top: "8%",
+        left: "8%",
+        right: "6%",
+        bottom: "16%",
+        top: "16%",
         containLabel: true,
       },
       xAxis: {
@@ -1072,8 +1072,8 @@ function Dashboard() {
         },
         min: minX,
         max: maxX,
-        axisLabel: { color: "#64748b", fontSize: 11 },
-        nameTextStyle: { color: "#64748b", fontSize: 11 },
+        axisLabel: { color: "#64748b", fontSize: 13 },
+        nameTextStyle: { color: "#64748b", fontSize: 13, fontWeight: 600 },
       },
       yAxis: {
         type: "value",
@@ -1089,10 +1089,16 @@ function Dashboard() {
         },
         axisLabel: {
           color: "#64748b",
-          fontSize: 11,
+          fontSize: 13,
           formatter: (val) => val.toLocaleString(),
         },
-        nameTextStyle: { color: "#64748b", fontSize: 11 },
+        nameTextStyle: {
+          color: "#64748b",
+          fontSize: 13,
+          fontWeight: 600,
+          align: "left",
+          padding: [0, 0, 8, 0],
+        },
         scale: true,
       },
       series: [
@@ -1187,8 +1193,8 @@ function Dashboard() {
       {/* LEFT COLUMN: Main Chart & Action controls */}
       <div className="flex flex-col gap-4 h-full min-h-0 justify-between">
         {/* CHART CONTAINER CARD (Top-left zone - scaled down) */}
-        <div className="glass-panel flex flex-col p-4 flex-1 min-h-0">
-          <div className="flex justify-between items-center mb-2 border-b border-slate-100 pb-2">
+        <div className="glass-panel flex flex-col p-2 flex-1 min-h-0">
+          <div className="flex justify-between items-center mb-1.5 border-b border-slate-100 pb-1.5">
             <div>
               <h2 className="text-base font-bold text-slate-800 flex items-center gap-1.5">
                 <Activity className="w-4.5 h-4.5 text-sky-500" />
@@ -1247,7 +1253,7 @@ function Dashboard() {
       </div>
 
       {/* RIGHT COLUMN: Diagnostic Metrics & Target Selection */}
-      <div className="flex flex-col gap-4 h-full min-h-0 justify-between">
+      <div className="flex flex-col gap-1 h-full min-h-0 justify-between">
         <ResonanceMetrics
           avgFreq1={avgFreq1}
           avgFreq2={avgFreq2}
@@ -1264,17 +1270,17 @@ function Dashboard() {
         />
 
         {/* CARD C: Analysis target & Threshold Settings (Moved below metrics) */}
-        <div className="glass-panel p-4 shrink-0">
-          <h3 className="text-xs font-bold text-slate-700 mb-2">
+        <div className="glass-panel p-2 shrink-0">
+          <h3 className="text-sm font-bold text-slate-700 mb-1">
             Target & Threshold Settings
           </h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2.5">
             <div>
-              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">
+              <span className="text-xs uppercase font-bold text-slate-400 block mb-0.5">
                 Target Tumor
               </span>
               <select
-                className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-xs focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
+                className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2.5 text-sm focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
                 value={targetName}
                 onChange={(e) => {
                   const val = e.target.value;
@@ -1288,12 +1294,12 @@ function Dashboard() {
             </div>
 
             <div>
-              <span className="text-[9px] uppercase font-bold text-slate-400 block mb-0.5">
+              <span className="text-xs uppercase font-bold text-slate-400 block mb-0.5">
                 Threshold (Hz)
               </span>
               <input
                 type="number"
-                className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2 text-xs focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
+                className="w-full bg-slate-50 border border-slate-100 rounded-md py-1 px-2 text-sm focus:outline-none focus:border-sky-500 font-semibold text-slate-700"
                 value={threshold}
                 onChange={(e) =>
                   setThreshold(Math.max(1, parseInt(e.target.value) || 1))
@@ -1306,7 +1312,7 @@ function Dashboard() {
           {/* DIAGNOSIS BANNER OVERLAY */}
           {showResult && (
             <div
-              className={`mt-2 p-2 rounded-lg text-center font-bold text-xs shadow-sm transition-all border ${
+              className={`mt-2 p-2 rounded-lg text-center font-bold text-sm shadow-sm transition-all border ${
                 showResult === "Detected"
                   ? "bg-rose-50 text-rose-600 border-rose-100"
                   : "bg-emerald-50 text-emerald-600 border-emerald-100"
