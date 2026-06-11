@@ -197,9 +197,99 @@ export default function CancerReport() {
   const [showSavedDrawer, setShowSavedDrawer] = useState(false);
   const [toast, setToast] = useState({ message: "", type: null });
 
+  // Search & Filters State (Requirement 2.1.4)
+  const [searchQuery, setSearchQuery] = useState({
+    name: "",
+    sex: "",
+    age: "",
+    dob: "",
+    specimen: "",
+    collectingDate: "",
+    receivingDate: "",
+  });
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+
+  const filteredReports = savedReports.filter((report) => {
+    const pName = report.patient?.name || "";
+    const pSex = report.patient?.sex || "";
+    const pAge = report.patient?.age !== null && report.patient?.age !== undefined ? String(report.patient.age) : "";
+    const pDob = report.patient?.dob || "";
+    const pSpecimen1 = report.specimen1 || "";
+    const pSpecimen2 = report.specimen2 || "";
+    const pCollDate = report.collecting_date || "";
+    const pRecDate = report.receiving_date || "";
+
+    const matchesName = pName.toLowerCase().includes(searchQuery.name.toLowerCase());
+    const matchesSex = searchQuery.sex === "" || 
+      pSex.toLowerCase() === searchQuery.sex.toLowerCase() ||
+      (searchQuery.sex.toLowerCase() === "m" && pSex.toLowerCase().startsWith("m")) ||
+      (searchQuery.sex.toLowerCase() === "f" && pSex.toLowerCase().startsWith("f"));
+    const matchesAge = searchQuery.age === "" || pAge === searchQuery.age;
+    const matchesDob = searchQuery.dob === "" || pDob === searchQuery.dob;
+    const matchesSpecimen = searchQuery.specimen === "" || 
+      pSpecimen1.toLowerCase().includes(searchQuery.specimen.toLowerCase()) ||
+      pSpecimen2.toLowerCase().includes(searchQuery.specimen.toLowerCase());
+    const matchesCollDate = searchQuery.collectingDate === "" || pCollDate === searchQuery.collectingDate;
+    const matchesRecDate = searchQuery.receivingDate === "" || pRecDate === searchQuery.receivingDate;
+
+    return matchesName && matchesSex && matchesAge && matchesDob && matchesSpecimen && matchesCollDate && matchesRecDate;
+  });
+
+  // CSV Export Logic (Requirement 2.1.5)
+  const handleExportCSV = () => {
+    if (!patient.name.trim()) {
+      setToast({
+        message: language === "th" ? "กรุณากรอกชื่อผู้ป่วยก่อนส่งออกข้อมูล" : "Please enter patient name before exporting",
+        type: "error",
+      });
+      return;
+    }
+
+    let csvContent = "\uFEFF"; // UTF-8 BOM for Excel compatibility with Noto Sans Thai character sets
+    
+    // Section 1: Patient Information
+    csvContent += `Patient Information\n`;
+    csvContent += `Name,Sex,Age,Date of Birth,Specimen Type 1,Specimen Type 2,Collecting Date,Receiving Date,Testing Date\n`;
+    csvContent += `"${patient.name}","${patient.sex}","${patient.age}","${patient.dob}","${patient.specimen1}","${patient.specimen2}","${patient.collectingDate}","${patient.receivingDate}","${patient.testingDate}"\n\n`;
+
+    // Section 2: Tumor Markers
+    csvContent += `Tumor Markers & Scores\n`;
+    csvContent += `Marker Name,Result,Unit,Reference Range,Status\n`;
+    csvContent += `"Prostate-Specific Antigen (PSA)","${markers.psa}","ng/mL","0.0-4.0","${getStatus("psa", markers.psa).text}"\n`;
+    csvContent += `"Carcinoembryonic antigen (CEA)","${markers.cea}","ng/mL","0.0-5.0","${getStatus("cea", markers.cea).text}"\n`;
+    csvContent += `"Cancer Antigen 15-3 (CA 15-3)","${markers.ca153}","U/mL","0-37","${getStatus("ca153", markers.ca153).text}"\n`;
+    csvContent += `"Alpha-Fetoprotein (AFP)","${markers.afp}","ng/mL","Cut off 200","${getStatus("afp", markers.afp).text}"\n`;
+    csvContent += `"Human Papillomavirus DNA (HPV)","${markers.hpv}","Copies/mL","10³-10⁸ copies/ml","-"\n`;
+    csvContent += `"CT CS (Circulating Tumor Cells)","${markers.ctcs}","CTCs / 7.5 mL","> 5 CTCs / 7.5 mL","${getStatus("ctcs", markers.ctcs).text}"\n`;
+    csvContent += `"Prostate Cancer gene 3 (PCA3)","${markers.pca3}","-","Cut off : 35","${getStatus("pca3", markers.pca3).text}"\n`;
+    csvContent += `"Distal-Less Homeobox 1 (DLX1)","${markers.dlx1}","-","Cut off : N/A","-"\n\n`;
+
+    // Section 3: Genetic Mutations
+    csvContent += `Genetic Mutations (Exons)\n`;
+    csvContent += `Mutation Name,Result,Unit\n`;
+    csvContent += `"Exon 20 Insertion","${genetics.exon20}","ng/mL"\n`;
+    csvContent += `"G719X","${genetics.g719x}","ng/mL"\n`;
+    csvContent += `"Exon 19 Del, L858R","${genetics.exon19}","ng/mL"\n`;
+    csvContent += `"L858R","${genetics.l858r}","ng/mL"\n`;
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Surazense_Report_${patient.name.trim().replace(/\s+/g, "_")}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    setToast({
+      message: language === "th" ? "ส่งออกไฟล์ CSV เรียบร้อยแล้ว" : "CSV exported successfully",
+      type: "success",
+    });
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-[calc(100vh-80px)] bg-slate-50 flex items-center justify-center">
         <div className="text-slate-500 font-medium">Loading...</div>
       </div>
     );
@@ -213,7 +303,7 @@ export default function CancerReport() {
 
   if (!isAuthorized) {
     return (
-      <div className="min-h-screen bg-slate-50 pt-28 pb-24 flex items-center justify-center px-6">
+      <div className="min-h-[calc(100vh-80px)] bg-slate-50 flex items-center justify-center px-6 py-12">
         <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl p-8 md:p-12 max-w-lg w-full text-center">
           <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-rose-100">
             <Lock className="w-10 h-10" />
@@ -1347,7 +1437,14 @@ export default function CancerReport() {
                 className="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-extrabold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm"
               >
                 <Download className="w-4 h-4 text-slate-400" />
-                {t("cancerReportPage.export")}
+                {language === "th" ? "ส่งออก PDF" : "Export PDF"}
+              </button>
+              <button
+                onClick={handleExportCSV}
+                className="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-extrabold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+              >
+                <Download className="w-4 h-4 text-slate-400" />
+                {language === "th" ? "ส่งออก CSV" : "Export CSV"}
               </button>
               <button
                 onClick={handlePrint}
@@ -1414,6 +1511,137 @@ export default function CancerReport() {
               </button>
             </div>
 
+            {/* Search Filters (Requirement 2.1.4) */}
+            <div className="p-5 bg-slate-50 border-b border-slate-100 flex flex-col gap-3">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder={language === "th" ? "ค้นหาด้วยชื่อผู้ป่วย..." : "Search by patient name..."}
+                  value={searchQuery.name}
+                  onChange={(e) => setSearchQuery(prev => ({ ...prev, name: e.target.value }))}
+                  className="flex-1 bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100 transition-all shadow-sm"
+                />
+                <button
+                  onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all border ${
+                    showAdvancedSearch 
+                      ? "bg-blue-50 border-blue-200 text-blue-600 font-extrabold" 
+                      : "bg-white border-slate-200 hover:bg-slate-50 text-slate-600"
+                  }`}
+                >
+                  {language === "th" ? "ตัวกรอง" : "Filters"}
+                </button>
+              </div>
+
+              {showAdvancedSearch && (
+                <div className="grid grid-cols-2 gap-3 p-4 bg-white border border-slate-100 rounded-2xl shadow-inner text-[11px] animate-fade-in">
+                  {/* Sex */}
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-slate-400 uppercase tracking-wide">
+                      {language === "th" ? "เพศ" : "Sex"}
+                    </label>
+                    <select
+                      value={searchQuery.sex}
+                      onChange={(e) => setSearchQuery(prev => ({ ...prev, sex: e.target.value }))}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-1.5 focus:outline-none focus:border-blue-500 text-slate-700 font-semibold"
+                    >
+                      <option value="">{language === "th" ? "ทั้งหมด" : "All"}</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="M">M</option>
+                      <option value="F">F</option>
+                    </select>
+                  </div>
+
+                  {/* Age */}
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-slate-400 uppercase tracking-wide">
+                      {language === "th" ? "อายุ" : "Age"}
+                    </label>
+                    <input
+                      type="number"
+                      placeholder="e.g. 45"
+                      value={searchQuery.age}
+                      onChange={(e) => setSearchQuery(prev => ({ ...prev, age: e.target.value }))}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-1.5 focus:outline-none focus:border-blue-500 text-slate-700 font-semibold w-full"
+                    />
+                  </div>
+
+                  {/* DOB */}
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-slate-400 uppercase tracking-wide">
+                      {language === "th" ? "วันเกิด" : "DOB"}
+                    </label>
+                    <input
+                      type="date"
+                      value={searchQuery.dob}
+                      onChange={(e) => setSearchQuery(prev => ({ ...prev, dob: e.target.value }))}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-1.5 focus:outline-none focus:border-blue-500 text-slate-700 font-semibold cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Specimen */}
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-slate-400 uppercase tracking-wide">
+                      {language === "th" ? "สิ่งส่งตรวจ" : "Specimen"}
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Serum"
+                      value={searchQuery.specimen}
+                      onChange={(e) => setSearchQuery(prev => ({ ...prev, specimen: e.target.value }))}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-1.5 focus:outline-none focus:border-blue-500 text-slate-700 font-semibold w-full"
+                    />
+                  </div>
+
+                  {/* Collecting Date */}
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-slate-400 uppercase tracking-wide">
+                      {language === "th" ? "วันที่เก็บตัวอย่าง" : "Collect Date"}
+                    </label>
+                    <input
+                      type="date"
+                      value={searchQuery.collectingDate}
+                      onChange={(e) => setSearchQuery(prev => ({ ...prev, collectingDate: e.target.value }))}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-1.5 focus:outline-none focus:border-blue-500 text-slate-700 font-semibold cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Receiving Date */}
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-slate-400 uppercase tracking-wide">
+                      {language === "th" ? "วันที่รับตัวอย่าง" : "Receive Date"}
+                    </label>
+                    <input
+                      type="date"
+                      value={searchQuery.receivingDate}
+                      onChange={(e) => setSearchQuery(prev => ({ ...prev, receivingDate: e.target.value }))}
+                      className="bg-slate-50 border border-slate-200 rounded-lg p-1.5 focus:outline-none focus:border-blue-500 text-slate-700 font-semibold cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Clear Button */}
+                  <div className="col-span-2 flex justify-end pt-2 border-t border-slate-100 mt-1">
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery({
+                        name: "",
+                        sex: "",
+                        age: "",
+                        dob: "",
+                        specimen: "",
+                        collectingDate: "",
+                        receivingDate: ""
+                      })}
+                      className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg font-bold transition-all border-0 cursor-pointer text-[10px] uppercase tracking-wider"
+                    >
+                      {language === "th" ? "ล้างค่าตัวกรอง" : "Clear Filters"}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* List */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {isLoadingSaved ? (
@@ -1435,8 +1663,20 @@ export default function CancerReport() {
                       : 'Fill details and click "Save to DB" to start building records.'}
                   </p>
                 </div>
+              ) : filteredReports.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-48 text-center px-4">
+                  <Database className="w-10 h-10 text-slate-300 mb-3 animate-bounce" style={{ animationDuration: '3s' }} />
+                  <p className="text-sm font-bold text-slate-800">
+                    {language === "th" ? "ไม่พบรายงานที่ตรงตามเงื่อนไข" : "No matching reports found"}
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    {language === "th"
+                      ? "ลองเปลี่ยนคีย์เวิร์ดหรือล้างฟิลเตอร์ตัวกรอง"
+                      : "Try adjusting your search terms or clearing filters."}
+                  </p>
+                </div>
               ) : (
-                savedReports.map((report) => (
+                filteredReports.map((report) => (
                   <div
                     key={report.id}
                     className="border border-slate-100 hover:border-blue-100 rounded-2xl p-4.5 bg-slate-50/30 hover:bg-blue-50/10 transition-all flex flex-col gap-3.5 group shadow-sm shadow-slate-100/50"

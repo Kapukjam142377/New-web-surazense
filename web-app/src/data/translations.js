@@ -427,6 +427,52 @@ export const translations = {
         lowStock: "Low Stock",
       },
     },
+    services: {
+      title: "Analytical & Laboratory Services",
+      subtitle: "Professional target detection modules and analytical support for biosensor research.",
+      consultingTitle: "Consulting Services",
+      consultingDesc: "Custom biomarker assay development and tailored assay protocol design.",
+      sensingTitle: "Sensing Assays",
+      sensingDesc: "Advanced immunoassay sensing arrays on piezoelectric quartz crystals.",
+      functionalTitle: "Sensor Functionalization",
+      functionalDesc: "Specialized chemical linkers (SAMs) applied to QCM crystal surfaces.",
+      maintenanceTitle: "Instrument Maintenance",
+      maintenanceDesc: "Comprehensive diagnostics and calibration services for QCM equipment."
+    },
+    technology: {
+      title: "Quartz Crystal Microbalance (QCM)",
+      subtitle: "Precision physical measurement of molecular binding kinetics down to nanogram scale changes.",
+      piezoTitle: "Piezoelectric Effect",
+      piezoDesc: "Detecting changes in surface resonance frequency corresponding to nanogram mass deposits.",
+      dspTitle: "Digital Signal Processing",
+      dspDesc: "Integrated baseline correction, Savitzky-Golay filters, and spline curve fitting.",
+      splineTitle: "Spline Interpolation",
+      splineDesc: "Advanced curve-fitting mathematical algorithms upsampling data to 10,001 data points for peak detection.",
+      sensitivityTitle: "High Mass Sensitivity",
+      sensitivityDesc: "Ultra-high precision monitoring suitable for early-stage cell-free DNA cancer biomarkers."
+    },
+    collaboration: {
+      title: "Strategic Collaborations",
+      subtitle: "Bridging academic research with hardware medical technology alongside clinical institutions.",
+      sutTitle: "Suranaree University of Technology",
+      sutDesc: "Direct advising and laboratory testing in partnership with SUT's Engineering and Translational Medicine Departments.",
+      hospitalTitle: "Udonthani Cancer Hospital",
+      hospitalDesc: "Clinical trials and bio-specimen correlation research to ensure assay validity.",
+      suratecTitle: "Suratec Co., Ltd.",
+      suratecDesc: "Partnership in industrial manufacturing and instrumentation assembly for Xzense units.",
+      cta: "Collaborate with SuraZense",
+      ctaDesc: "Join us in revolutionizing early cancer detection. Get in touch for research opportunities."
+    },
+    news: {
+      title: "News & Publications",
+      subtitle: "Discover our latest achievements, research articles, and upcoming events.",
+      awardTitle: "National Innovation Award Winner",
+      awardDesc: "SuraZense won the prestigious incubator presentation for biosensor tech.",
+      journalTitle: "QCM Biosensor Journal Publication",
+      journalDesc: "Our peer-reviewed clinical validation report on cell-free DNA sensing is published.",
+      expoTitle: "Global Health & MedTech Expo",
+      expoDesc: "Live demonstrations of the Xzense-101 real-time cancer detection platform."
+    }
   },
   th: {
     nav: {
@@ -858,5 +904,51 @@ export const translations = {
         lowStock: "สินค้าเหลือไม่มาก",
       },
     },
+    services: {
+      title: "บริการตรวจวัดและวิเคราะห์",
+      subtitle: "บริการพัฒนาการทดสอบเป้าหมายและการสนับสนุนด้านการตรวจวัดสำหรับงานวิจัยไบโอเซนเซอร์",
+      consultingTitle: "บริการให้คำปรึกษา",
+      consultingDesc: "พัฒนาการตรวจหาตัวบ่งชี้มะเร็งและออกแบบระเบียบวิธีการวิจัยเฉพาะบุคคล",
+      sensingTitle: "บริการเซนเซอร์รับสัญญาณ",
+      sensingDesc: "ระบบตรวจวัดไบโอเซนเซอร์ขั้นสูงบนผลึกคริสตัลควอตซ์แบบเพียโซอิเล็กทริก",
+      functionalTitle: "การปรับแต่งพื้นผิวเซนเซอร์",
+      functionalDesc: "เตรียมพื้นผิวเคมีรับสัญญาณ (SAMs) บนแผ่นคริสตัลควอตซ์เพื่อความจำเพาะเจาะจง",
+      maintenanceTitle: "บำรุงรักษาเครื่องมือ",
+      maintenanceDesc: "บริการสอบเทียบเครื่องมือ บำรุงรักษา และแก้ปัญหาระบบอุปกรณ์ QCM ทั้งหมด"
+    },
+    technology: {
+      title: "คริสตัลไมโครบาลานซ์ (QCM)",
+      subtitle: "การตรวจวัดมวลสารทางฟิสิกส์ที่มีความแม่นยำสูงในระดับนาโนกรัมสำหรับการจับกันของสารชีวโมเลกุล",
+      piezoTitle: "ผลกระทบเพียโซอิเล็กทริก",
+      piezoDesc: "วัดการเปลี่ยนแปลงความถี่รีโซแนนซ์ของพื้นผิวเซนเซอร์ที่สอดคล้องกับการเกาะของมวลสาร",
+      dspTitle: "การประมวลผลสัญญาณดิจิทัล",
+      dspDesc: "การตัดสัญญาณรบกวนพื้นหลัง (Baseline), ตัวกรอง Savitzky-Golay และอัลกอริทึมชดเชยค่า",
+      splineTitle: "การประมาณค่าในช่วงแบบสปไลน์",
+      splineDesc: "อัลกอริทึมคณิตศาสตร์ขั้นสูงเพื่อเพิ่มความละเอียดจุดข้อมูลเป็น 10,001 จุดในการหาค่าพีคสูงสุด",
+      sensitivityTitle: "ความไวต่อการวัดมวลสารสูง",
+      sensitivityDesc: "การตรวจวัดที่มีความไวสูงสุด เหมาะสำหรับตัวบ่งชี้ดีเอ็นเอของเซลล์มะเร็งระยะเริ่มต้น"
+    },
+    collaboration: {
+      title: "ความร่วมมือเชิงกลยุทธ์",
+      subtitle: "เชื่อมโยงงานวิจัยทางวิชาการเข้ากับเทคโนโลยีเครื่องมือแพทย์ร่วมกับสถาบันวิจัยและคลินิก",
+      sutTitle: "มหาวิทยาลัยเทคโนโลยีสุรนารี",
+      sutDesc: "ที่ปรึกษาและร่วมวิจัยทางห้องปฏิบัติการร่วมกับสำนักวิชาวิศวกรรมศาสตร์และแพทยศาสตร์ มทส.",
+      hospitalTitle: "โรงพยาบาลมะเร็งอุดรธานี",
+      hospitalDesc: "ร่วมมือทำการทดสอบทางคลินิกและการศึกษาความเชื่อมโยงของสิ่งส่งตรวจทางชีวภาพเพื่อความแม่นยำสูงสุด",
+      suratecTitle: "บริษัท สุรเทค จำกัด",
+      suratecDesc: "พันธมิตรผู้ผลิตระดับอุตสาหกรรมและการประกอบแผงวงจรเครื่องมือวิเคราะห์ Xzense-101",
+      cta: "ร่วมมือกับ SuraZense",
+      ctaDesc: "เข้าร่วมกับเราในการปฏิวัติการตรวจหามะเร็งระยะเริ่มต้น ติดต่อพวกเราเพื่อความร่วมมือวิจัยใหม่ๆ"
+    },
+    news: {
+      title: "ข่าวสารและผลงานตีพิมพ์",
+      subtitle: "ค้นพบความสำเร็จล่าสุด บทความวิจัย และกิจกรรมสัมมนาวิชาการที่กำลังจะเกิดขึ้น",
+      awardTitle: "ผู้ชนะรางวัลนวัตกรรมแห่งชาติ",
+      awardDesc: "SuraZense ได้รับรางวัลชนะเลิศในโครงการบ่มเพาะวิสาหกิจเริ่มต้นด้านเทคโนโลยีชีวภาพ",
+      journalTitle: "ผลงานตีพิมพ์วารสารวิชาการ QCM",
+      journalDesc: "รายงานการศึกษาประสิทธิผลทางคลินิกของการตรวจหาดีเอ็นเอหลุดลอยได้รับการตีพิมพ์ในวารสารวิชาการชั้นนำ",
+      expoTitle: "นิทรรศการเครื่องมือแพทย์ระดับโลก",
+      expoDesc: "การสาธิตเครื่องมือวิเคราะห์ตรวจหามะเร็ง Xzense-101 แบบเรียลไทม์ในงานแสดงระดับนานาชาติ"
+    }
   },
 };

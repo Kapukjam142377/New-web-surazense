@@ -54,21 +54,15 @@ export default function Login() {
   return (
     <div
       style={{
-        display: "grid",
-        gridTemplateColumns: "minmax(0, 1fr) minmax(350px, 1fr)",
-        minHeight: "calc(100vh - 120px)",
+        display: "flex",
+        justifyContent: "center",
         alignItems: "center",
+        minHeight: "calc(100vh - 120px)",
+        padding: "2rem 1rem",
       }}
     >
-      {/* ด้านซ้าย ปล่อยว่างไว้ตามที่ต้องการ */}
-      <div className="login-left-placeholder"></div>
-
-      {/* ด้านขวา กล่อง Login */}
-      <div
-        style={{ display: "flex", justifyContent: "center", padding: "1rem" }}
-      >
-        <form
-          onSubmit={handleSubmit}
+      <form
+        onSubmit={handleSubmit}
           style={{
             background: "#eef8ff",
             border: "2px solid #0284c7",
@@ -397,6 +391,5 @@ export default function Login() {
           </div>
         </form>
       </div>
-    </div>
   );
 }
