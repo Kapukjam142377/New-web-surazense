@@ -171,7 +171,7 @@ const LAB_GALLERY_IMAGES = [
     categoryKey: "academic.gallery4Category",
     image: "/lab-gallery-4.jpg",
     fallbackColor: "from-violet-600/20 to-pink-500/20",
-    gridClass: "md:col-span-3 md:row-span-1 min-h-[220px]",
+    gridClass: "md:col-span-3 md:row-span-1 min-h-[320px] md:min-h-[420px]",
   },
 ];
 

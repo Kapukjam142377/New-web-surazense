@@ -613,6 +613,184 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Academic & Laboratory Training Section */}
+      <section className="w-full bg-slate-50 py-32 px-6 lg:px-12 border-t border-slate-100 overflow-hidden relative">
+        {/* Background glow */}
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{ repeat: Infinity, duration: 15, ease: "easeInOut" }}
+          className="absolute top-1/2 left-[-10%] w-[45vw] h-[45vw] max-w-[600px] max-h-[600px] bg-blue-100 rounded-full blur-[130px] pointer-events-none z-0"
+        ></motion.div>
+
+        <div className="max-w-[1200px] mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Text details */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 1.0 }}
+              className="space-y-6 text-center lg:text-left"
+            >
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-blue-50 border border-blue-100 rounded-full text-xs font-bold uppercase tracking-widest text-blue-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="animate-pulse"
+                >
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                  <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" />
+                </svg>
+                <span>{t("nav.academicTraining")}</span>
+              </div>
+
+              <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                {language === "th" ? (
+                  <>
+                    หลักสูตรการฝึกอบรม <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                      และห้องปฏิบัติการวิจัย
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Laboratory & <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                      Academic Training
+                    </span>
+                  </>
+                )}
+              </h2>
+
+              <p className="text-lg text-slate-500 leading-relaxed font-medium">
+                {t("academic.introDesc")}
+              </p>
+
+              <div className="grid sm:grid-cols-2 gap-6 pt-4 text-left">
+                <div className="flex gap-4 items-start">
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800">
+                      {language === "th" ? "การทดลองปฏิบัติจริง" : "Hands-on Experience"}
+                    </h4>
+                    <p className="text-sm text-slate-500 mt-1">
+                      {language === "th"
+                        ? "เรียนรู้การใช้เซนเซอร์ QCM และ ESP32 จริงในแล็บ"
+                        : "Work directly with QCM hardware, ESP32 chips, and resonance systems."}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 items-start">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                      <path d="m9 12 2 2 4-4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800">
+                      {language === "th" ? "ได้รับใบรับรอง" : "Professional Certificates"}
+                    </h4>
+                    <p className="text-sm text-slate-500 mt-1">
+                      {language === "th"
+                        ? "รับใบรับรองการสำเร็จหลักสูตรเพื่อรับรองฝีมือและความรู้"
+                        : "Receive official completion certificates recognized in bio-engineering."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <Link
+                  to="/academic-training"
+                  className="bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-[15px] hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/35 hover:-translate-y-0.5 transition-all inline-flex items-center gap-3"
+                >
+                  <span>{language === "th" ? "สำรวจหลักสูตรและสมัครอบรม" : "Explore Training Programs"}</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Visual Display */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 1.0, delay: 0.2 }}
+              className="relative rounded-[2.5rem] overflow-hidden border border-slate-200/50 shadow-2xl aspect-[4/3] bg-slate-900 group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 z-10"></div>
+              <img
+                src="/lab-gallery-1.jpg"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/x-zense-view2.jpg";
+                }}
+                alt="Laboratory Training"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+              <div className="absolute bottom-6 left-6 right-6 z-20">
+                <span className="text-xs font-bold text-sky-400 uppercase tracking-widest mb-1.5 inline-block">
+                  {language === "th" ? "บรรยากาศจริงในแล็บ" : "Live Lab Session"}
+                </span>
+                <p className="text-white text-base font-bold drop-shadow-sm leading-snug">
+                  {language === "th"
+                    ? "การอบรมวิชาการด้านเซนเซอร์มะเร็งระดับโมเลกุลและการบูรณาการฮาร์ดแวร์"
+                    : "Hands-on molecular cancer diagnostics & QCM hardware calibration."}
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Partnerships / Distributors Section */}
       <section className="w-full bg-white py-28 overflow-hidden border-b border-slate-100">
         <div className="text-center mb-20 px-6 max-w-3xl mx-auto">

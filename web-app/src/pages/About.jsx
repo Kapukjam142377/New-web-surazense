@@ -155,6 +155,115 @@ export default function About() {
         </div>
       </section>
 
+      {/* Mission & Vision Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            className="grid md:grid-cols-2 gap-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+          >
+            <motion.div
+              variants={fadeIn}
+              className="glass-panel relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border border-slate-200/60 bg-white/50"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
+              <Target className="w-12 h-12 text-blue-600 mb-6 relative z-10" />
+              <h2 className="text-3xl font-bold text-slate-900 mb-4 relative z-10">
+                {t("about.missionTitle")}
+              </h2>
+              <p className="text-slate-600 text-lg leading-relaxed relative z-10">
+                {t("about.missionDesc")}
+              </p>
+            </motion.div>
+
+            <motion.div
+              variants={fadeIn}
+              className="glass-panel relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border border-slate-200/60 bg-white/50"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-sky-100 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
+              <Activity className="w-12 h-12 text-sky-500 mb-6 relative z-10" />
+              <h2 className="text-3xl font-bold text-slate-900 mb-4 relative z-10">
+                {t("about.visionTitle")}
+              </h2>
+              <p className="text-slate-600 text-lg leading-relaxed relative z-10">
+                {t("about.visionDesc")}
+              </p>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Core Values Section */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            className="text-center mb-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+          >
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">
+              {t("about.coreValues")}
+            </h2>
+            <div className="w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-3 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={staggerContainer}
+          >
+            {/* Value 1 */}
+            <motion.div
+              variants={fadeIn}
+              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100"
+            >
+              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-blue-600">
+                <Target className="w-7 h-7" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">
+                {t("about.precisionTitle")}
+              </h3>
+              <p className="text-slate-600">{t("about.precisionDesc")}</p>
+            </motion.div>
+
+            {/* Value 2 */}
+            <motion.div
+              variants={fadeIn}
+              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100"
+            >
+              <div className="w-14 h-14 bg-sky-100 rounded-xl flex items-center justify-center mb-6 text-sky-500">
+                <Lightbulb className="w-7 h-7" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">
+                {t("about.innovationTitle")}
+              </h3>
+              <p className="text-slate-600">{t("about.innovationDesc")}</p>
+            </motion.div>
+
+            {/* Value 3 */}
+            <motion.div
+              variants={fadeIn}
+              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100"
+            >
+              <div className="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-6 text-indigo-600">
+                <Shield className="w-7 h-7" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">
+                {t("about.reliabilityTitle")}
+              </h3>
+              <p className="text-slate-600">{t("about.reliabilityDesc")}</p>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Team Section */}
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-blue-50 rounded-full blur-3xl opacity-60"></div>
@@ -207,115 +316,6 @@ export default function About() {
                 </p>
               </motion.div>
             ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Mission & Vision Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="grid md:grid-cols-2 gap-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer}
-          >
-            <motion.div
-              variants={fadeIn}
-              className="glass-panel relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border border-slate-200/60 bg-white/50"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
-              <Target className="w-12 h-12 text-blue-600 mb-6 relative z-10" />
-              <h2 className="text-3xl font-bold text-slate-900 mb-4 relative z-10">
-                {t("about.missionTitle")}
-              </h2>
-              <p className="text-slate-600 text-lg leading-relaxed relative z-10">
-                {t("about.missionDesc")}
-              </p>
-            </motion.div>
-
-            <motion.div
-              variants={fadeIn}
-              className="glass-panel relative overflow-hidden group hover:shadow-2xl transition-all duration-500 border border-slate-200/60 bg-white/50"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-sky-100 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
-              <Activity className="w-12 h-12 text-sky-500 mb-6 relative z-10" />
-              <h2 className="text-3xl font-bold text-slate-900 mb-4 relative z-10">
-                {t("about.visionTitle")}
-              </h2>
-              <p className="text-slate-600 text-lg leading-relaxed relative z-10">
-                {t("about.visionDesc")}
-              </p>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Core Values Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">
-              {t("about.coreValues")}
-            </h2>
-            <div className="w-24 h-1 bg-blue-500 mx-auto rounded-full"></div>
-          </motion.div>
-
-          <motion.div
-            className="grid md:grid-cols-3 gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={staggerContainer}
-          >
-            {/* Value 1 */}
-            <motion.div
-              variants={fadeIn}
-              className="bg-slate-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100"
-            >
-              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-blue-600">
-                <Target className="w-7 h-7" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
-                {t("about.precisionTitle")}
-              </h3>
-              <p className="text-slate-600">{t("about.precisionDesc")}</p>
-            </motion.div>
-
-            {/* Value 2 */}
-            <motion.div
-              variants={fadeIn}
-              className="bg-slate-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100"
-            >
-              <div className="w-14 h-14 bg-sky-100 rounded-xl flex items-center justify-center mb-6 text-sky-500">
-                <Lightbulb className="w-7 h-7" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
-                {t("about.innovationTitle")}
-              </h3>
-              <p className="text-slate-600">{t("about.innovationDesc")}</p>
-            </motion.div>
-
-            {/* Value 3 */}
-            <motion.div
-              variants={fadeIn}
-              className="bg-slate-50 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100"
-            >
-              <div className="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-6 text-indigo-600">
-                <Shield className="w-7 h-7" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
-                {t("about.reliabilityTitle")}
-              </h3>
-              <p className="text-slate-600">{t("about.reliabilityDesc")}</p>
-            </motion.div>
           </motion.div>
         </div>
       </section>
