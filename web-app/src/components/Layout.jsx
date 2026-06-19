@@ -8,25 +8,22 @@ import {
   Home,
   Info,
   ShoppingBag,
-  Briefcase,
-  Cpu,
-  Handshake,
-  Newspaper,
   Phone,
   User,
   LogOut,
+  FileText,
+  Cpu,
 } from "lucide-react";
-import { useCart } from "../context/CartContext";
 import { useLanguage } from "../context/LanguageContext";
 import { useUser } from "../context/UserContext";
 
+const QCM_WEB_URL = import.meta.env.VITE_QCM_WEB_URL || "http://localhost:5174";
+
 export default function Layout({ children }) {
   const location = useLocation();
-  const { cartItems, removeFromCart, itemCount, cartTotal } = useCart();
   const { language, toggleLanguage, t } = useLanguage();
   const { user, login, register, logout } = useUser();
 
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isLoginSidebarOpen, setIsLoginSidebarOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -41,8 +38,6 @@ export default function Layout({ children }) {
   const [authError, setAuthError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-
-  const cartRef = useRef(null);
 
   // Close mobile drawer when changing page routes
   useEffect(() => {
@@ -87,18 +82,6 @@ export default function Layout({ children }) {
     setIsSubmitting(false);
   };
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (cartRef.current && !cartRef.current.contains(event.target)) {
-        setIsCartOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   const isActive = (path) => {
     return location.pathname === path
       ? "text-accent font-semibold"
@@ -133,123 +116,56 @@ export default function Layout({ children }) {
           >
             {t("nav.about")}
           </Link>
-          {/* Products Dropdown */}
-          <div className="relative group flex items-center">
-            <Link
-              to="/products"
-              className={`${linkBaseClass} ${isActive("/products")} py-2`}
-            >
-              {t("nav.products")}
-            </Link>
-
-            {/* Dropdown Menu */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[190px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
-              <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
-                <Link
-                  to="/products"
-                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                >
-                  {t("nav.exploringProducts")}
-                </Link>
-                <Link
-                  to="/products"
-                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                >
-                  {t("nav.researchSolution")}
-                </Link>
-                <Link
-                  to="/academic-training"
-                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                >
-                  {t("nav.academicTraining")}
-                </Link>
-                <Link
-                  to="/products"
-                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                >
-                  {t("nav.others")}
-                </Link>
-              </div>
-            </div>
-          </div>
-          {/* Services Dropdown */}
-          <div className="relative group flex items-center">
-            <Link
-              to="/services"
-              className={`${linkBaseClass} ${isActive("/services")} py-2`}
-            >
-              {t("nav.services")}
-            </Link>
-
-            {/* Dropdown Menu */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[210px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
-              <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
-                <Link
-                  to="/services"
-                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                >
-                  {t("nav.instrumentMaintaining")}
-                </Link>
-
-                {/* Nested Xzense-101 Menu */}
-                <div className="relative group/sub flex flex-col">
-                  <div className="flex items-center justify-between px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors cursor-pointer">
-                    <Link
-                      to="/services"
-                      className="flex-1 text-inherit no-underline"
-                    >
-                      {t("nav.xzense101")}
-                    </Link>
-                    <svg
-                      className="w-3 h-3 text-slate-400 group-hover/sub:text-blue-600 transition-colors ml-2"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </div>
-
-                  {/* Nested Sub-menu */}
-                  <div className="absolute left-full top-0 pl-1 w-[260px] invisible opacity-0 -translate-x-2 group-hover/sub:visible group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all duration-300 z-[60]">
-                    <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 py-2 flex flex-col">
-                      <Link
-                        to="/cancer-report"
-                        className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                      >
-                        {t("nav.cancerReport")}
-                      </Link>
-                      <Link
-                        to="/dashboard"
-                        className="px-5 py-2.5 text-[13px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                      >
-                        {t("nav.xzenseSoftware")}
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <Link
             to="/technology"
             className={`${linkBaseClass} ${isActive("/technology")}`}
           >
             {t("nav.technology")}
           </Link>
+          {/* Products Dropdown */}
+          <div className="relative group flex items-center">
+            <a
+              href={`${QCM_WEB_URL}/products`}
+              className={`${linkBaseClass} text-slate-500 hover:text-accent font-medium py-2`}
+            >
+              {t("nav.products")}
+            </a>
+
+            {/* Dropdown Menu */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[190px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
+              <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
+                <a
+                  href={`${QCM_WEB_URL}/products`}
+                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                >
+                  {t("nav.exploringProducts")}
+                </a>
+                <a
+                  href={`${QCM_WEB_URL}/products`}
+                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                >
+                  {t("nav.researchSolution")}
+                </a>
+                <a
+                  href={`${QCM_WEB_URL}/academic-training`}
+                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                >
+                  {t("nav.academicTraining")}
+                </a>
+                <a
+                  href={`${QCM_WEB_URL}/products`}
+                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
+                >
+                  {t("nav.others")}
+                </a>
+              </div>
+            </div>
+          </div>
           <Link
-            to="/collaboration"
-            className={`${linkBaseClass} ${isActive("/collaboration")}`}
+            to="/cancer-report"
+            className={`${linkBaseClass} ${isActive("/cancer-report")}`}
           >
-            {t("nav.collaboration")}
-          </Link>
-          <Link to="/news" className={`${linkBaseClass} ${isActive("/news")}`}>
-            {t("nav.news")}
+            {t("nav.cancerReport")}
           </Link>
           <Link
             to="/contacts"
@@ -281,96 +197,7 @@ export default function Layout({ children }) {
             </span>
           </button>
 
-          <div className="relative" ref={cartRef}>
-            <button
-              id="global-cart-icon"
-              onClick={() => setIsCartOpen(!isCartOpen)}
-              className="relative text-slate-600 hover:text-accent transition-colors flex items-center justify-center p-1 cursor-pointer bg-transparent border-none outline-none"
-              title="Shopping Cart"
-            >
-              <ShoppingCart className="w-[1.15rem] h-[1.15rem] stroke-[2.5px]" />
-              {itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 min-w-[1.25rem] h-5 px-1 bg-red-500 rounded-full border-[1.5px] border-white text-[10px] font-bold text-white flex items-center justify-center shadow-sm">
-                  {itemCount}
-                </span>
-              )}
-            </button>
-
-            {/* Cart Dropdown */}
-            {isCartOpen && (
-              <div className="absolute top-full right-0 mt-4 w-80 bg-white rounded-2xl shadow-2xl shadow-blue-900/10 border border-slate-100 py-4 px-5 z-50">
-                <div className="flex justify-between items-center mb-4 pb-3 border-b border-slate-100">
-                  <h3 className="font-bold text-slate-800">
-                    {t("nav.yourCart")}
-                  </h3>
-                  <span className="text-xs bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">
-                    {itemCount} items
-                  </span>
-                </div>
-
-                <div className="space-y-4 mb-5 max-h-[60vh] overflow-y-auto">
-                  {cartItems.length === 0 ? (
-                    <p className="text-sm text-slate-500 text-center py-4">
-                      {t("nav.cartEmpty")}
-                    </p>
-                  ) : (
-                    cartItems.map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex gap-3 items-center group"
-                      >
-                        <div className="w-12 h-12 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-center shrink-0 overflow-hidden relative">
-                          {item.image ? (
-                            <img
-                              src={item.image}
-                              alt={item.name}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <ImageIcon className="w-5 h-5 text-slate-300 stroke-[1.5px]" />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p
-                            className="text-sm font-bold text-slate-800 truncate"
-                            title={item.name}
-                          >
-                            {item.name}
-                          </p>
-                          <p className="text-xs text-slate-500">
-                            {item.quantity} x ${item.price.toFixed(2)}
-                          </p>
-                        </div>
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-slate-300 hover:text-red-500 transition-colors p-1 bg-transparent border-none cursor-pointer outline-none"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))
-                  )}
-                </div>
-
-                <div className="pt-4 border-t border-slate-100 mb-5 flex justify-between items-center">
-                  <span className="text-sm font-medium text-slate-500">
-                    {t("nav.subtotal")}
-                  </span>
-                  <span className="text-lg font-bold text-slate-900">
-                    ${cartTotal.toFixed(2)}
-                  </span>
-                </div>
-
-                <Link
-                  to="/checkout"
-                  onClick={() => setIsCartOpen(false)}
-                  className={`w-full block text-center py-2.5 rounded-xl font-bold text-sm transition-colors no-underline ${cartItems.length > 0 ? "bg-blue-600 hover:bg-blue-700 text-white" : "bg-slate-100 text-slate-400 pointer-events-none"}`}
-                >
-                  {t("nav.checkout")}
-                </Link>
-              </div>
-            )}
-          </div>
+          {/* Cart removed from Company website */}
 
           {user ? (
             <div className="relative">
@@ -420,21 +247,7 @@ export default function Layout({ children }) {
 
         {/* Mobile Controls (Cart & Hamburger Menu) */}
         <div className="flex lg:hidden items-center gap-4">
-          {/* Mobile Cart Button */}
-          <div className="relative">
-            <button
-              onClick={() => setIsCartOpen(!isCartOpen)}
-              className="relative text-slate-600 hover:text-accent transition-colors flex items-center justify-center p-1 cursor-pointer bg-transparent border-none outline-none"
-              title="Shopping Cart"
-            >
-              <ShoppingCart className="w-[1.25rem] h-[1.25rem] stroke-[2.5px]" />
-              {itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 min-w-[1.25rem] h-5 px-1 bg-red-500 rounded-full border-[1.5px] border-white text-[10px] font-bold text-white flex items-center justify-center shadow-sm">
-                  {itemCount}
-                </span>
-              )}
-            </button>
-          </div>
+          {/* Mobile Cart removed from Company website */}
 
           {/* Hamburger Menu Toggle */}
           <button
@@ -512,106 +325,6 @@ export default function Layout({ children }) {
             <span className="uppercase tracking-wider">{t("nav.about")}</span>
           </Link>
 
-          {/* Products Group */}
-          <div className="py-1">
-            <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
-              <ShoppingBag className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
-              <span>{t("nav.products")}</span>
-            </div>
-            <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1">
-              <Link
-                to="/products"
-                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === "/products"
-                    ? "text-blue-600 bg-blue-50/50"
-                    : "text-slate-600 hover:text-blue-600"
-                }`}
-              >
-                {t("nav.exploringProducts")}
-              </Link>
-              <Link
-                to="/products"
-                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === "/products"
-                    ? "text-blue-600 bg-blue-50/50"
-                    : "text-slate-600 hover:text-blue-600"
-                }`}
-              >
-                {t("nav.researchSolution")}
-              </Link>
-              <Link
-                to="/academic-training"
-                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === "/academic-training"
-                    ? "text-blue-600 bg-blue-50/50"
-                    : "text-slate-600 hover:text-blue-600"
-                }`}
-              >
-                {t("nav.academicTraining")}
-              </Link>
-              <Link
-                to="/products"
-                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === "/products"
-                    ? "text-blue-600 bg-blue-50/50"
-                    : "text-slate-600 hover:text-blue-600"
-                }`}
-              >
-                {t("nav.others")}
-              </Link>
-            </div>
-          </div>
-
-          {/* Services Group */}
-          <div className="py-1">
-            <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
-              <Briefcase className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
-              <span>{t("nav.services")}</span>
-            </div>
-            <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1.5">
-              <Link
-                to="/services"
-                className={`flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all ${
-                  location.pathname === "/services"
-                    ? "text-blue-600 bg-blue-50/50"
-                    : "text-slate-600 hover:text-blue-600"
-                }`}
-              >
-                {t("nav.instrumentMaintaining")}
-              </Link>
-
-              {/* Xzense-101 Section inside Services */}
-              <div className="px-4 pt-1.5 pb-0.5 text-[12px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
-                {t("nav.xzense101")}
-              </div>
-
-              {/* Xzense-101 Sub-Items */}
-              <div className="pl-4 border-l border-slate-200 ml-4 space-y-1">
-                <Link
-                  to="/cancer-report"
-                  className={`flex items-center px-4 py-2 rounded-xl text-[13px] font-semibold no-underline transition-all ${
-                    location.pathname === "/cancer-report"
-                      ? "text-blue-600 bg-blue-50/50"
-                      : "text-slate-600 hover:text-blue-600"
-                  }`}
-                >
-                  {t("nav.cancerReport")}
-                </Link>
-                <Link
-                  to="/dashboard"
-                  className={`flex items-center px-4 py-2 rounded-xl text-[13px] font-semibold no-underline transition-all ${
-                    location.pathname === "/dashboard"
-                      ? "text-blue-600 bg-blue-50/50"
-                      : "text-slate-600 hover:text-blue-600"
-                  } leading-snug`}
-                >
-                  {t("nav.xzenseSoftware")}
-                </Link>
-              </div>
-            </div>
-          </div>
-
           <Link
             to="/technology"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
@@ -621,35 +334,55 @@ export default function Layout({ children }) {
             }`}
           >
             <Cpu className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">
-              {t("nav.technology")}
-            </span>
+            <span className="uppercase tracking-wider">{t("nav.technology")}</span>
           </Link>
 
+          {/* Products Group */}
+          <div className="py-1">
+            <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
+              <ShoppingBag className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
+              <span>{t("nav.products")}</span>
+            </div>
+            <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1">
+              <a
+                href={`${QCM_WEB_URL}/products`}
+                className="flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all text-slate-600 hover:text-blue-600"
+              >
+                {t("nav.exploringProducts")}
+              </a>
+              <a
+                href={`${QCM_WEB_URL}/products`}
+                className="flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all text-slate-600 hover:text-blue-600"
+              >
+                {t("nav.researchSolution")}
+              </a>
+              <a
+                href={`${QCM_WEB_URL}/academic-training`}
+                className="flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all text-slate-600 hover:text-blue-600"
+              >
+                {t("nav.academicTraining")}
+              </a>
+              <a
+                href={`${QCM_WEB_URL}/products`}
+                className="flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all text-slate-600 hover:text-blue-600"
+              >
+                {t("nav.others")}
+              </a>
+            </div>
+          </div>
+
           <Link
-            to="/collaboration"
+            to="/cancer-report"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === "/collaboration"
+              location.pathname === "/cancer-report"
                 ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
                 : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
             }`}
           >
-            <Handshake className="w-5 h-5 stroke-[2.2px]" />
+            <FileText className="w-5 h-5 stroke-[2.2px]" />
             <span className="uppercase tracking-wider">
-              {t("nav.collaboration")}
+              {t("nav.cancerReport")}
             </span>
-          </Link>
-
-          <Link
-            to="/news"
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === "/news"
-                ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
-                : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
-            }`}
-          >
-            <Newspaper className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">{t("nav.news")}</span>
           </Link>
 
           <Link
