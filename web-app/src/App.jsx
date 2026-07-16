@@ -5,6 +5,7 @@ import {
   Route,
   useLocation,
   useParams,
+  Navigate,
 } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
@@ -21,12 +22,22 @@ import { UserProvider } from "./context/UserContext";
 
 const QCM_WEB_URL = import.meta.env.VITE_QCM_WEB_URL || "http://localhost:5174";
 
-// Scroll to top on every route change
+// Scroll to top on every route change, or handle hash links
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [pathname]);
+    if (hash) {
+      const timer = setTimeout(() => {
+        const element = document.getElementById(hash.substring(1));
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [pathname, hash]);
   return null;
 }
 
@@ -57,7 +68,10 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
+              <Route
+                path="/about"
+                element={<Navigate to="/#about" replace />}
+              />
               <Route
                 path="/products"
                 element={<ExternalRedirect pathPattern="/products" />}

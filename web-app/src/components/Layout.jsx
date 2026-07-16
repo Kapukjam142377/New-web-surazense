@@ -44,6 +44,12 @@ export default function Layout({ children }) {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (user) {
+      console.log("Current user data from context:", user);
+    }
+  }, [user]);
+
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
     setAuthError("");
@@ -83,6 +89,16 @@ export default function Layout({ children }) {
   };
 
   const isActive = (path) => {
+    if (path === "/#about") {
+      return location.pathname === "/" && location.hash === "#about"
+        ? "text-accent font-semibold"
+        : "text-slate-500 hover:text-accent font-medium";
+    }
+    if (path === "/") {
+      return location.pathname === "/" && location.hash !== "#about"
+        ? "text-accent font-semibold"
+        : "text-slate-500 hover:text-accent font-medium";
+    }
     return location.pathname === path
       ? "text-accent font-semibold"
       : "text-slate-500 hover:text-accent font-medium";
@@ -111,8 +127,8 @@ export default function Layout({ children }) {
             {t("nav.home")}
           </Link>
           <Link
-            to="/about"
-            className={`${linkBaseClass} ${isActive("/about")}`}
+            to="/#about"
+            className={`${linkBaseClass} ${isActive("/#about")}`}
           >
             {t("nav.about")}
           </Link>
@@ -122,45 +138,7 @@ export default function Layout({ children }) {
           >
             {t("nav.technology")}
           </Link>
-          {/* Products Dropdown */}
-          <div className="relative group flex items-center">
-            <a
-              href={`${QCM_WEB_URL}/products`}
-              className={`${linkBaseClass} text-slate-500 hover:text-accent font-medium py-2`}
-            >
-              {t("nav.products")}
-            </a>
 
-            {/* Dropdown Menu */}
-            <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[190px] invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 z-50">
-              <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 py-2 flex flex-col relative before:absolute before:content-[''] before:-top-2 before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-b-white">
-                <a
-                  href={`${QCM_WEB_URL}/products`}
-                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                >
-                  {t("nav.exploringProducts")}
-                </a>
-                <a
-                  href={`${QCM_WEB_URL}/products`}
-                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                >
-                  {t("nav.researchSolution")}
-                </a>
-                <a
-                  href={`${QCM_WEB_URL}/academic-training`}
-                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                >
-                  {t("nav.academicTraining")}
-                </a>
-                <a
-                  href={`${QCM_WEB_URL}/products`}
-                  className="px-5 py-2.5 text-[14px] font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-colors"
-                >
-                  {t("nav.others")}
-                </a>
-              </div>
-            </div>
-          </div>
           <Link
             to="/cancer-report"
             className={`${linkBaseClass} ${isActive("/cancer-report")}`}
@@ -221,6 +199,14 @@ export default function Layout({ children }) {
                     <p className="text-xs font-bold text-slate-700 truncate">
                       {user.email}
                     </p>
+                    <div className="mt-1.5 flex items-center gap-1.5">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+                        Role:
+                      </span>
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-50 text-blue-700 border border-blue-100 uppercase tracking-wide">
+                        {user.role || "No Role"}
+                      </span>
+                    </div>
                   </div>
                   <button
                     onClick={() => {
@@ -304,7 +290,7 @@ export default function Layout({ children }) {
           <Link
             to="/"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === "/"
+              location.pathname === "/" && location.hash !== "#about"
                 ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
                 : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
             }`}
@@ -314,9 +300,9 @@ export default function Layout({ children }) {
           </Link>
 
           <Link
-            to="/about"
+            to="/#about"
             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
-              location.pathname === "/about"
+              location.pathname === "/" && location.hash === "#about"
                 ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
                 : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
             }`}
@@ -334,42 +320,10 @@ export default function Layout({ children }) {
             }`}
           >
             <Cpu className="w-5 h-5 stroke-[2.2px]" />
-            <span className="uppercase tracking-wider">{t("nav.technology")}</span>
+            <span className="uppercase tracking-wider">
+              {t("nav.technology")}
+            </span>
           </Link>
-
-          {/* Products Group */}
-          <div className="py-1">
-            <div className="flex items-center gap-3 px-4 py-2 text-[12px] font-bold text-slate-400 uppercase tracking-wider">
-              <ShoppingBag className="w-4 h-4 text-slate-400 stroke-[2.2px]" />
-              <span>{t("nav.products")}</span>
-            </div>
-            <div className="pl-6 border-l border-slate-100 ml-6 mt-1 space-y-1">
-              <a
-                href={`${QCM_WEB_URL}/products`}
-                className="flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all text-slate-600 hover:text-blue-600"
-              >
-                {t("nav.exploringProducts")}
-              </a>
-              <a
-                href={`${QCM_WEB_URL}/products`}
-                className="flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all text-slate-600 hover:text-blue-600"
-              >
-                {t("nav.researchSolution")}
-              </a>
-              <a
-                href={`${QCM_WEB_URL}/academic-training`}
-                className="flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all text-slate-600 hover:text-blue-600"
-              >
-                {t("nav.academicTraining")}
-              </a>
-              <a
-                href={`${QCM_WEB_URL}/products`}
-                className="flex items-center px-4 py-2 rounded-xl text-[14px] font-semibold no-underline transition-all text-slate-600 hover:text-blue-600"
-              >
-                {t("nav.others")}
-              </a>
-            </div>
-          </div>
 
           <Link
             to="/cancer-report"
@@ -569,7 +523,7 @@ export default function Layout({ children }) {
               </li>
               <li>
                 <Link
-                  to="/about"
+                  to="/#about"
                   className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
                 >
                   {t("nav.about")}
@@ -616,14 +570,6 @@ export default function Layout({ children }) {
               {t("footer.servicesTitle")}
             </h3>
             <ul className="space-y-3.5">
-              <li>
-                <Link
-                  to="/products"
-                  className="text-white/80 hover:text-white transition-colors text-[14px] no-underline"
-                >
-                  {t("nav.products")}
-                </Link>
-              </li>
               <li>
                 <Link
                   to="/academic-training"

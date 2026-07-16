@@ -48,12 +48,7 @@ export default function About() {
       scaleClass: "scale-110",
       hoverScaleClass: "group-hover:scale-[1.15]",
     },
-    {
-      name: "Pimpaya",
-      roleDisplay:
-        "Marketing manager\nBMgt. (Hons) Concentration: Entrepreneurship",
-      image: "/member1.png",
-    },
+
     {
       name: "Dr. Soodkhet",
       roleDisplay:
@@ -78,9 +73,9 @@ export default function About() {
   const mainPart = mainStatement.replace(finalStage, "");
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-slate-50" id="about">
       {/* About Us Section */}
-      <section className="pt-32 pb-24 relative overflow-hidden bg-slate-50">
+      <section className="py-24 relative overflow-hidden bg-slate-50">
         {/* Light Parallax Background Image */}
         <div className="absolute inset-0 z-0">
           <div
@@ -294,11 +289,43 @@ export default function About() {
             viewport={{ once: true, margin: "-50px" }}
             variants={staggerContainer}
           >
-            {actualTeamMembers.map((member, index) => (
+            {actualTeamMembers.slice(0, 3).map((member, index) => (
               <motion.div
                 key={index}
                 variants={fadeIn}
                 className="group flex flex-col items-center text-center"
+              >
+                <div className="relative w-48 h-48 md:w-56 md:h-56 mb-6 overflow-hidden rounded-full border-4 border-white shadow-xl group-hover:shadow-2xl transition-all duration-300 group-hover:-translate-y-2">
+                  <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 rounded-full"></div>
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className={`w-full h-full object-cover transition-transform duration-500 ${member.scaleClass || "scale-100"} ${member.hoverScaleClass || "group-hover:scale-105"} ${member.position || "object-top"}`}
+                  />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                  {member.name}
+                </h3>
+                <p className="text-sky-600 font-medium mt-1 whitespace-pre-line leading-snug">
+                  {member.roleDisplay}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Advisors Section (Centered below) */}
+          <motion.div
+            className="flex flex-col sm:flex-row justify-center gap-10 lg:gap-16 mt-16"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={staggerContainer}
+          >
+            {actualTeamMembers.slice(3).map((member, index) => (
+              <motion.div
+                key={index}
+                variants={fadeIn}
+                className="group flex flex-col items-center text-center w-full sm:w-[320px] md:w-[360px]"
               >
                 <div className="relative w-48 h-48 md:w-56 md:h-56 mb-6 overflow-hidden rounded-full border-4 border-white shadow-xl group-hover:shadow-2xl transition-all duration-300 group-hover:-translate-y-2">
                   <div className="absolute inset-0 bg-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 rounded-full"></div>

@@ -181,16 +181,24 @@ export default function CancerReport() {
   const { user, loading, logout } = useUser();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!loading && !user) {
-  //     navigate("/login?redirect=/cancer-report");
-  //   }
-  // }, [user, loading, navigate]);
+  const userRole = user?.role?.trim().toLowerCase();
+  const isAuthorized =
+    !!user &&
+    (userRole === "doctor" ||
+      userRole === "patient" ||
+      userRole === "แพทย์" ||
+      userRole === "คนไข้");
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login?redirect=/cancer-report");
+    }
+  }, [user, loading, navigate]);
 
   const [activeTab, setActiveTab] = useState("tumor"); // 'tumor' | 'genetics'
   const [isExporting, setIsExporting] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const API_URL = import.meta.env.VITE_API_URL || "";
   const [savedReports, setSavedReports] = useState([]);
   const [isLoadingSaved, setIsLoadingSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -342,8 +350,10 @@ export default function CancerReport() {
   };
 
   useEffect(() => {
-    fetchSavedReports();
-  }, []);
+    if (isAuthorized) {
+      fetchSavedReports();
+    }
+  }, [isAuthorized]);
 
   const handleSaveReport = async () => {
     if (!patient.name.trim()) {
@@ -672,12 +682,22 @@ export default function CancerReport() {
     setIsExporting(true);
   };
 
-  const isAuthorized = true;
-
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-80px)] bg-slate-50 flex items-center justify-center">
         <div className="text-slate-500 font-medium">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-[calc(100vh-80px)] bg-slate-50 flex items-center justify-center">
+        <div className="text-slate-500 font-medium">
+          {language === "th"
+            ? "กำลังนำคุณไปยังหน้าเข้าสู่ระบบ..."
+            : "Redirecting to login..."}
+        </div>
       </div>
     );
   }

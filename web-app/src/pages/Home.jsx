@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import SolutionOption3 from "../components/SolutionOption3";
 import { useLanguage } from "../context/LanguageContext";
+import About from "./About";
 
 export default function Home() {
   const { language, t } = useLanguage();
@@ -211,7 +212,7 @@ export default function Home() {
               {t("home.exploreTech")}
             </Link>
             <Link
-              to="/about"
+              to="/#about"
               className="bg-white text-slate-700 border-2 border-slate-200 px-8 py-4 rounded-full font-semibold text-[15px] transition-all hover:border-slate-300 hover:bg-slate-50 hover:-translate-y-1 hover:shadow-sm min-w-[160px] flex justify-center items-center"
             >
               {t("home.learnMore")}
@@ -695,7 +696,9 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-800">
-                      {language === "th" ? "การทดลองปฏิบัติจริง" : "Hands-on Experience"}
+                      {language === "th"
+                        ? "การทดลองปฏิบัติจริง"
+                        : "Hands-on Experience"}
                     </h4>
                     <p className="text-sm text-slate-500 mt-1">
                       {language === "th"
@@ -724,7 +727,9 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-800">
-                      {language === "th" ? "ได้รับใบรับรอง" : "Professional Certificates"}
+                      {language === "th"
+                        ? "ได้รับใบรับรอง"
+                        : "Professional Certificates"}
                     </h4>
                     <p className="text-sm text-slate-500 mt-1">
                       {language === "th"
@@ -740,7 +745,11 @@ export default function Home() {
                   to="/academic-training"
                   className="bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-[15px] hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/35 hover:-translate-y-0.5 transition-all inline-flex items-center gap-3"
                 >
-                  <span>{language === "th" ? "สำรวจหลักสูตรและสมัครอบรม" : "Explore Training Programs"}</span>
+                  <span>
+                    {language === "th"
+                      ? "สำรวจหลักสูตรและสมัครอบรม"
+                      : "Explore Training Programs"}
+                  </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -778,7 +787,9 @@ export default function Home() {
               />
               <div className="absolute bottom-6 left-6 right-6 z-20">
                 <span className="text-xs font-bold text-sky-400 uppercase tracking-widest mb-1.5 inline-block">
-                  {language === "th" ? "บรรยากาศจริงในแล็บ" : "Live Lab Session"}
+                  {language === "th"
+                    ? "บรรยากาศจริงในแล็บ"
+                    : "Live Lab Session"}
                 </span>
                 <p className="text-white text-base font-bold drop-shadow-sm leading-snug">
                   {language === "th"
@@ -890,6 +901,9 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+
+      {/* About Section */}
+      <About />
 
       {/* Awards & Events Section */}
       <section className="w-full bg-slate-50/60 py-32 px-6 lg:px-12 border-t border-slate-100">
