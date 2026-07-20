@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Technology from "./pages/Technology";
+import RelatedPaper from "./pages/RelatedPaper";
 import Collaboration from "./pages/Collaboration";
 import News from "./pages/News";
 import Contacts from "./pages/Contacts";
@@ -82,6 +83,7 @@ function App() {
               />
               <Route path="/services" element={<Services />} />
               <Route path="/technology" element={<Technology />} />
+              <Route path="/related-paper" element={<RelatedPaper />} />
               <Route path="/collaboration" element={<Collaboration />} />
               <Route path="/news" element={<News />} />
               <Route path="/contacts" element={<Contacts />} />

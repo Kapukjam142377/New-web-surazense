@@ -13,6 +13,7 @@ import {
   LogOut,
   FileText,
   Cpu,
+  BookOpen,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useUser } from "../context/UserContext";
@@ -137,6 +138,12 @@ export default function Layout({ children }) {
             className={`${linkBaseClass} ${isActive("/technology")}`}
           >
             {t("nav.technology")}
+          </Link>
+          <Link
+            to="/related-paper"
+            className={`${linkBaseClass} ${isActive("/related-paper")}`}
+          >
+            {t("nav.relatedPaper")}
           </Link>
 
           <Link
@@ -322,6 +329,20 @@ export default function Layout({ children }) {
             <Cpu className="w-5 h-5 stroke-[2.2px]" />
             <span className="uppercase tracking-wider">
               {t("nav.technology")}
+            </span>
+          </Link>
+
+          <Link
+            to="/related-paper"
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all ${
+              location.pathname === "/related-paper"
+                ? "bg-blue-50 text-blue-600 shadow-sm shadow-blue-500/5"
+                : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
+            }`}
+          >
+            <BookOpen className="w-5 h-5 stroke-[2.2px]" />
+            <span className="uppercase tracking-wider">
+              {t("nav.relatedPaper")}
             </span>
           </Link>
 
