@@ -14,6 +14,7 @@ import {
   FileText,
   Cpu,
   BookOpen,
+  GraduationCap,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useUser } from "../context/UserContext";
@@ -145,6 +146,15 @@ export default function Layout({ children }) {
           >
             {t("nav.relatedPaper")}
           </Link>
+
+          <a
+            href="https://academic-surazense.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${linkBaseClass} text-slate-500 hover:text-accent font-medium`}
+          >
+            {t("nav.academicTraining")}
+          </a>
 
           <Link
             to="/cancer-report"
@@ -345,6 +355,18 @@ export default function Layout({ children }) {
               {t("nav.relatedPaper")}
             </span>
           </Link>
+
+          <a
+            href="https://academic-surazense.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold no-underline transition-all text-slate-600 hover:bg-slate-50 hover:text-blue-600"
+          >
+            <GraduationCap className="w-5 h-5 stroke-[2.2px]" />
+            <span className="uppercase tracking-wider">
+              {t("nav.academicTraining")}
+            </span>
+          </a>
 
           <Link
             to="/cancer-report"

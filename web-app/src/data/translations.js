@@ -6,7 +6,7 @@ export const translations = {
       products: "Products",
       exploringProducts: "Exploring Products",
       researchSolution: "Research solution",
-      academicTraining: "Academic training",
+      academicTraining: "Academic Training",
       others: "Others",
       services: "Services",
       instrumentMaintaining: "Instrument maintaining",
