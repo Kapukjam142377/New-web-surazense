@@ -2,6 +2,8 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const SolutionOption3 = ({ steps }) => {
+  if (!steps || steps.length < 4) return null;
+
   return (
     <div className="w-full relative py-12 md:py-24 mb-12 flex flex-col items-center overflow-hidden">
       {/* Background Decor */}

@@ -41,6 +41,22 @@ export default function Layout({ children }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
+  const getUserInitial = () => {
+    if (!user) return "U";
+    if (user.username && user.username[0]) return user.username[0];
+    if (user.first_name && user.first_name[0]) return user.first_name[0];
+    if (user.email && user.email[0]) return user.email[0];
+    return "U";
+  };
+
+  const getUserDisplayName = () => {
+    if (!user) return "User";
+    if (user.first_name) return user.first_name;
+    if (user.username) return user.username;
+    if (user.email && typeof user.email === "string") return user.email.split("@")[0];
+    return "User";
+  };
+
   // Close mobile drawer when changing page routes
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -201,10 +217,10 @@ export default function Layout({ children }) {
                 className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer border-none outline-none"
               >
                 <div className="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-[10px] font-bold uppercase shrink-0">
-                  {user.username ? user.username[0] : user.email[0]}
+                  {getUserInitial()}
                 </div>
                 <span className="max-w-[100px] truncate">
-                  {user.first_name || user.username || user.email.split("@")[0]}
+                  {getUserDisplayName()}
                 </span>
               </button>
               {isUserDropdownOpen && (
@@ -214,7 +230,7 @@ export default function Layout({ children }) {
                       Signed in as
                     </p>
                     <p className="text-xs font-bold text-slate-700 truncate">
-                      {user.email}
+                      {user.email || user.username || "User"}
                     </p>
                     <div className="mt-1.5 flex items-center gap-1.5">
                       <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
@@ -428,16 +444,14 @@ export default function Layout({ children }) {
             <div className="flex flex-col gap-2">
               <div className="px-4 py-2.5 bg-slate-100 rounded-xl flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center text-sm font-bold uppercase shrink-0">
-                  {user.username ? user.username[0] : user.email[0]}
+                  {getUserInitial()}
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-bold text-slate-800 truncate">
-                    {user.first_name ||
-                      user.username ||
-                      user.email.split("@")[0]}
+                    {getUserDisplayName()}
                   </p>
                   <p className="text-xs text-slate-400 truncate">
-                    {user.email}
+                    {user.email || user.username || ""}
                   </p>
                 </div>
               </div>
