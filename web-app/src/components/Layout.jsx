@@ -53,7 +53,8 @@ export default function Layout({ children }) {
     if (!user) return "User";
     if (user.first_name) return user.first_name;
     if (user.username) return user.username;
-    if (user.email && typeof user.email === "string") return user.email.split("@")[0];
+    if (user.email && typeof user.email === "string")
+      return user.email.split("@")[0];
     return "User";
   };
 

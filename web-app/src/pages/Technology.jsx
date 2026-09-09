@@ -61,24 +61,13 @@ export default function Technology() {
         <ul
           style={{ listStyleType: "none", paddingLeft: "0", marginTop: "1rem" }}
         >
+          <li style={{ marginBottom: "1.25rem" }}>{t("technology.comp1")}</li>
           <li style={{ marginBottom: "1.25rem" }}>
-            {t("technology.comp1")}
+            <strong>{t("technology.comp2")}</strong> {t("technology.comp2Rest")}
           </li>
-          <li style={{ marginBottom: "1.25rem" }}>
-            <strong>
-              {t("technology.comp2")}
-            </strong>{" "}
-            {t("technology.comp2Rest")}
-          </li>
-          <li style={{ marginBottom: "1.25rem" }}>
-            {t("technology.comp3")}
-          </li>
-          <li style={{ marginBottom: "1.25rem" }}>
-            {t("technology.comp4")}
-          </li>
-          <li style={{ marginBottom: "1.25rem" }}>
-            {t("technology.comp5")}
-          </li>
+          <li style={{ marginBottom: "1.25rem" }}>{t("technology.comp3")}</li>
+          <li style={{ marginBottom: "1.25rem" }}>{t("technology.comp4")}</li>
+          <li style={{ marginBottom: "1.25rem" }}>{t("technology.comp5")}</li>
         </ul>
 
         <div style={{ textAlign: "center", margin: "2rem auto" }}>
@@ -384,7 +373,7 @@ export default function Technology() {
           <em>
             e<sub>ikl</sub>
           </em>
-          ,{" "}{language === "en" ? "and" : "และ"}{" "}
+          , {language === "en" ? "and" : "และ"}{" "}
           <em>
             &epsilon;<sup>S</sup>
             <sub>ik</sub>

@@ -453,16 +453,22 @@ export const translations = {
         "Over the decade, biosensors have been widely used to detect cancer biomarkers, such as electrochemical, optical, and piezoelectric (Hong et al., 2022; Li et al., 2022; C. Lino et al., 2022). The superior characteristics of these biosensors included their portability, sensitivity, response accuracy, reproducibility, high specificity, and repeatability (Akgönüllü, Özgür, & Denizli, 2022; Malode & Shetti, 2022; Narita et al., 2021). The use of specific and sensitive analytical biosensing devices for early-stage cancer detection is considered the future of clinical advancements (Iqbal et al., 2022).",
       biosensorP2:
         "A biosensor, also known as a biological sensor, is a self-contained bioanalytical system that integrates biological molecules that determine illness-related signs in biological fluids for disease monitoring and detection, with a physical-chemical transducer electronic amplifier and display platform that can receive, respond, exhibit and converts a biological signal into a quantified and processable signal. The first generation of biosensor technology was pioneered by Leland C. Clark, Jr in 1956 (Bhalla, Jolly, Formisano, & Estrela, 2016).",
-      biosensorP3: "A typical biosensor, as depicted in Figure 2.5, comprises several components:",
+      biosensorP3:
+        "A typical biosensor, as depicted in Figure 2.5, comprises several components:",
       biosensorP4:
         "Currently, various technologies assert their suitability for biosensing applications, serving as proofs of concept or commercially viable products. The primary application domains of biosensor technology encompass medical, food, industrial, environmental measurement, and biodefense fields (Mehrotra, 2016). The extensive utilization of biosensor technology can be attributed to its substantial advantages over established analytical methods, including a minimal sample pretreatment, cost effective instrumentation, rapid response times, and high sensitivity.",
       // Biosensor components list
-      comp1: "(1) Analyte: This refers to the substance being targeted for detection, such as glucose, ammonia, alcohol, antigen, virus, toxins, or target DNA.",
+      comp1:
+        "(1) Analyte: This refers to the substance being targeted for detection, such as glucose, ammonia, alcohol, antigen, virus, toxins, or target DNA.",
       comp2: "(2) Biorecognition element (also known as a bioreceptor):",
-      comp2Rest: "this molecule specifically identifies the target substrate (i.e., analyte) such as enzymes, cells, aptamers, DNA, and antibodies.",
-      comp3: "(3) Transducer: Its role is crucial in translating the biological interaction into a measurable form. This energy conversion process, known as signalization, typically results in either optical or electrical signals. Transducers can broadly be classified as electrochemical, optical, thermal, electronic, or gravimetric, light, heat, pH changes, plant or animal tissue reactions, or microbial product emissions depending on their operating principle.",
-      comp4: "(4) Electronics: This component processes the transduced signal, readying it for display. It involves intricate electronic circuitry that performs tasks such as signal conditioning, including amplification and conversion of signals from analog to digital. These processed signals are then quantified by the biosensor's display unit.",
-      comp5: "(5) Display: Comprising both hardware and software elements, the display presents the biosensor's results in a user-friendly format. The output signal displayed can take various forms, including numeric, graphic, tabular, or image-based, depending on the end user's requirements (Bhalla et al., 2016; Gergeroglu, Yildirim, & Ebeoglugil, 2020; Iqbal et al., 2022).",
+      comp2Rest:
+        "this molecule specifically identifies the target substrate (i.e., analyte) such as enzymes, cells, aptamers, DNA, and antibodies.",
+      comp3:
+        "(3) Transducer: Its role is crucial in translating the biological interaction into a measurable form. This energy conversion process, known as signalization, typically results in either optical or electrical signals. Transducers can broadly be classified as electrochemical, optical, thermal, electronic, or gravimetric, light, heat, pH changes, plant or animal tissue reactions, or microbial product emissions depending on their operating principle.",
+      comp4:
+        "(4) Electronics: This component processes the transduced signal, readying it for display. It involves intricate electronic circuitry that performs tasks such as signal conditioning, including amplification and conversion of signals from analog to digital. These processed signals are then quantified by the biosensor's display unit.",
+      comp5:
+        "(5) Display: Comprising both hardware and software elements, the display presents the biosensor's results in a user-friendly format. The output signal displayed can take various forms, including numeric, graphic, tabular, or image-based, depending on the end user's requirements (Bhalla et al., 2016; Gergeroglu, Yildirim, & Ebeoglugil, 2020; Iqbal et al., 2022).",
       // Figure captions
       fig25Caption:
         "Figure 2.5 Schematic diagram of a component of biosensor, including a bioreceptor, transducer, electronic system, and display, alongside various types of bioreceptors and transducers utilized in biosensors. (Iqbal et al., 2022)",
@@ -487,7 +493,8 @@ export const translations = {
       piezoBiosensorTitle: "Piezoelectric Biosensors",
       piezoBiosensorP1:
         "Various types of transducers, including optical (light), electrochemical, and piezoelectric (mass variation), have been employed in the development of biosensors. The coupling of electrical and mechanical energy renders piezoelectric materials invaluable across a wide range of applications, including energy conversion, sensors and actuators, and telecommunication. Piezoelectric sensors are particularly suitable for assays involving changes in viscosity and surface elasticity, such as aggregations, coagulations, and precipitations, making them popular choices for biosensor detection. In contrast to conventional methods that depend on labels such as enzymes, fluorophores, and radioactivity, the utilization of piezoelectric devices as biosensors has experienced a steady rise in interest. This is attributed to their appealing applications in mass-sensitive detection without the requirement for labeling at the sensor surface, along with their capability for real-time monitoring, consequently simplifying assay formats (Skládal, 2024). An advantage of piezoelectric devices over other techniques is illustrated in Table 2.2.",
-      table22Caption: "Table 2.2 Comparison of various detection techniques. (Narita et al., 2021)",
+      table22Caption:
+        "Table 2.2 Comparison of various detection techniques. (Narita et al., 2021)",
       // Section 5: Piezoelectric Phenomena
       piezoPhenom: "Piezoelectric Phenomena",
       piezoPhenomP1:
@@ -519,7 +526,8 @@ export const translations = {
         "Piezoelectric transducers have served as chemical sensors since Sauerbrey discovered the correlation between the mass of adsorbed films and resonant frequency. QCM and SAW piezoelectric devices are piezoelectric biosensors primarily detecting analytes through mass loading on the substrate's surface (Aslam, Zhang, Sreejith, Naghdi, & Ju, 2023; Di Pietrantonio et al., 2019). The mass loading effect, where the resonance frequency shift is proportional to adding mass and inversely proportional to the surface area of the working electrode, can be determined using Sauerbrey's equation (SAUERBREY, 1962), which is expressed as follows:",
       sauerbrey1Desc:
         "where f₀ is the resonance frequency, Δf is the change in resonance frequency, Δm is the mass change, A is the active surface area, ρ is the effective density, and h is the thickness of the device.",
-      sauerbrey2Intro: "For the QCM, Sauerbrey's equation can be expressed as follows:",
+      sauerbrey2Intro:
+        "For the QCM, Sauerbrey's equation can be expressed as follows:",
       sauerbrey2Desc:
         "where A is the active surface area of the QCM electrodes, ρ_q is the density of quartz (2.648 g cm⁻³), and μ_q is the shear modulus of quartz (for AT-cut quartz, 2.947 × 10¹¹ g cm⁻¹ s⁻²).",
       // Legacy QCM keys (kept for backward compatibility)
@@ -1027,16 +1035,23 @@ export const translations = {
         "ในช่วงทศวรรษที่ผ่านมา ไบโอเซนเซอร์ถูกนำมาใช้อย่างแพร่หลายในการตรวจหาตัวบ่งชี้มะเร็ง ทั้งในรูปแบบเคมีไฟฟ้า แสง และพีโซอิเล็กทริก (Hong et al., 2022; Li et al., 2022; C. Lino et al., 2022) คุณสมบัติเด่นของไบโอเซนเซอร์เหล่านี้ ได้แก่ ความสะดวกพกพา ความไว ความแม่นยำในการตอบสนอง ความสามารถทำซ้ำได้ ความจำเพาะสูง และความสม่ำเสมอในการใช้งาน (Akgönüllü, Özgür, & Denizli, 2022; Malode & Shetti, 2022; Narita et al., 2021) การใช้อุปกรณ์ไบโอเซนซิงที่มีความจำเพาะและความไวสูงสำหรับการตรวจหามะเร็งในระยะเริ่มต้นถือเป็นอนาคตของความก้าวหน้าทางคลินิก (Iqbal et al., 2022)",
       biosensorP2:
         "ไบโอเซนเซอร์ หรือที่รู้จักกันว่าเซนเซอร์ทางชีวภาพ คือระบบชีววิเคราะห์ที่ครบวงจรซึ่งรวมโมเลกุลทางชีววิทยาที่สามารถระบุสัญญาณที่เกี่ยวข้องกับโรคในของเหลวทางชีวภาพเพื่อการติดตามและตรวจหาโรค เข้ากับทรานสดิวเซอร์ทางฟิสิกส์-เคมี วงจรขยายสัญญาณอิเล็กทรอนิกส์ และแพลตฟอร์มแสดงผล ซึ่งสามารถรับ ตอบสนอง แสดงผล และแปลงสัญญาณทางชีวภาพให้เป็นสัญญาณที่วัดและประมวลผลได้ ไบโอเซนเซอร์รุ่นแรกถูกบุกเบิกโดย Leland C. Clark, Jr ในปี ค.ศ. 1956 (Bhalla, Jolly, Formisano, & Estrela, 2016)",
-      biosensorP3: "ไบโอเซนเซอร์ทั่วไป ดังที่แสดงในรูปที่ 2.5 ประกอบด้วยส่วนประกอบหลายส่วน:",
+      biosensorP3:
+        "ไบโอเซนเซอร์ทั่วไป ดังที่แสดงในรูปที่ 2.5 ประกอบด้วยส่วนประกอบหลายส่วน:",
       biosensorP4:
         "ปัจจุบัน เทคโนโลยีต่าง ๆ มากมายพิสูจน์ตัวเองว่าเหมาะสมกับการประยุกต์ใช้ทางไบโอเซนซิง ทั้งในฐานะแนวคิดพิสูจน์หลักการหรือผลิตภัณฑ์เชิงพาณิชย์ โดเมนการประยุกต์ใช้หลักของเทคโนโลยีไบโอเซนเซอร์ครอบคลุมสาขาการแพทย์ อาหาร อุตสาหกรรม การวัดสิ่งแวดล้อม และการป้องกันทางชีวภาพ (Mehrotra, 2016) การใช้งานอย่างแพร่หลายของเทคโนโลยีไบโอเซนเซอร์มาจากข้อได้เปรียบอย่างมากเหนือวิธีการวิเคราะห์ที่ได้รับการยอมรับ ได้แก่ การเตรียมตัวอย่างที่น้อยมาก เครื่องมือที่คุ้มค่า เวลาตอบสนองที่รวดเร็ว และความไวสูง",
       // รายการส่วนประกอบไบโอเซนเซอร์
-      comp1: "(1) สารวิเคราะห์ (Analyte): หมายถึงสารที่ต้องการตรวจหา เช่น กลูโคส แอมโมเนีย แอลกอฮอล์ แอนติเจน ไวรัส สารพิษ หรือดีเอ็นเอเป้าหมาย",
-      comp2: "(2) องค์ประกอบการรับรู้ทางชีวภาพ (Biorecognition element หรือ Bioreceptor):",
-      comp2Rest: "โมเลกุลนี้จดจำสารตั้งต้นเป้าหมาย (analyte) ได้อย่างจำเพาะ เช่น เอนไซม์ เซลล์ แอปทาเมอร์ ดีเอ็นเอ และแอนติบอดี",
-      comp3: "(3) ทรานสดิวเซอร์ (Transducer): มีบทบาทสำคัญในการแปลงปฏิสัมพันธ์ทางชีวภาพให้อยู่ในรูปที่วัดได้ กระบวนการแปลงพลังงานนี้เรียกว่าการส่งสัญญาณ ซึ่งโดยทั่วไปจะให้ผลลัพธ์เป็นสัญญาณแสงหรือสัญญาณไฟฟ้า ทรานสดิวเซอร์แบ่งได้เป็นประเภทเคมีไฟฟ้า แสง ความร้อน อิเล็กทรอนิกส์ หรือแบบวัดน้ำหนัก ขึ้นอยู่กับหลักการทำงาน",
-      comp4: "(4) ส่วนอิเล็กทรอนิกส์ (Electronics): ส่วนประกอบนี้ประมวลผลสัญญาณที่แปลงแล้วเพื่อเตรียมแสดงผล ประกอบด้วยวงจรอิเล็กทรอนิกส์ที่ซับซ้อนซึ่งทำหน้าที่ปรับสัญญาณ รวมถึงการขยายสัญญาณและการแปลงสัญญาณจากแอนะล็อกเป็นดิจิทัล สัญญาณที่ผ่านการประมวลผลจะถูกนำไปวัดค่าโดยหน่วยแสดงผลของไบโอเซนเซอร์",
-      comp5: "(5) จอแสดงผล (Display): ประกอบด้วยองค์ประกอบทั้งฮาร์ดแวร์และซอฟต์แวร์ จอแสดงผลนำเสนอผลลัพธ์ของไบโอเซนเซอร์ในรูปแบบที่ใช้งานง่าย สัญญาณแสดงผลสามารถอยู่ในรูปแบบต่าง ๆ ได้แก่ ตัวเลข กราฟิก ตาราง หรือภาพ ขึ้นอยู่กับความต้องการของผู้ใช้ปลายทาง (Bhalla et al., 2016; Gergeroglu, Yildirim, & Ebeoglugil, 2020; Iqbal et al., 2022)",
+      comp1:
+        "(1) สารวิเคราะห์ (Analyte): หมายถึงสารที่ต้องการตรวจหา เช่น กลูโคส แอมโมเนีย แอลกอฮอล์ แอนติเจน ไวรัส สารพิษ หรือดีเอ็นเอเป้าหมาย",
+      comp2:
+        "(2) องค์ประกอบการรับรู้ทางชีวภาพ (Biorecognition element หรือ Bioreceptor):",
+      comp2Rest:
+        "โมเลกุลนี้จดจำสารตั้งต้นเป้าหมาย (analyte) ได้อย่างจำเพาะ เช่น เอนไซม์ เซลล์ แอปทาเมอร์ ดีเอ็นเอ และแอนติบอดี",
+      comp3:
+        "(3) ทรานสดิวเซอร์ (Transducer): มีบทบาทสำคัญในการแปลงปฏิสัมพันธ์ทางชีวภาพให้อยู่ในรูปที่วัดได้ กระบวนการแปลงพลังงานนี้เรียกว่าการส่งสัญญาณ ซึ่งโดยทั่วไปจะให้ผลลัพธ์เป็นสัญญาณแสงหรือสัญญาณไฟฟ้า ทรานสดิวเซอร์แบ่งได้เป็นประเภทเคมีไฟฟ้า แสง ความร้อน อิเล็กทรอนิกส์ หรือแบบวัดน้ำหนัก ขึ้นอยู่กับหลักการทำงาน",
+      comp4:
+        "(4) ส่วนอิเล็กทรอนิกส์ (Electronics): ส่วนประกอบนี้ประมวลผลสัญญาณที่แปลงแล้วเพื่อเตรียมแสดงผล ประกอบด้วยวงจรอิเล็กทรอนิกส์ที่ซับซ้อนซึ่งทำหน้าที่ปรับสัญญาณ รวมถึงการขยายสัญญาณและการแปลงสัญญาณจากแอนะล็อกเป็นดิจิทัล สัญญาณที่ผ่านการประมวลผลจะถูกนำไปวัดค่าโดยหน่วยแสดงผลของไบโอเซนเซอร์",
+      comp5:
+        "(5) จอแสดงผล (Display): ประกอบด้วยองค์ประกอบทั้งฮาร์ดแวร์และซอฟต์แวร์ จอแสดงผลนำเสนอผลลัพธ์ของไบโอเซนเซอร์ในรูปแบบที่ใช้งานง่าย สัญญาณแสดงผลสามารถอยู่ในรูปแบบต่าง ๆ ได้แก่ ตัวเลข กราฟิก ตาราง หรือภาพ ขึ้นอยู่กับความต้องการของผู้ใช้ปลายทาง (Bhalla et al., 2016; Gergeroglu, Yildirim, & Ebeoglugil, 2020; Iqbal et al., 2022)",
       // คำอธิบายภาพ
       fig25Caption:
         "รูปที่ 2.5 แผนผังแสดงส่วนประกอบของไบโอเซนเซอร์ทั่วไป ได้แก่ ไบโอรีเซพเตอร์ ทรานสดิวเซอร์ ระบบอิเล็กทรอนิกส์ และจอแสดงผล พร้อมกับประเภทต่าง ๆ ของไบโอรีเซพเตอร์และทรานสดิวเซอร์ที่ใช้ในไบโอเซนเซอร์ (Iqbal et al., 2022)",
@@ -1061,7 +1076,8 @@ export const translations = {
       piezoBiosensorTitle: "ไบโอเซนเซอร์พีโซอิเล็กทริก",
       piezoBiosensorP1:
         "ทรานสดิวเซอร์หลายประเภท ทั้งแบบแสง (แสง) เคมีไฟฟ้า และพีโซอิเล็กทริก (การเปลี่ยนแปลงมวล) ถูกนำมาใช้ในการพัฒนาไบโอเซนเซอร์ การรวมกันของพลังงานไฟฟ้าและพลังงานกลทำให้วัสดุพีโซอิเล็กทริกมีคุณค่าอย่างยิ่งในการประยุกต์ใช้ที่หลากหลาย ได้แก่ การแปลงพลังงาน เซนเซอร์และแอคทิวเอเตอร์ และโทรคมนาคม เซนเซอร์พีโซอิเล็กทริกเหมาะสำหรับการทดสอบที่เกี่ยวข้องกับการเปลี่ยนแปลงความหนืดและความยืดหยุ่นของพื้นผิว เช่น การรวมตัว การแข็งตัว และการตกตะกอน ทำให้เป็นตัวเลือกยอดนิยมสำหรับการตรวจหาด้วยไบโอเซนเซอร์ นอกจากนี้ การใช้อุปกรณ์พีโซอิเล็กทริกเป็นไบโอเซนเซอร์ยังได้รับความสนใจเพิ่มขึ้นอย่างต่อเนื่อง เนื่องจากสามารถตรวจหามวลได้โดยไม่จำเป็นต้องติดฉลาก และมีความสามารถในการติดตามแบบเรียลไทม์ (Skládal, 2024)",
-      table22Caption: "ตารางที่ 2.2 การเปรียบเทียบเทคนิคการตรวจหาต่าง ๆ (Narita et al., 2021)",
+      table22Caption:
+        "ตารางที่ 2.2 การเปรียบเทียบเทคนิคการตรวจหาต่าง ๆ (Narita et al., 2021)",
       // หมวดที่ 5: ปรากฏการณ์พีโซอิเล็กทริก
       piezoPhenom: "ปรากฏการณ์พีโซอิเล็กทริก",
       piezoPhenomP1:
