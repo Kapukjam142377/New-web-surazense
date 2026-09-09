@@ -8,12 +8,27 @@ export function UserProvider({ children }) {
 
   const API_URL = import.meta.env.VITE_API_URL || "";
 
+  const formatUserData = (data) => {
+    if (!data) return null;
+    if (data.user && typeof data.user === "object") {
+      return {
+        ...data.user,
+        access_token: data.access_token || data.user.access_token,
+        token_type: data.token_type || data.user.token_type,
+        user: data.user,
+        raw: data,
+      };
+    }
+    return data;
+  };
+
   // Load user from localStorage on mount
   useEffect(() => {
     const savedUser = localStorage.getItem("surazense_user");
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        const parsed = JSON.parse(savedUser);
+        setUser(formatUserData(parsed));
       } catch (e) {
         console.error("Failed to parse user from local storage", e);
       }
@@ -35,8 +50,9 @@ export function UserProvider({ children }) {
       }
 
       const userData = await res.json();
-      setUser(userData);
-      localStorage.setItem("surazense_user", JSON.stringify(userData));
+      const formatted = formatUserData(userData);
+      setUser(formatted);
+      localStorage.setItem("surazense_user", JSON.stringify(formatted));
       return { success: true };
     } catch (err) {
       console.error("Login failed:", err);
@@ -77,8 +93,9 @@ export function UserProvider({ children }) {
 
       const userData = await res.json();
       // Auto login
-      setUser(userData);
-      localStorage.setItem("surazense_user", JSON.stringify(userData));
+      const formatted = formatUserData(userData);
+      setUser(formatted);
+      localStorage.setItem("surazense_user", JSON.stringify(formatted));
       return { success: true };
     } catch (err) {
       console.error("Registration failed:", err);
