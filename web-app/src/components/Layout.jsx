@@ -128,7 +128,9 @@ export default function Layout({ children }) {
 
   return (
     <div className="flex flex-col min-h-screen bg-transparent">
-      <nav className="sticky top-0 z-50 bg-white/85 backdrop-blur-lg border-b border-sky-100 shadow-[0_4px_20px_-1px_rgba(0,0,0,0.03)] flex justify-between items-center px-6 py-3 lg:px-12 w-full">
+      {/* Main Navbar */}
+      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.06)] flex justify-between items-center px-6 py-3.5 lg:px-12 w-full">
+        {/* Brand Logo (Original) */}
         <Link
           to="/"
           className="flex items-center gap-3 text-2xl font-extrabold text-accent no-underline tracking-tight"
@@ -141,60 +143,80 @@ export default function Layout({ children }) {
           <span>Surazense</span>
         </Link>
 
+        {/* Center: Navigation Links */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-          <Link to="/" className={`${linkBaseClass} ${isActive("/")}`}>
+          <Link
+            to="/"
+            className={`text-[13px] font-bold tracking-wider uppercase transition-colors ${
+              location.pathname === "/" && location.hash !== "#about"
+                ? "text-[#00a8cc]"
+                : "text-slate-700 hover:text-[#00a8cc]"
+            }`}
+          >
             {t("nav.home")}
           </Link>
           <Link
             to="/#about"
-            className={`${linkBaseClass} ${isActive("/#about")}`}
+            className={`text-[13px] font-bold tracking-wider uppercase transition-colors ${
+              location.pathname === "/" && location.hash === "#about"
+                ? "text-[#00a8cc]"
+                : "text-slate-700 hover:text-[#00a8cc]"
+            }`}
           >
             {t("nav.about")}
           </Link>
           <Link
             to="/technology"
-            className={`${linkBaseClass} ${isActive("/technology")}`}
+            className={`text-[13px] font-bold tracking-wider uppercase transition-colors ${
+              location.pathname === "/technology"
+                ? "text-[#00a8cc]"
+                : "text-slate-700 hover:text-[#00a8cc]"
+            }`}
           >
             {t("nav.technology")}
           </Link>
           <Link
             to="/related-paper"
-            className={`${linkBaseClass} ${isActive("/related-paper")}`}
+            className={`text-[13px] font-bold tracking-wider uppercase transition-colors ${
+              location.pathname === "/related-paper"
+                ? "text-[#00a8cc]"
+                : "text-slate-700 hover:text-[#00a8cc]"
+            }`}
           >
             {t("nav.relatedPaper")}
           </Link>
-
           <a
             href="https://academic-surazense.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
-            className={`${linkBaseClass} text-slate-500 hover:text-accent font-medium`}
+            className="text-[13px] font-bold tracking-wider uppercase text-slate-700 hover:text-[#00a8cc] transition-colors"
           >
             {t("nav.academicTraining")}
           </a>
-
-          <Link
-            to="/cancer-report"
-            className={`${linkBaseClass} ${isActive("/cancer-report")}`}
-          >
-            {t("nav.cancerReport")}
-          </Link>
           <Link
             to="/contacts"
-            className={`${linkBaseClass} ${isActive("/contacts")}`}
+            className={`text-[13px] font-bold tracking-wider uppercase transition-colors ${
+              location.pathname === "/contacts"
+                ? "text-[#00a8cc]"
+                : "text-slate-700 hover:text-[#00a8cc]"
+            }`}
           >
             {t("nav.contacts")}
           </Link>
+        </div>
 
-          <div className="w-[1px] h-5 bg-slate-200 mx-2"></div>
-
+        {/* Right: Language Toggle, User Auth, and Cyan Phone CTA Button */}
+        <div className="hidden lg:flex items-center gap-4">
+          {/* Language Toggle */}
           <button
             onClick={toggleLanguage}
-            className={`${linkBaseClass} text-slate-700 hover:text-accent cursor-pointer active:scale-95 transition-transform bg-transparent border-none p-0 flex items-center gap-1`}
+            className="text-xs font-bold text-slate-700 hover:text-[#00a8cc] transition-colors bg-transparent border-none p-0 cursor-pointer flex items-center gap-1 active:scale-95"
           >
             <span
               className={
-                language === "en" ? "text-accent font-bold" : "text-slate-400"
+                language === "en"
+                  ? "text-[#00a8cc] font-bold"
+                  : "text-slate-400"
               }
             >
               EN
@@ -202,22 +224,22 @@ export default function Layout({ children }) {
             <span className="text-slate-300">/</span>
             <span
               className={
-                language === "th" ? "text-accent font-bold" : "text-slate-400"
+                language === "th"
+                  ? "text-[#00a8cc] font-bold"
+                  : "text-slate-400"
               }
             >
               TH
             </span>
           </button>
 
-          {/* Cart removed from Company website */}
-
           {user ? (
             <div className="relative">
               <button
                 onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer border-none outline-none"
+                className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer border-none outline-none"
               >
-                <div className="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-[10px] font-bold uppercase shrink-0">
+                <div className="w-6 h-6 rounded-full bg-[#00a8cc] text-white flex items-center justify-center text-[10px] font-bold uppercase shrink-0">
                   {getUserInitial()}
                 </div>
                 <span className="max-w-[100px] truncate">
@@ -233,14 +255,6 @@ export default function Layout({ children }) {
                     <p className="text-xs font-bold text-slate-700 truncate">
                       {user.email || user.username || "User"}
                     </p>
-                    <div className="mt-1.5 flex items-center gap-1.5">
-                      <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
-                        Role:
-                      </span>
-                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-50 text-blue-700 border border-blue-100 uppercase tracking-wide">
-                        {user.role || "No Role"}
-                      </span>
-                    </div>
                   </div>
                   <button
                     onClick={() => {
@@ -258,21 +272,18 @@ export default function Layout({ children }) {
           ) : (
             <button
               onClick={() => setIsLoginSidebarOpen(true)}
-              className="bg-accent text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:-translate-y-[1px] hover:bg-accent-hover hover:shadow-[0_4px_12px_rgba(2,132,199,0.25)] active:translate-y-0 cursor-pointer border-none"
+              className="text-slate-700 hover:text-[#00a8cc] text-xs font-bold uppercase tracking-wider px-3 py-2 cursor-pointer transition-colors"
             >
               {t("nav.login")}
             </button>
           )}
         </div>
 
-        {/* Mobile Controls (Cart & Hamburger Menu) */}
+        {/* Mobile Controls (Hamburger Menu) */}
         <div className="flex lg:hidden items-center gap-4">
-          {/* Mobile Cart removed from Company website */}
-
-          {/* Hamburger Menu Toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-slate-600 hover:text-accent p-1 cursor-pointer bg-transparent border-none outline-none flex items-center justify-center"
+            className="text-slate-700 hover:text-[#00a8cc] p-1 cursor-pointer bg-transparent border-none outline-none flex items-center justify-center"
             aria-label="Toggle Menu"
           >
             {isMobileMenuOpen ? (
@@ -482,6 +493,7 @@ export default function Layout({ children }) {
 
       <main className="flex-1 flex flex-col w-full">{children}</main>
 
+      {/* Original Footer */}
       <footer className="bg-[#4fb0da] text-white py-16 px-6 lg:px-12 mt-auto w-full">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-14">
           {/* Column 1: Brand & Info */}
@@ -674,7 +686,7 @@ export default function Layout({ children }) {
           </div>
         </div>
 
-        {/* Copyright (Bonus: Not in image but good practice) */}
+        {/* Copyright */}
         <div className="max-w-[1200px] mx-auto mt-16 pt-6 border-t border-white/20 text-center text-white/50 text-xs">
           <p>
             © {new Date().getFullYear()} Surazense Biosensors.{" "}

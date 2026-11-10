@@ -206,7 +206,7 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto"
           >
             <Link
-              to="/products"
+              to="/technology"
               className="bg-accent text-white px-8 py-4 rounded-full font-semibold text-[15px] transition-all hover:bg-accent-hover hover:-translate-y-1 hover:shadow-[0_8px_25px_rgba(2,132,199,0.35)] min-w-[200px] flex justify-center items-center"
             >
               {t("home.exploreTech")}
